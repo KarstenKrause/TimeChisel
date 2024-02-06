@@ -1,0 +1,52 @@
+# macOS-specific
+*.DS_Store
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+
+# Xcode
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcworkspace
+xcuserdata/
+
+# Build products
+build/
+DerivedData/
+*.o
+*.LinkFileList
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Pods - Kommentieren Sie die folgenden Zeilen aus, wenn Sie CocoaPods verwenden
+# Pods/
+# Podfile.lock
+
+# Carthage - Kommentieren Sie die folgenden Zeilen aus, wenn Sie Carthage verwenden
+Carthage/Build
+Carthage/Checkouts
+
+# Swift Package Manager
+.build/
+
+# Dependencies
+.idea/
+*.xccheckout
+*.moved-aside
+*.xcscmblueprint
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Misc
+*.log
+*.swp
+*~
+__pycache__/
+*.pyc

@@ -9,7 +9,28 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TabView {
+            TimeTrackingView()
+                .tabItem {
+                    Label("Zeiterfassung", systemImage: "clock.arrow.2.circlepath")
+                }
+            
+            JobsView()
+                .tabItem {
+                    Label("Jobs", systemImage: "building.2")
+                }
+            
+            HistoryView()
+                .tabItem {
+                    Label("Verlauf", systemImage: "calendar")
+                }
+            
+            
+            SettingsView()
+                .tabItem {
+                    Label("Einstellungen", systemImage: "gearshape.fill")
+                }
+        }
     }
 }
 

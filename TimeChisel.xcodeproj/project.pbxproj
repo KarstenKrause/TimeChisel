@@ -7,18 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3DA2E3512B703889009B01A2 /* AddJobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA2E3502B703889009B01A2 /* AddJobView.swift */; };
+		3DA44CE82B719BAE00252340 /* AddJobViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA44CE72B719BAE00252340 /* AddJobViewModel.swift */; };
 		3DC4CF472B6C596200848B36 /* TimeChiselApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF462B6C596200848B36 /* TimeChiselApp.swift */; };
-		3DC4CF492B6C596200848B36 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF482B6C596200848B36 /* ContentView.swift */; };
 		3DC4CF4B2B6C596300848B36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DC4CF4A2B6C596300848B36 /* Assets.xcassets */; };
 		3DC4CF4E2B6C596300848B36 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DC4CF4D2B6C596300848B36 /* Preview Assets.xcassets */; };
+		3DC4CF562B6C5C9400848B36 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 3DC4CF552B6C5C9400848B36 /* .gitignore */; };
+		3DC4CF622B6C603900848B36 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF612B6C603900848B36 /* SettingsView.swift */; };
+		3DC4CF642B6C605B00848B36 /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF632B6C605B00848B36 /* ExportView.swift */; };
+		3DC4CF662B6C606F00848B36 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF652B6C606F00848B36 /* HistoryView.swift */; };
+		3DC4CF682B6C608400848B36 /* TimeTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF672B6C608400848B36 /* TimeTrackingView.swift */; };
+		3DC4CF6C2B6D997D00848B36 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF6B2B6D997D00848B36 /* MainView.swift */; };
+		3DC4CF732B6DA4C900848B36 /* JobsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF722B6DA4C900848B36 /* JobsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3DA2E3502B703889009B01A2 /* AddJobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJobView.swift; sourceTree = "<group>"; };
+		3DA44CE72B719BAE00252340 /* AddJobViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJobViewModel.swift; sourceTree = "<group>"; };
 		3DC4CF432B6C596200848B36 /* TimeChisel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeChisel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DC4CF462B6C596200848B36 /* TimeChiselApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeChiselApp.swift; sourceTree = "<group>"; };
-		3DC4CF482B6C596200848B36 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3DC4CF4A2B6C596300848B36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3DC4CF4D2B6C596300848B36 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3DC4CF552B6C5C9400848B36 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		3DC4CF572B6C5CB800848B36 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		3DC4CF612B6C603900848B36 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		3DC4CF632B6C605B00848B36 /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
+		3DC4CF652B6C606F00848B36 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		3DC4CF672B6C608400848B36 /* TimeTrackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTrackingView.swift; sourceTree = "<group>"; };
+		3DC4CF6B2B6D997D00848B36 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		3DC4CF722B6DA4C900848B36 /* JobsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,9 +49,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3DA2E34F2B703871009B01A2 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				3DA44CE62B71969700252340 /* AddJob */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		3DA44CE62B71969700252340 /* AddJob */ = {
+			isa = PBXGroup;
+			children = (
+				3DA2E3502B703889009B01A2 /* AddJobView.swift */,
+				3DA44CE72B719BAE00252340 /* AddJobViewModel.swift */,
+			);
+			path = AddJob;
+			sourceTree = "<group>";
+		};
 		3DC4CF3A2B6C596200848B36 = {
 			isa = PBXGroup;
 			children = (
+				3DC4CF572B6C5CB800848B36 /* README.md */,
+				3DC4CF552B6C5C9400848B36 /* .gitignore */,
 				3DC4CF452B6C596200848B36 /* TimeChisel */,
 				3DC4CF442B6C596200848B36 /* Products */,
 			);
@@ -51,8 +87,11 @@
 		3DC4CF452B6C596200848B36 /* TimeChisel */ = {
 			isa = PBXGroup;
 			children = (
+				3DC4CF5A2B6C5E0700848B36 /* Components */,
+				3DC4CF592B6C5DDC00848B36 /* Utilities */,
+				3DC4CF582B6C5DC700848B36 /* Features */,
+				3DC4CF5B2B6C5E6700848B36 /* Main */,
 				3DC4CF462B6C596200848B36 /* TimeChiselApp.swift */,
-				3DC4CF482B6C596200848B36 /* ContentView.swift */,
 				3DC4CF4A2B6C596300848B36 /* Assets.xcassets */,
 				3DC4CF4C2B6C596300848B36 /* Preview Content */,
 			);
@@ -65,6 +104,81 @@
 				3DC4CF4D2B6C596300848B36 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3DC4CF582B6C5DC700848B36 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				3DC4CF5F2B6C5F8600848B36 /* TimeTracking */,
+				3DC4CF712B6DA4A600848B36 /* Jobs */,
+				3DC4CF5E2B6C5F7600848B36 /* History */,
+				3DC4CF5D2B6C5F6D00848B36 /* Export */,
+				3DC4CF5C2B6C5F3E00848B36 /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		3DC4CF592B6C5DDC00848B36 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		3DC4CF5A2B6C5E0700848B36 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		3DC4CF5B2B6C5E6700848B36 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				3DC4CF6B2B6D997D00848B36 /* MainView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		3DC4CF5C2B6C5F3E00848B36 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				3DC4CF612B6C603900848B36 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		3DC4CF5D2B6C5F6D00848B36 /* Export */ = {
+			isa = PBXGroup;
+			children = (
+				3DC4CF632B6C605B00848B36 /* ExportView.swift */,
+			);
+			path = Export;
+			sourceTree = "<group>";
+		};
+		3DC4CF5E2B6C5F7600848B36 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				3DC4CF652B6C606F00848B36 /* HistoryView.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		3DC4CF5F2B6C5F8600848B36 /* TimeTracking */ = {
+			isa = PBXGroup;
+			children = (
+				3DC4CF672B6C608400848B36 /* TimeTrackingView.swift */,
+			);
+			path = TimeTracking;
+			sourceTree = "<group>";
+		};
+		3DC4CF712B6DA4A600848B36 /* Jobs */ = {
+			isa = PBXGroup;
+			children = (
+				3DA2E34F2B703871009B01A2 /* Components */,
+				3DC4CF722B6DA4C900848B36 /* JobsView.swift */,
+			);
+			path = Jobs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DC4CF4E2B6C596300848B36 /* Preview Assets.xcassets in Resources */,
+				3DC4CF562B6C5C9400848B36 /* .gitignore in Resources */,
 				3DC4CF4B2B6C596300848B36 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,7 +252,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DC4CF492B6C596200848B36 /* ContentView.swift in Sources */,
+				3DC4CF642B6C605B00848B36 /* ExportView.swift in Sources */,
+				3DC4CF6C2B6D997D00848B36 /* MainView.swift in Sources */,
+				3DA44CE82B719BAE00252340 /* AddJobViewModel.swift in Sources */,
+				3DA2E3512B703889009B01A2 /* AddJobView.swift in Sources */,
+				3DC4CF732B6DA4C900848B36 /* JobsView.swift in Sources */,
+				3DC4CF622B6C603900848B36 /* SettingsView.swift in Sources */,
+				3DC4CF682B6C608400848B36 /* TimeTrackingView.swift in Sources */,
+				3DC4CF662B6C606F00848B36 /* HistoryView.swift in Sources */,
 				3DC4CF472B6C596200848B36 /* TimeChiselApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,11 +397,12 @@
 				DEVELOPMENT_TEAM = 74X46VET5K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -287,9 +410,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.karstenkrause.TimeChisel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -304,11 +431,12 @@
 				DEVELOPMENT_TEAM = 74X46VET5K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -316,9 +444,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.karstenkrause.TimeChisel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

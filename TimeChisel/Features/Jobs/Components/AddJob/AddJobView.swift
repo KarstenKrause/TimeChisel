@@ -10,37 +10,39 @@ import SwiftUI
 struct AddJobView: View {
     @Environment(\.dismiss) var dismiss
     
-    @State private var companyName = ""
-    @State private var jobTitle = ""
-    @State private var hourlyWage = ""
-    @State private var workingHoursPerWeek = 1
-    @State private var workingDaysPerWeek = 1
-    @State private var pauseMinutesPerDay = 0
+    @Bindable var jobVM = JobViewModel(
+        companyName: "",
+        jobTitle: "",
+        hourlyWage: "",
+        workingHoursPerWeek: 1,
+        workingDaysPerWeek: 1,
+        pauseMinutesPerDay: 0
+    )
     
     var body: some View {
         NavigationView {
             
             Form {
                 Section("Jobinfos") {
-                    TextField("Name des Unternehmens", text: $companyName)
-                    TextField("Job-Titel", text: $companyName)
-                    TextField("Stundenlohn", text: $hourlyWage)
+                    TextField("Name des Unternehmens", text: $jobVM.companyName)
+                    TextField("Job-Titel", text: $jobVM.companyName)
+                    TextField("Stundenlohn", text: $jobVM.hourlyWage)
                 }
                 
                 Section("Arbeitszeiten") {
-                    Picker("Stunden pro Woche", selection: $workingHoursPerWeek) {
+                    Picker("Stunden pro Woche", selection: $jobVM.workingHoursPerWeek) {
                         ForEach(1...60, id: \.self) {
                             Text("\($0) Stunden")
                         }
                     }
                     
-                    Picker("Tage pro Woche", selection: $workingDaysPerWeek) {
+                    Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
                         ForEach(1...6, id: \.self) {
                             Text("\($0) Tage")
                         }
                     }
                     
-                    Picker("Pause am Tag", selection: $pauseMinutesPerDay) {
+                    Picker("Pause am Tag", selection: $jobVM.pauseMinutesPerDay) {
                         ForEach(0...4, id: \.self) { index in
                             let minutes = index * 30
                             Text("\(minutes) Minuten")
@@ -56,13 +58,14 @@ struct AddJobView: View {
                         }, label: {
                             Text("Speichern")
                                 .frame(maxWidth: .infinity, alignment: .center)
-                                
+                            
                         })
-    
+                        
                     }
                     
                 }
                 .buttonStyle(.borderless)
+    
             }
             
             

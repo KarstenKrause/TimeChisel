@@ -7,12 +7,37 @@
 
 import SwiftUI
 
-struct CompanyProfilesView: View {
+struct JobsView: View {
+    @State private var showAddJobView = false
+    
     var body: some View {
-        Text("Betriebsprofile")
+        
+        NavigationStack {
+            VStack {
+                Section {
+                    Text("Test")
+                }
+                
+            }
+            .navigationTitle("Jobs")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        showAddJobView.toggle()
+                    }, label: {
+                        Label("Einstellungen", systemImage: "plus.circle")
+                    })
+                    
+                }
+            }
+        }
+        .sheet(isPresented: $showAddJobView, content: {
+            AddJobView()
+        })
+        
     }
 }
 
 #Preview {
-    CompanyProfilesView()
+    JobsView()
 }
