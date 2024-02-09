@@ -1,22 +1,21 @@
 //
-//  AddJobViewModel.swift
+//  JobModel.swift
 //  TimeChisel
 //
-//  Created by Karsten Krause on 05.02.24.
+//  Created by Karsten Krause on 09.02.24.
 //
 
-import SwiftUI
-import Observation
+import Foundation
+import SwiftData
 
-
-@Observable 
-class JobViewModel {
-    var companyName = ""
-    var jobTitle = ""
-    var hourlyWage = ""
-    var workingHoursPerWeek = 1
-    var workingDaysPerWeek = 1
-    var pauseMinutesPerDay = 0
+@Model
+class JobModel {
+    var companyName: String
+    var jobTitle: String
+    var hourlyWage: String
+    var workingHoursPerWeek: Int
+    var workingDaysPerWeek: Int
+    var pauseMinutesPerDay: Int
     
     init(companyName: String, jobTitle: String, hourlyWage: String, workingHoursPerWeek: Int, workingDaysPerWeek: Int, pauseMinutesPerDay: Int) {
         self.companyName = companyName

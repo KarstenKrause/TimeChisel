@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddJobView: View {
+    @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     
     @Bindable var jobVM = JobViewModel(
@@ -19,13 +20,15 @@ struct AddJobView: View {
         pauseMinutesPerDay: 0
     )
     
+    var jobs: [JobModel] = []
+    
     var body: some View {
         NavigationView {
             
             Form {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobVM.companyName)
-                    TextField("Job-Titel", text: $jobVM.companyName)
+                    TextField("Job-Titel", text: $jobVM.jobTitle)
                     TextField("Stundenlohn", text: $jobVM.hourlyWage)
                 }
                 
@@ -54,12 +57,18 @@ struct AddJobView: View {
                 Section {
                     HStack{
                         Button(action: {
-                            print("add Job button tapped")
+                            let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, hourlyWage: jobVM.hourlyWage, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay)
+                            
+                            context.insert(job)
+                            
+                            try! context.save()
+                            dismiss()
                         }, label: {
                             Text("Speichern")
                                 .frame(maxWidth: .infinity, alignment: .center)
                             
                         })
+                        .disabled((jobVM.companyName.isEmpty || jobVM.jobTitle.isEmpty))
                         
                     }
                     
@@ -67,7 +76,6 @@ struct AddJobView: View {
                 .buttonStyle(.borderless)
     
             }
-            
             
             
             .navigationTitle("Job hinzufügen")

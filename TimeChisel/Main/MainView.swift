@@ -10,15 +10,17 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         TabView {
+            JobsView()
+                .tabItem {
+                    Label("Jobs", systemImage: "building.2")
+                }
+            
+            
             TimeTrackingView()
                 .tabItem {
                     Label("Zeiterfassung", systemImage: "clock.arrow.2.circlepath")
                 }
             
-            JobsView()
-                .tabItem {
-                    Label("Jobs", systemImage: "building.2")
-                }
             
             HistoryView()
                 .tabItem {

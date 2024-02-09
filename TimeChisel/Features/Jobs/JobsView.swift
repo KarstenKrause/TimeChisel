@@ -6,16 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct JobsView: View {
     @State private var showAddJobView = false
+    @Query(sort: \JobModel.companyName) var jobs: [JobModel]
     
     var body: some View {
         
         NavigationStack {
-            VStack {
-                Section {
-                    Text("Test")
+            List {
+                ForEach(jobs) { job in
+                    Text(job.companyName)
                 }
                 
             }
