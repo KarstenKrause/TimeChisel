@@ -10,6 +10,7 @@ import SwiftData
 
 @Model
 class JobModel {
+    var id: UUID
     var companyName: String
     var jobTitle: String
     var hourlyWage: String
@@ -18,6 +19,7 @@ class JobModel {
     var pauseMinutesPerDay: Int
     
     init(companyName: String, jobTitle: String, hourlyWage: String, workingHoursPerWeek: Int, workingDaysPerWeek: Int, pauseMinutesPerDay: Int) {
+        self.id = UUID()
         self.companyName = companyName
         self.jobTitle = jobTitle
         self.hourlyWage = hourlyWage
@@ -25,5 +27,4 @@ class JobModel {
         self.workingDaysPerWeek = workingDaysPerWeek
         self.pauseMinutesPerDay = pauseMinutesPerDay
     }
-    
 }

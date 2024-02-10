@@ -57,7 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				3DA44CE62B71969700252340 /* AddJob */,
-				3DA44CEC2B76D19900252340 /* JobModel.swift */,
 				3DA44CEE2B78201000252340 /* UpdateJobView.swift */,
 			);
 			path = Components;
@@ -70,6 +69,14 @@
 				3DA44CE72B719BAE00252340 /* AddJobViewModel.swift */,
 			);
 			path = AddJob;
+			sourceTree = "<group>";
+		};
+		3DA44CF02B78291800252340 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3DA44CEC2B76D19900252340 /* JobModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		3DC4CF3A2B6C596200848B36 = {
@@ -181,6 +188,7 @@
 		3DC4CF712B6DA4A600848B36 /* Jobs */ = {
 			isa = PBXGroup;
 			children = (
+				3DA44CF02B78291800252340 /* Models */,
 				3DA2E34F2B703871009B01A2 /* Components */,
 				3DC4CF722B6DA4C900848B36 /* JobsView.swift */,
 			);

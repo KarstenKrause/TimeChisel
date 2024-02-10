@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct UpdateJobView: View {
+    @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @Bindable var jobModel: JobModel
     
@@ -50,6 +51,20 @@ struct UpdateJobView: View {
                         }, label: {
                             Text("Fertig")
                                 .frame(maxWidth: .infinity, alignment: .center)
+                        })
+                    }
+                }
+                .buttonStyle(.borderless)
+                
+                Section {
+                    HStack{
+                        Button(action: {
+                            context.delete(jobModel)
+                            dismiss()
+                        }, label: {
+                            Text("Löschen")
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .foregroundColor(.red)
                         })
                     }
                 }
