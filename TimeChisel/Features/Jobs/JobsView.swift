@@ -9,8 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct JobsView: View {
+    @Environment(\.modelContext) var context
     @State private var showAddJobView = false
+    @State private var jobToUpdate: JobModel?
     @Query(sort: \JobModel.companyName) var jobs: [JobModel]
+    
     
     var body: some View {
         
@@ -18,6 +21,14 @@ struct JobsView: View {
             List {
                 ForEach(jobs) { job in
                     Text(job.companyName)
+                        .onTapGesture {
+                            jobToUpdate = job
+                        }
+                }
+                .onDelete{ indexSet in
+                    for index in indexSet {
+                        context.delete(jobs[index])
+                    }
                 }
                 
             }
@@ -36,6 +47,9 @@ struct JobsView: View {
         .sheet(isPresented: $showAddJobView, content: {
             AddJobView()
         })
+        .sheet(item: $jobToUpdate) { jobModel in
+            UpdateJobView(jobModel: jobModel)
+        }
         
     }
 }
