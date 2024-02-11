@@ -9,29 +9,32 @@ import SwiftUI
 import SwiftData
 
 struct JobsView: View {
-    @Environment(\.modelContext) var context
     @State private var showAddJobView = false
     @State private var jobToUpdate: JobModel?
+    @State private var navigationPath = NavigationPath()
     @Query(sort: \JobModel.companyName) var jobs: [JobModel]
     
-    
     var body: some View {
-        
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             List {
                 ForEach(jobs) { job in
-                    Text(job.companyName)
-                        .onTapGesture {
-                            jobToUpdate = job
-                        }
-                }
-                .onDelete{ indexSet in
-                    for index in indexSet {
-                        context.delete(jobs[index])
+                    
+                    NavigationLink(value: job) {
+                        Text(job.companyName)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(action: {
+                                    jobToUpdate = job
+                                }, label: {
+                                    Text("Bearbeiten")
+                                })
+                                .tint(.blue)
+                            }
                     }
                 }
-                
             }
+            .navigationDestination(for: JobModel.self, destination: { job in
+                JobDetailView(job: job, path: $navigationPath)
+            })
             .navigationTitle("Jobs")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -40,7 +43,6 @@ struct JobsView: View {
                     }, label: {
                         Label("Einstellungen", systemImage: "plus.circle")
                     })
-                    
                 }
             }
         }
@@ -48,9 +50,9 @@ struct JobsView: View {
             AddJobView()
         })
         .sheet(item: $jobToUpdate) { jobModel in
-            UpdateJobView(jobModel: jobModel)
+            UpdateJobView(jobModel: jobModel, path: $navigationPath)
         }
-        
+ 
     }
 }
 

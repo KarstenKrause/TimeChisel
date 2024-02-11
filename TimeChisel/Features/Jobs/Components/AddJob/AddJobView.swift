@@ -11,6 +11,7 @@ struct AddJobView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     
+    
     @Bindable var jobVM = JobViewModel(
         companyName: "",
         jobTitle: "",
@@ -24,7 +25,6 @@ struct AddJobView: View {
     
     var body: some View {
         NavigationView {
-            
             Form {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobVM.companyName)
@@ -51,7 +51,6 @@ struct AddJobView: View {
                             Text("\(minutes) Minuten")
                         }
                     }
-                    
                 }
                 
                 Section {
@@ -60,7 +59,6 @@ struct AddJobView: View {
                             let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, hourlyWage: jobVM.hourlyWage, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay)
                             
                             context.insert(job)
-                            
                             try! context.save()
                             dismiss()
                         }, label: {
@@ -69,9 +67,7 @@ struct AddJobView: View {
                             
                         })
                         .disabled((jobVM.companyName.isEmpty || jobVM.jobTitle.isEmpty))
-                        
                     }
-                    
                 }
                 .buttonStyle(.borderless)
     

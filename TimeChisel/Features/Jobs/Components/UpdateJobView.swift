@@ -11,10 +11,10 @@ struct UpdateJobView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @Bindable var jobModel: JobModel
+    @Binding var path: NavigationPath
     
     var body: some View {
         NavigationView {
-            
             Form {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobModel.companyName)
@@ -41,7 +41,6 @@ struct UpdateJobView: View {
                             Text("\(minutes) Minuten")
                         }
                     }
-                    
                 }
                 
                 Section {
@@ -60,7 +59,9 @@ struct UpdateJobView: View {
                     HStack{
                         Button(action: {
                             context.delete(jobModel)
+                            path = NavigationPath()
                             dismiss()
+                            
                         }, label: {
                             Text("Löschen")
                                 .frame(maxWidth: .infinity, alignment: .center)
@@ -69,7 +70,6 @@ struct UpdateJobView: View {
                     }
                 }
                 .buttonStyle(.borderless)
-    
             }
             .navigationTitle("Bearbeiten")
             .toolbar {
@@ -82,7 +82,6 @@ struct UpdateJobView: View {
                 }
             }
         }
-        
     }
 }
 
