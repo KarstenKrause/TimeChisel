@@ -10,13 +10,13 @@ import SwiftUI
 struct JobDetailView: View {
     @State var job: JobModel
     @State private var showUpdateJobView: Bool = false
-    @Binding var path: NavigationPath
     
     var body: some View {
         VStack {
             Text("Job Overview...")
         }
         .navigationTitle(job.companyName)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -27,7 +27,7 @@ struct JobDetailView: View {
             }
         }
         .sheet(isPresented: $showUpdateJobView, content: {
-            UpdateJobView(jobModel: job, path: $path)
+            UpdateJobView(jobModel: job)
         })
     }
 }

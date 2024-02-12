@@ -11,7 +11,6 @@ struct UpdateJobView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @Bindable var jobModel: JobModel
-    @Binding var path: NavigationPath
     
     var body: some View {
         NavigationView {
@@ -59,7 +58,6 @@ struct UpdateJobView: View {
                     HStack{
                         Button(action: {
                             context.delete(jobModel)
-                            path = NavigationPath()
                             dismiss()
                             
                         }, label: {
