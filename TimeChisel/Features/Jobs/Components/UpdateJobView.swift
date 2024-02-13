@@ -54,20 +54,6 @@ struct UpdateJobView: View {
                 }
                 .buttonStyle(.borderless)
                 
-                Section {
-                    HStack{
-                        Button(action: {
-                            context.delete(jobModel)
-                            dismiss()
-                            
-                        }, label: {
-                            Text("Löschen")
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .foregroundColor(.red)
-                        })
-                    }
-                }
-                .buttonStyle(.borderless)
             }
             .navigationTitle("Bearbeiten")
             .toolbar {
