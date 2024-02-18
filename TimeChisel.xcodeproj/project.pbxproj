@@ -13,6 +13,7 @@
 		3DA44CEF2B78201000252340 /* UpdateJobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA44CEE2B78201000252340 /* UpdateJobView.swift */; };
 		3DA44CF22B79596700252340 /* JobDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA44CF12B79596700252340 /* JobDetailView.swift */; };
 		3DA44CF52B815AC800252340 /* ActivityRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA44CF42B815AC800252340 /* ActivityRingView.swift */; };
+		3DA44CF72B82AECA00252340 /* ActivityRingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA44CF62B82AECA00252340 /* ActivityRingsView.swift */; };
 		3DC4CF472B6C596200848B36 /* TimeChiselApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF462B6C596200848B36 /* TimeChiselApp.swift */; };
 		3DC4CF4B2B6C596300848B36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DC4CF4A2B6C596300848B36 /* Assets.xcassets */; };
 		3DC4CF4E2B6C596300848B36 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DC4CF4D2B6C596300848B36 /* Preview Assets.xcassets */; };
@@ -32,6 +33,7 @@
 		3DA44CEE2B78201000252340 /* UpdateJobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateJobView.swift; sourceTree = "<group>"; };
 		3DA44CF12B79596700252340 /* JobDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailView.swift; sourceTree = "<group>"; };
 		3DA44CF42B815AC800252340 /* ActivityRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityRingView.swift; sourceTree = "<group>"; };
+		3DA44CF62B82AECA00252340 /* ActivityRingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityRingsView.swift; sourceTree = "<group>"; };
 		3DC4CF432B6C596200848B36 /* TimeChisel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeChisel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DC4CF462B6C596200848B36 /* TimeChiselApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeChiselApp.swift; sourceTree = "<group>"; };
 		3DC4CF4A2B6C596300848B36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				3DA44CF42B815AC800252340 /* ActivityRingView.swift */,
+				3DA44CF62B82AECA00252340 /* ActivityRingsView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				3DA2E3512B703889009B01A2 /* AddJobView.swift in Sources */,
 				3DA44CEF2B78201000252340 /* UpdateJobView.swift in Sources */,
 				3DC4CF732B6DA4C900848B36 /* JobsView.swift in Sources */,
+				3DA44CF72B82AECA00252340 /* ActivityRingsView.swift in Sources */,
 				3DC4CF622B6C603900848B36 /* SettingsView.swift in Sources */,
 				3DC4CF682B6C608400848B36 /* TimeTrackingView.swift in Sources */,
 				3DC4CF662B6C606F00848B36 /* HistoryView.swift in Sources */,

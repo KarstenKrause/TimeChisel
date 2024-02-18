@@ -13,6 +13,7 @@ struct ActivityRingView: View {
     var WHeight: CGFloat
     var completionRate: Double
     var ringThickness: CGFloat
+    var baseColor: Color
     var colorGradient: Gradient
     
     private var rotationDegree: Angle {
@@ -61,18 +62,21 @@ struct ActivityRingView: View {
     
     var body: some View {
         ZStack {
-            Circle().stroke(lineWidth: 30).foregroundColor(.red.opacity(0.2))
+            Circle().stroke(lineWidth: 30).foregroundColor(baseColor.opacity(0.2))
             Circle().rotation(rotationDegree)
                 .trim(from: 0, to: CGFloat(completionRate))
                 .stroke(gradientEffect, style: strokeStyle)
                 .overlay(overlayCircle)
+                .opacity(completionRate == 0.0 ? 0.0 : 1)
         }
         .frame(width: WHeight, height: WHeight)
         .overlay(alignment: .top) {
             Image(systemName: icon)
+                .font(.system(size: 20))
                 .bold()
-                .offset(y: -11)
+                .offset(y: -12)
                 .foregroundColor(.black)
+                .opacity(completionRate == 0.0 ? 0.65 : 1)
         }
     }
     
@@ -93,5 +97,5 @@ struct ActivityRingView: View {
 }
 
 #Preview {
-    ActivityRingView(icon: "clock", bg: "testCustomColor", WHeight: 300, completionRate: 0.1, ringThickness: 30, colorGradient: Gradient(colors: [.red, .pink]))
+    ActivityRingView(icon: "clock", bg: "testCustomColor", WHeight: 300, completionRate: 0.0, ringThickness: 30, baseColor: .red ,colorGradient: Gradient(colors: [.red, .pink]))
 }
