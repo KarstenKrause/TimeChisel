@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
-
+ 
 struct JobDetailView: View {
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) var context
+    @State private var showingAlert = false
     @State var job: JobModel
     @State private var showUpdateJobView: Bool = false
     
@@ -22,8 +25,24 @@ struct JobDetailView: View {
                 Button(action: {
                     showUpdateJobView.toggle()
                 }, label: {
-                    Label("Einstellungen", systemImage: "pencil.circle")
+                    Image(systemName: "pencil.circle")
                 })
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    showingAlert.toggle()
+                }, label: {
+                    Image(systemName: "trash.circle")
+                        .foregroundColor(.red)
+                })
+                .alert("Der Job und alle zusammenhängende Daten werden hierdurch entgültig gelöscht.", isPresented: $showingAlert) {
+                    Button("Löschen", role: .destructive) {
+                        context.delete(job)
+                        dismiss()
+                    }
+                    Button("Abbrechen", role: .cancel) {}
+                }
             }
         }
         .sheet(isPresented: $showUpdateJobView, content: {
@@ -32,7 +51,9 @@ struct JobDetailView: View {
     }
 }
 
-//#Preview {
-//    let testJob = JobModel(companyName: "DTS", jobTitle: "Softwareentwickler", hourlyWage: "52", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30)
-//    JobDetailView(job: testJob)
-//}
+#Preview {
+    let testJob = JobModel(companyName: "DTS", jobTitle: "Software Entwickler", hourlyWage: "52", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30)
+    
+    return JobDetailView(job: testJob)
+    
+}

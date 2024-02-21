@@ -15,7 +15,6 @@ struct TimeTrackingView: View {
         VStack {
             ActivityRingsView(secondsWorked: $secondsWorked, secondsPaused: $secondsPaused)
         }
-        
     }
 }
 

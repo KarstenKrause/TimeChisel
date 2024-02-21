@@ -11,7 +11,6 @@ struct AddJobView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     
-    
     @Bindable var jobVM = JobViewModel(
         companyName: "",
         jobTitle: "",

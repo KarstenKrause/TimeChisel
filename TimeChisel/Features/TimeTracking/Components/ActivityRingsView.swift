@@ -30,8 +30,6 @@ struct ActivityRingsView: View {
         return pausedTimePercentage
     }
     
-    
-    
     var body: some View {
         ZStack {
             ActivityRingView(icon: "clock",
