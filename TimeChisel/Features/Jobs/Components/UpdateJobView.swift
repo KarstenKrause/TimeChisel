@@ -18,7 +18,6 @@ struct UpdateJobView: View {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobModel.companyName)
                     TextField("Job-Titel", text: $jobModel.jobTitle)
-                    TextField("Stundenlohn", text: $jobModel.hourlyWage)
                 }
                 
                 Section("Arbeitszeiten") {

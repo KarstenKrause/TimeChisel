@@ -53,7 +53,7 @@ struct ActivityRingsView: View {
     }
 }
 
-//#Preview {
-//    @State var dummySeconds = 3600
-//    ActivityRingsView(secondsWorked: $dummySeconds, secondsPaused: $dummySeconds)
-//}
+#Preview {
+    @State var dummySeconds = 3600
+    return ActivityRingsView(secondsWorked: $dummySeconds, secondsPaused: $dummySeconds)
+}

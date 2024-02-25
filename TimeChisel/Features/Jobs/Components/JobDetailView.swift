@@ -52,7 +52,7 @@ struct JobDetailView: View {
 }
 
 #Preview {
-    let testJob = JobModel(companyName: "DTS", jobTitle: "Software Entwickler", hourlyWage: "52", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30)
+    let testJob = JobModel(companyName: "DTS", jobTitle: "Software Entwickler", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30)
     
     return JobDetailView(job: testJob)
     

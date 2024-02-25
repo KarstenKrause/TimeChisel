@@ -14,7 +14,6 @@ struct AddJobView: View {
     @Bindable var jobVM = JobViewModel(
         companyName: "",
         jobTitle: "",
-        hourlyWage: "",
         workingHoursPerWeek: 1,
         workingDaysPerWeek: 1,
         pauseMinutesPerDay: 0
@@ -28,7 +27,6 @@ struct AddJobView: View {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobVM.companyName)
                     TextField("Job-Titel", text: $jobVM.jobTitle)
-                    TextField("Stundenlohn", text: $jobVM.hourlyWage)
                 }
                 
                 Section("Arbeitszeiten") {
@@ -55,7 +53,7 @@ struct AddJobView: View {
                 Section {
                     HStack{
                         Button(action: {
-                            let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, hourlyWage: jobVM.hourlyWage, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay)
+                            let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay)
                             
                             context.insert(job)
                             try! context.save()
