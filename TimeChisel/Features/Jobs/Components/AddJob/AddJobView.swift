@@ -67,10 +67,7 @@ struct AddJobView: View {
                     }
                 }
                 .buttonStyle(.borderless)
-    
             }
-            
-            
             .navigationTitle("Job hinzufügen")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
