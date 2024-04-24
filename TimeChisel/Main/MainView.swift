@@ -16,7 +16,7 @@ struct MainView: View {
                 }
             
             
-            TimeTrackingView()
+            TimeTrackingMainView()
                 .tabItem {
                     Label("Zeiterfassung", systemImage: "clock.arrow.2.circlepath")
                 }
