@@ -38,7 +38,7 @@ struct ActivityRingsView: View {
                              completionRate: timeProgress,
                              ringThickness: 30,
                              baseColor: .red,
-                             colorGradient: Gradient(colors: [.red, .pink])
+                             colorGradient: Gradient(colors: [.green, .yellow])
             )
             
             ActivityRingView(icon: "pause.circle",
@@ -47,7 +47,7 @@ struct ActivityRingsView: View {
                              completionRate: pauseTimeProgress,
                              ringThickness: 30,
                              baseColor: .yellow,
-                             colorGradient: Gradient(colors: [.yellow, .green])
+                             colorGradient: Gradient(colors: [.blue, .purple])
             )
         }
     }

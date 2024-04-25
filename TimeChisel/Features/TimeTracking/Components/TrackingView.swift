@@ -18,7 +18,6 @@ struct TrackingView: View {
         VStack {
             ActivityRingsView(secondsWorked: $secondsWorked, secondsPaused: $secondsPaused)
             HStack {
-                // TODO: change button background colors
                 Button(action: {
                     self.isWorkingTimerRunning = true
                 }, label: {
@@ -42,7 +41,7 @@ struct TrackingView: View {
                     Text("Beenden")
                         .font(.footnote)
                         .frame(width: 80, height: 80, alignment: .center)
-                        .background(Color.gray)
+                        .background(Color.red)
                         .foregroundColor(.primary)
                         .cornerRadius(100)
                         .overlay(
