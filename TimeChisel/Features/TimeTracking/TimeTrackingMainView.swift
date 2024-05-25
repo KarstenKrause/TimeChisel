@@ -15,33 +15,38 @@ struct TimeTrackingMainView: View {
     @State private var timeTrackingCanceled: Bool = false
     @Query(sort: \JobModel.companyName) var jobs: [JobModel]
     
-    //TODO: Fetch all Jobs in MainView and pass it through this component
-    //@State private var selectedJob: JobModel
-    @State private var selectedJob = ""
+    @State private var selectedJob: JobModel? = nil
    
     var body: some View {
-        // TODO: Job Picker
-        
-        
         VStack {
-            if (!isWorkingTimerRunning) {
+            if !isWorkingTimerRunning {
                 Form {
                     Section("Job auswählen") {
-                        Picker("Jobs", selection: $selectedJob) {
-                            ForEach(jobs, id: \.self) { job in
-                                Text("\(job.companyName)")
+                        List(jobs, id: \.self) { job in
+                            HStack {
+                                Text(job.companyName)
+                                Spacer()
+                                if job == selectedJob {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                selectedJob = job
                             }
                         }
                     }
                 }
                 Spacer()
                 Button(action: {
-                    self.isWorkingTimerRunning.toggle()
+                    if selectedJob != nil {
+                        self.isWorkingTimerRunning.toggle()
+                    }
                 }, label: {
                     Text("Starten")
                         .font(.footnote)
                         .frame(width: 80, height: 80, alignment: .center)
-                        .background(Color.green)
+                        .background(selectedJob != nil ? Color.green : Color.gray)
                         .foregroundColor(.primary)
                         .cornerRadius(100)
                         .overlay(
@@ -50,15 +55,15 @@ struct TimeTrackingMainView: View {
                                 .padding(4)
                         )
                 })
+                .disabled(selectedJob == nil)
                 Spacer()
             } else {
-                TrackingView(isWorkingTimerRunning: $isWorkingTimerRunning)
+                TrackingView(isWorkingTimerRunning: $isWorkingTimerRunning, selectedJob: $selectedJob)
             }
         }
     }
-    
-    
 }
+
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)

@@ -13,6 +13,7 @@ struct TrackingView: View {
     @State private var isPauseTimerRunning: Bool = false
     @State private var timeTrackingCanceled: Bool = false
     @Binding var isWorkingTimerRunning: Bool
+    @Binding var selectedJob: JobModel?
     
     var body: some View {
         VStack {
@@ -58,6 +59,14 @@ struct TrackingView: View {
 }
 
 #Preview {
-    @State var isWorkingTimerRunning: Bool = false
-    return TrackingView(isWorkingTimerRunning: $isWorkingTimerRunning)
+    struct PreviewWrapper: View {
+        @State var isWorkingTimerRunning: Bool = false
+        @State var selectedJob: JobModel? = JobModel(companyName: "DTS", jobTitle: "Softwareentwickler", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30)
+        
+        var body: some View {
+            TrackingView(isWorkingTimerRunning: $isWorkingTimerRunning, selectedJob: $selectedJob)
+        }
+    }
+    
+    return PreviewWrapper()
 }
