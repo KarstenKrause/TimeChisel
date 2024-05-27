@@ -16,7 +16,8 @@ struct AddJobView: View {
         jobTitle: "",
         workingHoursPerWeek: 1,
         workingDaysPerWeek: 1,
-        pauseMinutesPerDay: 0
+        pauseMinutesPerDay: 0,
+        hourlyRate: HourlyRate(value: 0, currency: .EUR)
     )
     
     var jobs: [JobModel] = []
@@ -53,7 +54,7 @@ struct AddJobView: View {
                 Section {
                     HStack{
                         Button(action: {
-                            let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay)
+                            let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay, hourlyRate: jobVM.hourlyRate )
                             
                             context.insert(job)
                             try! context.save()

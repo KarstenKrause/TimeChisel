@@ -16,13 +16,15 @@ class JobViewModel {
     var workingHoursPerWeek: Int
     var workingDaysPerWeek: Int
     var pauseMinutesPerDay: Int
+    var hourlyRate: HourlyRate
     
-    init(companyName: String, jobTitle: String, workingHoursPerWeek: Int, workingDaysPerWeek: Int, pauseMinutesPerDay: Int) {
+    init(companyName: String, jobTitle: String, workingHoursPerWeek: Int, workingDaysPerWeek: Int, pauseMinutesPerDay: Int, hourlyRate: HourlyRate) {
         self.companyName = companyName
         self.jobTitle = jobTitle
         self.workingHoursPerWeek = workingHoursPerWeek
         self.workingDaysPerWeek = workingDaysPerWeek
         self.pauseMinutesPerDay = pauseMinutesPerDay
+        self.hourlyRate = hourlyRate
     }
     
 }

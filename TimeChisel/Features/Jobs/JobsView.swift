@@ -90,7 +90,7 @@ struct JobsView: View {
     
     let container = try! ModelContainer(for: JobModel.self, configurations: config)
     
-    let job: JobModel = JobModel(companyName: "DTS", jobTitle: "Softwareentwickler", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30)
+    let job: JobModel = JobModel(companyName: "DTS", jobTitle: "Software Entwickler", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30, hourlyRate: HourlyRate(value: 25.0, currency: .EUR))
     
     container.mainContext.insert(job)
     

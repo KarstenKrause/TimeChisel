@@ -10,23 +10,25 @@ import SwiftData
 
 @Model
 class JobModel {
-    var id: UUID
+    @Attribute(.unique) var id: UUID
     var companyName: String
     var jobTitle: String
     var workingHoursPerWeek: Int
     var workingDaysPerWeek: Int
     var pauseMinutesPerDay: Int
+    var hourlyRate: HourlyRate
     
     var workingHoursPerDay: Double {
         return Double(workingHoursPerWeek / workingDaysPerWeek)
     }
     
-    init(companyName: String, jobTitle: String, workingHoursPerWeek: Int, workingDaysPerWeek: Int, pauseMinutesPerDay: Int) {
+    init(companyName: String, jobTitle: String, workingHoursPerWeek: Int, workingDaysPerWeek: Int, pauseMinutesPerDay: Int, hourlyRate: HourlyRate) {
         self.id = UUID()
         self.companyName = companyName
         self.jobTitle = jobTitle
         self.workingHoursPerWeek = workingHoursPerWeek
         self.workingDaysPerWeek = workingDaysPerWeek
         self.pauseMinutesPerDay = pauseMinutesPerDay
+        self.hourlyRate = hourlyRate
     }
 }
