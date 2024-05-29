@@ -18,6 +18,14 @@ struct UpdateJobView: View {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobModel.companyName)
                     TextField("Job-Titel", text: $jobModel.jobTitle)
+                    HStack {
+                        TextField("Stundenlohn", value: hourlyRateBinding(), format: .number)
+                        Picker("", selection: $jobModel.hourlyRate.currency) {
+                            ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
+                                Text(currency.rawValue).tag(currency)
+                            }
+                        }
+                    }
                 }
                 
                 Section("Arbeitszeiten") {
@@ -65,6 +73,18 @@ struct UpdateJobView: View {
                 }
             }
         }
+    }
+    
+    private func hourlyRateBinding() -> Binding<Double?> {
+        Binding<Double?>(
+            get: {
+                jobModel.hourlyRate.value > 0 ? jobModel.hourlyRate.value : nil
+            },
+            
+            set: { newValue in
+                jobModel.hourlyRate.value = newValue ?? 0
+            }
+        )
     }
 }
 
