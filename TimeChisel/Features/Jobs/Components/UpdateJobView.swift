@@ -11,15 +11,20 @@ struct UpdateJobView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @Bindable var jobModel: JobModel
+    @FocusState var isFocused: Bool
     
     var body: some View {
         NavigationView {
             Form {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobModel.companyName)
+                        .focused($isFocused)
                     TextField("Job-Titel", text: $jobModel.jobTitle)
+                        .focused($isFocused)
                     HStack {
                         TextField("Stundenlohn", value: hourlyRateBinding(), format: .number)
+                            .keyboardType(.decimalPad)
+                            .focused($isFocused)
                         Picker("", selection: $jobModel.hourlyRate.currency) {
                             ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
                                 Text(currency.rawValue).tag(currency)
@@ -71,8 +76,16 @@ struct UpdateJobView: View {
                         Label("Schließen", systemImage: "xmark.circle.fill")
                     })
                 }
+                
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Fertig") {
+                        isFocused = false
+                    }
+                }
             }
         }
+        
     }
     
     private func hourlyRateBinding() -> Binding<Double?> {
@@ -86,6 +99,10 @@ struct UpdateJobView: View {
             }
         )
     }
+    
+    private func hideKeyboard() {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
 }
 
 //#Preview {

@@ -20,6 +20,8 @@ struct AddJobView: View {
         hourlyRate: HourlyRate(value: 0, currency: .EUR)
     )
     
+    @FocusState var isFocused: Bool
+    
     var jobs: [JobModel] = []
     
     var body: some View {
@@ -27,10 +29,14 @@ struct AddJobView: View {
             Form {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobVM.companyName)
+                        .focused($isFocused)
                     TextField("Job-Titel", text: $jobVM.jobTitle)
+                        .focused($isFocused)
                     
                     HStack {
                         TextField("Stundenlohn", value: hourlyRateBinding(), format: .number)
+                            .keyboardType(.decimalPad)
+                            .focused($isFocused)
                         Picker("", selection: $jobVM.hourlyRate.currency) {
                             ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
                                 Text(currency.rawValue).tag(currency)
@@ -87,9 +93,18 @@ struct AddJobView: View {
                         Label("Schließen", systemImage: "xmark.circle.fill")
                     })
                 }
+                
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Fertig") {
+                        isFocused = false
+                    }
+                }
             }
+            
         }
-        
+
+
     }
     
     private func hourlyRateBinding() -> Binding<Double?> {
@@ -107,4 +122,17 @@ struct AddJobView: View {
 
 #Preview {
     AddJobView()
+}
+
+
+struct DismissKeyboardHelper: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing(_:)))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {}
 }
