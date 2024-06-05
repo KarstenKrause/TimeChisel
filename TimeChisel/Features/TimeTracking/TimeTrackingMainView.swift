@@ -22,22 +22,16 @@ struct TimeTrackingMainView: View {
             if !isWorkingTimerRunning {
                 Form {
                     Section("Job auswählen") {
-                        List(jobs, id: \.self) { job in
-                            HStack {
-                                Text(job.companyName)
-                                Spacer()
-                                if job == selectedJob {
-                                    Image(systemName: "checkmark")
-                                }
-                            }
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                selectedJob = job
+                        Picker("Jobs", selection: $selectedJob) {
+                            ForEach(jobs, id: \.self) { job in
+                                Text(job.companyName).tag(job as JobModel?)
                             }
                         }
                     }
                 }
+                
                 Spacer()
+                
                 Button(action: {
                     if selectedJob != nil {
                         self.isWorkingTimerRunning.toggle()
