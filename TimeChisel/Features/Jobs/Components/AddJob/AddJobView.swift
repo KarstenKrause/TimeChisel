@@ -123,16 +123,3 @@ struct AddJobView: View {
 #Preview {
     AddJobView()
 }
-
-
-struct DismissKeyboardHelper: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing(_:)))
-        tapGesture.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGesture)
-        return view
-    }
-
-    func updateUIView(_ uiView: UIView, context: Context) {}
-}

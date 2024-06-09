@@ -60,6 +60,7 @@ struct JobsView: View {
                         }
                     }
                 }
+                
                 .navigationDestination(for: JobModel.self) { job in
                     JobDetailView(job: job)
                 }

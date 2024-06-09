@@ -7,24 +7,32 @@
 
 import SwiftUI
 
+enum FocusableField: Hashable {
+    case company
+    case jobTitle
+    case hourlyRate
+
+}
+
 struct UpdateJobView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @Bindable var jobModel: JobModel
-    @FocusState var isFocused: Bool
+    @FocusState var focus: FocusableField?
+    
     
     var body: some View {
         NavigationView {
             Form {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobModel.companyName)
-                        .focused($isFocused)
+                        .focused($focus, equals: .company)
                     TextField("Job-Titel", text: $jobModel.jobTitle)
-                        .focused($isFocused)
+                        .focused($focus, equals: .jobTitle)
                     HStack {
                         TextField("Stundenlohn", value: hourlyRateBinding(), format: .number)
                             .keyboardType(.decimalPad)
-                            .focused($isFocused)
+                            .focused($focus, equals: .hourlyRate)
                         Picker("", selection: $jobModel.hourlyRate.currency) {
                             ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
                                 Text(currency.rawValue).tag(currency)
@@ -80,12 +88,18 @@ struct UpdateJobView: View {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
                     Button("Fertig") {
-                        isFocused = false
+                        dismissKeyboard()
                     }
                 }
             }
         }
         
+
+        
+    }
+    
+    private func dismissKeyboard() {
+        focus = nil
     }
     
     private func hourlyRateBinding() -> Binding<Double?> {
@@ -100,9 +114,7 @@ struct UpdateJobView: View {
         )
     }
     
-    private func hideKeyboard() {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        }
+  
 }
 
 //#Preview {
