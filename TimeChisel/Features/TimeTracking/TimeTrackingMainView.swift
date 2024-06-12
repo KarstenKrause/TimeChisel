@@ -33,9 +33,7 @@ struct TimeTrackingMainView: View {
                 Spacer()
                 
                 Button(action: {
-                    if selectedJob != nil {
-                        self.isWorkingTimerRunning.toggle()
-                    }
+                    self.isWorkingTimerRunning.toggle()
                 }, label: {
                     Text("Starten")
                         .font(.footnote)
@@ -54,6 +52,9 @@ struct TimeTrackingMainView: View {
             } else {
                 TrackingView(isWorkingTimerRunning: $isWorkingTimerRunning, selectedJob: $selectedJob)
             }
+        }
+        .onAppear {
+            selectedJob = jobs[0]
         }
     }
 }
