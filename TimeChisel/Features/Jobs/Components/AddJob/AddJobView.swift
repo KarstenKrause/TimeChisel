@@ -10,6 +10,7 @@ import SwiftUI
 struct AddJobView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
+    @FocusState var focus: FocusableField?
     
     @Bindable var jobVM = JobViewModel(
         companyName: "",
@@ -26,17 +27,20 @@ struct AddJobView: View {
     
     var body: some View {
         NavigationView {
+            
             Form {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobVM.companyName)
-                        .focused($isFocused)
+                        .focused($focus, equals: .company)
+                    
                     TextField("Job-Titel", text: $jobVM.jobTitle)
-                        .focused($isFocused)
+                        .focused($focus, equals: .jobTitle)
                     
                     HStack {
                         TextField("Stundenlohn", value: hourlyRateBinding(), format: .number)
                             .keyboardType(.decimalPad)
-                            .focused($isFocused)
+                            .focused($focus, equals: .hourlyRate)
+                        
                         Picker("", selection: $jobVM.hourlyRate.currency) {
                             ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
                                 Text(currency.rawValue).tag(currency)
@@ -81,25 +85,46 @@ struct AddJobView: View {
                     }
                 }
                 .buttonStyle(.borderless)
+                
+                Section {
+                    HStack{
+                        Button(action: {
+                            dismiss()
+                        }, label: {
+                            Text("Abbrechen")
+                                .foregroundStyle(.red)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                            
+                        })
+                    }
+                }
+                .buttonStyle(.borderless)
             }
             .navigationTitle("Job hinzufügen")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        dismiss()
-                    }, label: {
-                        Label("Schließen", systemImage: "xmark.circle.fill")
-                    })
-                }
-                
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
                     Button("Fertig") {
                         isFocused = false
                     }
                 }
+                
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Button(action: {
+//                        dismiss()
+//                    }, label: {
+//                        Label("Schließen", systemImage: "xmark.circle.fill")
+//                    })
+//                }
             }
         }
+        .onTapGesture {
+            dismissKeyboard()
+        }
+    }
+    
+    private func dismissKeyboard() {
+        focus = nil
     }
     
     private func hourlyRateBinding() -> Binding<Double?> {

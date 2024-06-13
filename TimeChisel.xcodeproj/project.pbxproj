@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D7218E72C1AFACB006508E3 /* FocusableField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7218E62C1AFACB006508E3 /* FocusableField.swift */; };
 		3D9C676B2C0522EF00DE85DC /* HourlyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9C676A2C0522EF00DE85DC /* HourlyRate.swift */; };
 		3DA2E3512B703889009B01A2 /* AddJobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA2E3502B703889009B01A2 /* AddJobView.swift */; };
 		3DA44CE82B719BAE00252340 /* AddJobViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA44CE72B719BAE00252340 /* AddJobViewModel.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D7218E62C1AFACB006508E3 /* FocusableField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusableField.swift; sourceTree = "<group>"; };
 		3D9C676A2C0522EF00DE85DC /* HourlyRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyRate.swift; sourceTree = "<group>"; };
 		3DA2E3502B703889009B01A2 /* AddJobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJobView.swift; sourceTree = "<group>"; };
 		3DA44CE72B719BAE00252340 /* AddJobViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJobViewModel.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				3D9C676A2C0522EF00DE85DC /* HourlyRate.swift */,
+				3D7218E62C1AFACB006508E3 /* FocusableField.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				3DE75D352BD963880074C0F7 /* TrackingView.swift in Sources */,
 				3DA44CEF2B78201000252340 /* UpdateJobView.swift in Sources */,
 				3DC4CF732B6DA4C900848B36 /* JobsView.swift in Sources */,
+				3D7218E72C1AFACB006508E3 /* FocusableField.swift in Sources */,
 				3D9C676B2C0522EF00DE85DC /* HourlyRate.swift in Sources */,
 				3DA44CF72B82AECA00252340 /* ActivityRingsView.swift in Sources */,
 				3DC4CF622B6C603900848B36 /* SettingsView.swift in Sources */,

@@ -7,19 +7,11 @@
 
 import SwiftUI
 
-enum FocusableField: Hashable {
-    case company
-    case jobTitle
-    case hourlyRate
-    case workingHours
-}
-
 struct UpdateJobView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @Bindable var jobModel: JobModel
     @FocusState var focus: FocusableField?
-    
     
     var body: some View {
         NavigationView {
@@ -27,12 +19,15 @@ struct UpdateJobView: View {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobModel.companyName)
                         .focused($focus, equals: .company)
+                    
                     TextField("Job-Titel", text: $jobModel.jobTitle)
                         .focused($focus, equals: .jobTitle)
+                    
                     HStack {
                         TextField("Stundenlohn", value: hourlyRateBinding(), format: .number)
                             .keyboardType(.decimalPad)
                             .focused($focus, equals: .hourlyRate)
+                        
                         Picker("", selection: $jobModel.hourlyRate.currency) {
                             ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
                                 Text(currency.rawValue).tag(currency)
@@ -83,13 +78,16 @@ struct UpdateJobView: View {
                     })
                 }
                 
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button("Fertig") {
-                        dismissKeyboard()
-                    }
-                }
+//                ToolbarItemGroup(placement: .keyboard) {
+//                    Spacer()
+//                    Button("Fertig") {
+//                        dismissKeyboard()
+//                    }
+//                }
             }
+        }
+        .onTapGesture {
+            dismissKeyboard()
         }
         
 
