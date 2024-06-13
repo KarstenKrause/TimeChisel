@@ -26,5 +26,4 @@ class JobViewModel {
         self.pauseMinutesPerDay = pauseMinutesPerDay
         self.hourlyRate = hourlyRate
     }
-    
 }

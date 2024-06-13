@@ -14,7 +14,7 @@ struct AddJobView: View {
     @Bindable var jobVM = JobViewModel(
         companyName: "",
         jobTitle: "",
-        workingHoursPerWeek: 1,
+        workingHoursPerWeek: 0,
         workingDaysPerWeek: 1,
         pauseMinutesPerDay: 0,
         hourlyRate: HourlyRate(value: 0, currency: .EUR)
@@ -46,11 +46,9 @@ struct AddJobView: View {
                 }
                 
                 Section("Arbeitszeiten") {
-                    Picker("Stunden pro Woche", selection: $jobVM.workingHoursPerWeek) {
-                        ForEach(1...60, id: \.self) {
-                            Text("\($0) Stunden")
-                        }
-                    }
+                    TextField("Stunden pro Woche", value: workingHoursBinding(), format: .number)
+                        .keyboardType(.decimalPad)
+                        .focused($isFocused)
                     
                     Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
                         ForEach(1...6, id: \.self) {
@@ -101,10 +99,7 @@ struct AddJobView: View {
                     }
                 }
             }
-            
         }
-
-
     }
     
     private func hourlyRateBinding() -> Binding<Double?> {
@@ -115,6 +110,17 @@ struct AddJobView: View {
             
             set: { newValue in
                 jobVM.hourlyRate.value = newValue ?? 0
+            }
+        )
+    }
+    
+    private func workingHoursBinding () -> Binding <Int?> {
+        Binding<Int?>(
+            get: {
+                jobVM.workingHoursPerWeek > 0 ? jobVM.workingHoursPerWeek : nil
+            },
+            set: { newValue in
+                jobVM.workingHoursPerWeek = newValue ?? 0
             }
         )
     }

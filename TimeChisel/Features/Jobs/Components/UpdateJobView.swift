@@ -11,7 +11,7 @@ enum FocusableField: Hashable {
     case company
     case jobTitle
     case hourlyRate
-
+    case workingHours
 }
 
 struct UpdateJobView: View {
@@ -42,11 +42,9 @@ struct UpdateJobView: View {
                 }
                 
                 Section("Arbeitszeiten") {
-                    Picker("Stunden pro Woche", selection: $jobModel.workingHoursPerWeek) {
-                        ForEach(1...60, id: \.self) {
-                            Text("\($0) Stunden")
-                        }
-                    }
+                    TextField("Stunden pro Woche", value: workingHoursBinding(), format: .number)
+                        .keyboardType(.decimalPad)
+                        .focused($focus, equals: .hourlyRate)
                     
                     Picker("Tage pro Woche", selection: $jobModel.workingDaysPerWeek) {
                         ForEach(1...6, id: \.self) {
@@ -110,6 +108,17 @@ struct UpdateJobView: View {
             
             set: { newValue in
                 jobModel.hourlyRate.value = newValue ?? 0
+            }
+        )
+    }
+    
+    private func workingHoursBinding () -> Binding <Int?> {
+        Binding<Int?>(
+            get: {
+                jobModel.workingHoursPerWeek > 0 ? jobModel.workingHoursPerWeek : nil
+            },
+            set: { newValue in
+                jobModel.workingHoursPerWeek = newValue ?? 0
             }
         )
     }
