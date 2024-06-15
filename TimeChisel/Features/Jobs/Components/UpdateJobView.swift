@@ -12,103 +12,119 @@ struct UpdateJobView: View {
     @Environment(\.dismiss) var dismiss
     @Bindable var jobModel: JobModel
     @FocusState var focus: FocusableField?
+    @State private var companyName = ""
+    @State private var jobTitle = ""
+    @State private var hourlyRate = HourlyRate(value: 0, currency: .EUR)
+    @State private var workingHours = 0
     
     var body: some View {
         NavigationView {
-            Form {
-                Section("Jobinfos") {
-                    TextField("Name des Unternehmens", text: $jobModel.companyName)
-                        .focused($focus, equals: .company)
-                    
-                    TextField("Job-Titel", text: $jobModel.jobTitle)
-                        .focused($focus, equals: .jobTitle)
-                    
-                    HStack {
-                        TextField("Stundenlohn", value: hourlyRateBinding(), format: .number)
-                            .keyboardType(.decimalPad)
-                            .focused($focus, equals: .hourlyRate)
+            VStack {
+                Form {
+                    Section("Jobinfos") {
+                        TextField("Name des Unternehmens", text: $companyName)
+                            .focused($focus, equals: .company)
                         
-                        Picker("", selection: $jobModel.hourlyRate.currency) {
-                            ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
-                                Text(currency.rawValue).tag(currency)
+                        TextField("Job-Titel", text: $jobTitle)
+                            .focused($focus, equals: .jobTitle)
+                        
+                        HStack {
+                            TextField("Stundenlohn", value: $hourlyRate.value, format: .number)
+                                .keyboardType(.decimalPad)
+                                .focused($focus, equals: .hourlyRate)
+                            
+                            Picker("", selection: $jobModel.hourlyRate.currency) {
+                                ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
+                                    Text(currency.rawValue).tag(currency)
+                                }
                             }
                         }
                     }
-                }
-                
-                Section("Arbeitszeiten") {
-                    TextField("Stunden pro Woche", value: workingHoursBinding(), format: .number)
-                        .keyboardType(.decimalPad)
-                        .focused($focus, equals: .hourlyRate)
                     
-                    Picker("Tage pro Woche", selection: $jobModel.workingDaysPerWeek) {
-                        ForEach(1...6, id: \.self) {
-                            Text("\($0) Tage")
+                    Section("Arbeitszeiten") {
+                        TextField("Stunden pro Woche", value: $workingHours, format: .number)
+                            .keyboardType(.decimalPad)
+                            .focused($focus, equals: .workingHours)
+                        
+                        Picker("Tage pro Woche", selection: $jobModel.workingDaysPerWeek) {
+                            ForEach(1...6, id: \.self) {
+                                Text("\($0) Tage")
+                            }
+                        }
+                        
+                        
+                        Picker("Pause am Tag", selection: $jobModel.pauseMinutesPerDay) {
+                            ForEach(0...4, id: \.self) { index in
+                                let minutes = index * 30
+                                Text("\(minutes) Minuten")
+                            }
                         }
                     }
                     
-                    
-                    Picker("Pause am Tag", selection: $jobModel.pauseMinutesPerDay) {
-                        ForEach(0...4, id: \.self) { index in
-                            let minutes = index * 30
-                            Text("\(minutes) Minuten")
+                    Section {
+                        HStack{
+                            Button(action: {
+                                dismiss()
+                            }, label: {
+                                Text("Fertig")
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                            })
                         }
                     }
+                    .buttonStyle(.borderless)
+                    
                 }
-                
-                Section {
-                    HStack{
+                .scrollDismissesKeyboard(.immediately)
+                .navigationTitle("Bearbeiten")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Button {
+                            previous()
+                        } label: {
+                            Image(systemName: "chevron.up")
+                        }
+                        
+                        Button {
+                            next()
+                        } label: {
+                            Image(systemName: "chevron.down")
+                        }
+                        
+                        Spacer()
+                        
+                        Button("Fertig") {
+                            save()
+                            dismissKeyboard()
+                        }
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
                             dismiss()
                         }, label: {
-                            Text("Fertig")
-                                .frame(maxWidth: .infinity, alignment: .center)
+                            Label("Schließen", systemImage: "xmark.circle.fill")
                         })
                     }
                 }
-                .buttonStyle(.borderless)
-                
             }
-            .navigationTitle("Bearbeiten")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Button {
-                        previous()
-                    } label: {
-                        Image(systemName: "chevron.up")
-                    }
-                    
-                    Button {
-                        next()
-                    } label: {
-                        Image(systemName: "chevron.down")
-                    }
-                    
-                    Spacer()
-                    
-                    Button("Fertig") {
-                        dismissKeyboard()
-                    }
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        dismiss()
-                    }, label: {
-                        Label("Schließen", systemImage: "xmark.circle.fill")
-                    })
-                }
-            }
- // TODO: Try to make Picker work alongside tab gesture!
-//            .simultaneousGesture(
-//                TapGesture()
-//                    .onEnded {
-//                        dismissKeyboard()
-//                    }
-//            )
+        }
+        .onAppear {
+            companyName = jobModel.companyName
+            jobTitle = jobModel.jobTitle
+            workingHours = jobModel.workingHoursPerWeek
+            hourlyRate = jobModel.hourlyRate
+            
         }
     }
+    
+    private func save() {
+        jobModel.companyName = companyName
+        jobModel.jobTitle = jobTitle
+        jobModel.workingHoursPerWeek = workingHours
+        jobModel.hourlyRate = hourlyRate
+    }
+    
     
     private func dismissKeyboard() {
         focus = nil
@@ -117,11 +133,11 @@ struct UpdateJobView: View {
     private func hourlyRateBinding() -> Binding<Double?> {
         Binding<Double?>(
             get: {
-                jobModel.hourlyRate.value > 0 ? jobModel.hourlyRate.value : nil
+                hourlyRate.value > 0 ? hourlyRate.value : nil
             },
             
             set: { newValue in
-                jobModel.hourlyRate.value = newValue ?? 0
+                hourlyRate.value = newValue ?? 0
             }
         )
     }
@@ -129,10 +145,10 @@ struct UpdateJobView: View {
     private func workingHoursBinding () -> Binding <Int?> {
         Binding<Int?>(
             get: {
-                jobModel.workingHoursPerWeek > 0 ? jobModel.workingHoursPerWeek : nil
+                workingHours > 0 ? workingHours : nil
             },
             set: { newValue in
-                jobModel.workingHoursPerWeek = newValue ?? 0
+                workingHours = newValue ?? 0
             }
         )
     }

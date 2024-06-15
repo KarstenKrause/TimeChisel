@@ -26,94 +26,97 @@ struct AddJobView: View {
     
     var body: some View {
         NavigationView {
-            Form {
-                Section("Jobinfos") {
-                    TextField("Name des Unternehmens", text: $jobVM.companyName)
-                        .focused($focus, equals: .company)
-                    
-                    TextField("Job-Titel", text: $jobVM.jobTitle)
-                        .focused($focus, equals: .jobTitle)
-                    
-                    HStack {
-                        TextField("Stundenlohn", value: hourlyRateBinding(), format: .number)
-                            .keyboardType(.decimalPad)
-                            .focused($focus, equals: .hourlyRate)
+            VStack {
+                Form {
+                    Section("Jobinfos") {
+                        TextField("Name des Unternehmens", text: $jobVM.companyName)
+                            .focused($focus, equals: .company)
                         
-                        Picker("", selection: $jobVM.hourlyRate.currency) {
-                            ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
-                                Text(currency.rawValue).tag(currency)
+                        TextField("Job-Titel", text: $jobVM.jobTitle)
+                            .focused($focus, equals: .jobTitle)
+                        
+                        HStack {
+                            TextField("Stundenlohn", value: hourlyRateBinding(), format: .number)
+                                .keyboardType(.decimalPad)
+                                .focused($focus, equals: .hourlyRate)
+                            
+                            Picker("", selection: $jobVM.hourlyRate.currency) {
+                                ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
+                                    Text(currency.rawValue).tag(currency)
+                                }
                             }
                         }
                     }
-                }
-                
-                Section("Arbeitszeiten") {
-                    TextField("Stunden pro Woche", value: workingHoursBinding(), format: .number)
-                        .keyboardType(.decimalPad)
-                        .focused($focus, equals: .workingHours)
                     
-                    Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
-                        ForEach(1...6, id: \.self) {
-                            Text("\($0) Tage")
+                    Section("Arbeitszeiten") {
+                        TextField("Stunden pro Woche", value: workingHoursBinding(), format: .number)
+                            .keyboardType(.decimalPad)
+                            .focused($focus, equals: .workingHours)
+                        
+                        Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
+                            ForEach(1...6, id: \.self) {
+                                Text("\($0) Tage")
+                            }
+                        }
+                        
+                        Picker("Pause am Tag", selection: $jobVM.pauseMinutesPerDay) {
+                            ForEach(0...4, id: \.self) { index in
+                                let minutes = index * 30
+                                Text("\(minutes) Minuten")
+                            }
                         }
                     }
                     
-                    Picker("Pause am Tag", selection: $jobVM.pauseMinutesPerDay) {
-                        ForEach(0...4, id: \.self) { index in
-                            let minutes = index * 30
-                            Text("\(minutes) Minuten")
+                    Section {
+                        HStack{
+                            Button(action: {
+                                let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay, hourlyRate: jobVM.hourlyRate )
+                                
+                                context.insert(job)
+                                try! context.save()
+                                dismiss()
+                            }, label: {
+                                Text("Speichern")
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                
+                            })
+                            .disabled((jobVM.companyName.isEmpty || jobVM.jobTitle.isEmpty))
                         }
                     }
+                    .buttonStyle(.borderless)
                 }
-                
-                Section {
-                    HStack{
+                .scrollDismissesKeyboard(.immediately)
+                .navigationTitle("Job hinzufügen")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Button {
+                            previous()
+                        } label: {
+                            Image(systemName: "chevron.up")
+                        }
+                        
+                        Button {
+                            next()
+                        } label: {
+                            Image(systemName: "chevron.down")
+                        }
+                        
+                        Spacer()
+                        
+                        Button("Fertig") {
+                            dismissKeyboard()
+                        }
+                        
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
-                            let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay, hourlyRate: jobVM.hourlyRate )
-                            
-                            context.insert(job)
-                            try! context.save()
                             dismiss()
                         }, label: {
-                            Text("Speichern")
-                                .frame(maxWidth: .infinity, alignment: .center)
-                            
+                            Label("Schließen", systemImage: "xmark.circle.fill")
                         })
-                        .disabled((jobVM.companyName.isEmpty || jobVM.jobTitle.isEmpty))
                     }
-                }
-                .buttonStyle(.borderless)
-            }
-            .navigationTitle("Job hinzufügen")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Button {
-                        previous()
-                    } label: {
-                        Image(systemName: "chevron.up")
-                    }
-                    
-                    Button {
-                        next()
-                    } label: {
-                        Image(systemName: "chevron.down")
-                    }
-                    
-                    Spacer()
-                    
-                    Button("Fertig") {
-                        dismissKeyboard()
-                    }
-                    
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        dismiss()
-                    }, label: {
-                        Label("Schließen", systemImage: "xmark.circle.fill")
-                    })
                 }
             }
         }
