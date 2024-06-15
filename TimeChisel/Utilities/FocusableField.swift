@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum FocusableField: Hashable {
+enum FocusableField: Int, Hashable, CaseIterable{
     case company
     case jobTitle
     case hourlyRate

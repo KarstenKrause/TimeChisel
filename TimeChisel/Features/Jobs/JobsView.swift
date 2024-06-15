@@ -18,7 +18,6 @@ struct JobsView: View {
     
     var body: some View {
         NavigationStack {
-            
             if(jobs.isEmpty) {
                 VStack {
                     Text("Bevor Arbeitszeiten getrackt werden können, füge zunächst einen Job hinzu.")

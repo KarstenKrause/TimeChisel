@@ -10,8 +10,7 @@ import SwiftUI
 struct AddJobView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-    @FocusState var focus: FocusableField?
-    
+
     @Bindable var jobVM = JobViewModel(
         companyName: "",
         jobTitle: "",
@@ -21,13 +20,12 @@ struct AddJobView: View {
         hourlyRate: HourlyRate(value: 0, currency: .EUR)
     )
     
-    @FocusState var isFocused: Bool
+    @FocusState var focus: FocusableField?
     
     var jobs: [JobModel] = []
     
     var body: some View {
         NavigationView {
-            
             Form {
                 Section("Jobinfos") {
                     TextField("Name des Unternehmens", text: $jobVM.companyName)
@@ -52,7 +50,7 @@ struct AddJobView: View {
                 Section("Arbeitszeiten") {
                     TextField("Stunden pro Woche", value: workingHoursBinding(), format: .number)
                         .keyboardType(.decimalPad)
-                        .focused($isFocused)
+                        .focused($focus, equals: .workingHours)
                     
                     Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
                         ForEach(1...6, id: \.self) {
@@ -85,41 +83,39 @@ struct AddJobView: View {
                     }
                 }
                 .buttonStyle(.borderless)
-                
-                Section {
-                    HStack{
-                        Button(action: {
-                            dismiss()
-                        }, label: {
-                            Text("Abbrechen")
-                                .foregroundStyle(.red)
-                                .frame(maxWidth: .infinity, alignment: .center)
-                            
-                        })
-                    }
-                }
-                .buttonStyle(.borderless)
             }
             .navigationTitle("Job hinzufügen")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button("Fertig") {
-                        isFocused = false
+                    Button {
+                        previous()
+                    } label: {
+                        Image(systemName: "chevron.up")
                     }
+                    
+                    Button {
+                        next()
+                    } label: {
+                        Image(systemName: "chevron.down")
+                    }
+                    
+                    Spacer()
+                    
+                    Button("Fertig") {
+                        dismissKeyboard()
+                    }
+                    
                 }
                 
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    Button(action: {
-//                        dismiss()
-//                    }, label: {
-//                        Label("Schließen", systemImage: "xmark.circle.fill")
-//                    })
-//                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        dismiss()
+                    }, label: {
+                        Label("Schließen", systemImage: "xmark.circle.fill")
+                    })
+                }
             }
-        }
-        .onTapGesture {
-            dismissKeyboard()
         }
     }
     
@@ -148,6 +144,22 @@ struct AddJobView: View {
                 jobVM.workingHoursPerWeek = newValue ?? 0
             }
         )
+    }
+    
+    private func next() {
+        guard let currentInput = focus,
+              let lastIndex = FocusableField.allCases.last?.rawValue else { return }
+        
+        let index = min(currentInput.rawValue + 1, lastIndex)
+        self.focus = FocusableField(rawValue: index)
+    }
+    
+    private func previous() {
+        guard let currentInput = focus,
+              let lastIndex = FocusableField.allCases.last?.rawValue else { return }
+        
+        let index = min(currentInput.rawValue - 1, lastIndex)
+        self.focus = FocusableField(rawValue: index)
     }
 }
 

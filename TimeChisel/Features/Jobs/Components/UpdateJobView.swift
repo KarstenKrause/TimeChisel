@@ -47,6 +47,7 @@ struct UpdateJobView: View {
                         }
                     }
                     
+                    
                     Picker("Pause am Tag", selection: $jobModel.pauseMinutesPerDay) {
                         ForEach(0...4, id: \.self) { index in
                             let minutes = index * 30
@@ -69,7 +70,28 @@ struct UpdateJobView: View {
                 
             }
             .navigationTitle("Bearbeiten")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Button {
+                        previous()
+                    } label: {
+                        Image(systemName: "chevron.up")
+                    }
+                    
+                    Button {
+                        next()
+                    } label: {
+                        Image(systemName: "chevron.down")
+                    }
+                    
+                    Spacer()
+                    
+                    Button("Fertig") {
+                        dismissKeyboard()
+                    }
+                }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         dismiss()
@@ -77,21 +99,15 @@ struct UpdateJobView: View {
                         Label("Schließen", systemImage: "xmark.circle.fill")
                     })
                 }
-                
-//                ToolbarItemGroup(placement: .keyboard) {
-//                    Spacer()
-//                    Button("Fertig") {
+            }
+ // TODO: Try to make Picker work alongside tab gesture!
+//            .simultaneousGesture(
+//                TapGesture()
+//                    .onEnded {
 //                        dismissKeyboard()
 //                    }
-//                }
-            }
+//            )
         }
-        .onTapGesture {
-            dismissKeyboard()
-        }
-        
-
-        
     }
     
     private func dismissKeyboard() {
@@ -121,8 +137,24 @@ struct UpdateJobView: View {
         )
     }
     
-  
+    private func next() {
+        guard let currentInput = focus,
+              let lastIndex = FocusableField.allCases.last?.rawValue else { return }
+        
+        let index = min(currentInput.rawValue + 1, lastIndex)
+        self.focus = FocusableField(rawValue: index)
+    }
+    
+    private func previous() {
+        guard let currentInput = focus,
+              let lastIndex = FocusableField.allCases.last?.rawValue else { return }
+        
+        let index = min(currentInput.rawValue - 1, lastIndex)
+        self.focus = FocusableField(rawValue: index)
+    }
 }
+
+
 
 //#Preview {
 //    EditJobView()

@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct TrackingView: View {
+    @Binding var isWorkingTimerRunning: Bool
+    @Binding var selectedJob: JobModel?
     @State private var secondsWorked: Int = 7200 // 2h
     @State private var secondsPaused: Int = 900 // 0.5h
     @State private var isPauseTimerRunning: Bool = false
     @State private var timeTrackingCanceled: Bool = false
-    @Binding var isWorkingTimerRunning: Bool
-    @Binding var selectedJob: JobModel?
-    
+
     var body: some View {
         VStack {
             ActivityRingsView(secondsWorked: $secondsWorked, secondsPaused: $secondsPaused)
