@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HourlyRate: Codable {
+struct HourlyRate: Codable, Equatable {
     var value: Double
     var currency: Currency
     

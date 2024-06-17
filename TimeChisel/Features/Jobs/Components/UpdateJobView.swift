@@ -22,29 +22,55 @@ struct UpdateJobView: View {
             VStack {
                 Form {
                     Section("Jobinfos") {
-                        TextField("Name des Unternehmens", text: $companyName)
-                            .focused($focus, equals: .company)
-                        
-                        TextField("Job-Titel", text: $jobTitle)
-                            .focused($focus, equals: .jobTitle)
-                        
-                        HStack {
-                            TextField("Stundenlohn", value: $hourlyRate.value, format: .number)
-                                .keyboardType(.decimalPad)
-                                .focused($focus, equals: .hourlyRate)
+                        VStack(alignment: .leading) {
+                            companyName.isEmpty ? nil :
+                            Text("Name des unternehmens")
+                                .foregroundStyle(.gray)
+                                
+                            TextField("Name des Unternehmens", text: $companyName)
+                                .focused($focus, equals: .company)
+                        }
+                        VStack(alignment: .leading) {
+                            jobTitle.isEmpty ? nil :
+                            Text("Job-Titel").foregroundStyle(.gray)
                             
-                            Picker("", selection: $jobModel.hourlyRate.currency) {
-                                ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
-                                    Text(currency.rawValue).tag(currency)
+                            TextField("Job-Titel", text: $jobTitle)
+                                .focused($focus, equals: .jobTitle)
+                        }
+                        
+                        VStack(alignment: .leading) {
+                            if String(hourlyRate.value).isEmpty == false {
+                                Text("Stundenlohn").foregroundStyle(.gray)
+                            }
+                            
+                            
+                            HStack {
+                                TextField("Stundenlohn", value: $hourlyRate.value, format: .number)
+                                    .keyboardType(.decimalPad)
+                                    .focused($focus, equals: .hourlyRate)
+                                
+                                Picker("", selection: $jobModel.hourlyRate.currency) {
+                                    ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
+                                        Text(currency.rawValue).tag(currency)
+                                    }
                                 }
                             }
                         }
+
                     }
                     
                     Section("Arbeitszeiten") {
-                        TextField("Stunden pro Woche", value: $workingHours, format: .number)
-                            .keyboardType(.decimalPad)
-                            .focused($focus, equals: .workingHours)
+                        VStack(alignment: .leading) {
+                            if String(workingHours) != "0.0"{
+                                Text("Stunden pro Woche").foregroundStyle(.gray)
+                            }
+                            
+                            
+                            TextField("Stunden pro Woche", value: $workingHours, format: .number)
+                                .keyboardType(.decimalPad)
+                                .focused($focus, equals: .workingHours)
+                        }
+
                         
                         Picker("Tage pro Woche", selection: $jobModel.workingDaysPerWeek) {
                             ForEach(1...6, id: \.self) {
