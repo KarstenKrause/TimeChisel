@@ -15,7 +15,7 @@ struct UpdateJobView: View {
     @State private var companyName = ""
     @State private var jobTitle = ""
     @State private var hourlyRate = HourlyRate(value: 0, currency: .EUR)
-    @State private var workingHours = 0
+    @State private var workingHours: Int = 0
     
     var body: some View {
         NavigationView {
@@ -45,7 +45,7 @@ struct UpdateJobView: View {
                             
                             
                             HStack {
-                                TextField("Stundenlohn", value: $hourlyRate.value, format: .number)
+                                TextField("", value: $hourlyRate.value, format: .number)
                                     .keyboardType(.decimalPad)
                                     .focused($focus, equals: .hourlyRate)
                                 
@@ -61,17 +61,14 @@ struct UpdateJobView: View {
                     
                     Section("Arbeitszeiten") {
                         VStack(alignment: .leading) {
-                            if String(workingHours) != "0.0"{
-                                Text("Stunden pro Woche").foregroundStyle(.gray)
-                            }
+        
+                            Text("Stunden pro Woche").foregroundStyle(.gray)
                             
-                            
-                            TextField("Stunden pro Woche", value: $workingHours, format: .number)
+                            TextField("", value: $workingHours, format: .number)
                                 .keyboardType(.decimalPad)
                                 .focused($focus, equals: .workingHours)
                         }
 
-                        
                         Picker("Tage pro Woche", selection: $jobModel.workingDaysPerWeek) {
                             ForEach(1...6, id: \.self) {
                                 Text("\($0) Tage")
