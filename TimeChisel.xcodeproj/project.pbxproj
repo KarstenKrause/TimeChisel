@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D15EA322C23FE09002560A1 /* TextFieldFocusStateBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA312C23FE09002560A1 /* TextFieldFocusStateBinding.swift */; };
 		3D7218E72C1AFACB006508E3 /* FocusableField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7218E62C1AFACB006508E3 /* FocusableField.swift */; };
 		3D9C676B2C0522EF00DE85DC /* HourlyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9C676A2C0522EF00DE85DC /* HourlyRate.swift */; };
 		3DA2E3512B703889009B01A2 /* AddJobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA2E3502B703889009B01A2 /* AddJobView.swift */; };
-		3DA44CE82B719BAE00252340 /* AddJobViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA44CE72B719BAE00252340 /* AddJobViewModel.swift */; };
+		3DA44CE82B719BAE00252340 /* JobViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA44CE72B719BAE00252340 /* JobViewModel.swift */; };
 		3DA44CED2B76D19900252340 /* JobModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA44CEC2B76D19900252340 /* JobModel.swift */; };
 		3DA44CEF2B78201000252340 /* UpdateJobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA44CEE2B78201000252340 /* UpdateJobView.swift */; };
 		3DA44CF22B79596700252340 /* JobDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA44CF12B79596700252340 /* JobDetailView.swift */; };
@@ -30,10 +31,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D15EA312C23FE09002560A1 /* TextFieldFocusStateBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldFocusStateBinding.swift; sourceTree = "<group>"; };
 		3D7218E62C1AFACB006508E3 /* FocusableField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusableField.swift; sourceTree = "<group>"; };
 		3D9C676A2C0522EF00DE85DC /* HourlyRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyRate.swift; sourceTree = "<group>"; };
 		3DA2E3502B703889009B01A2 /* AddJobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJobView.swift; sourceTree = "<group>"; };
-		3DA44CE72B719BAE00252340 /* AddJobViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJobViewModel.swift; sourceTree = "<group>"; };
+		3DA44CE72B719BAE00252340 /* JobViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobViewModel.swift; sourceTree = "<group>"; };
 		3DA44CEC2B76D19900252340 /* JobModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobModel.swift; sourceTree = "<group>"; };
 		3DA44CEE2B78201000252340 /* UpdateJobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateJobView.swift; sourceTree = "<group>"; };
 		3DA44CF12B79596700252340 /* JobDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailView.swift; sourceTree = "<group>"; };
@@ -65,23 +67,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D15EA2D2C22F868002560A1 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				3DA44CE72B719BAE00252340 /* JobViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		3D15EA302C23FDBA002560A1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3D15EA312C23FE09002560A1 /* TextFieldFocusStateBinding.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		3DA2E34F2B703871009B01A2 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				3DA44CE62B71969700252340 /* AddJob */,
+				3D15EA2D2C22F868002560A1 /* ViewModels */,
 				3DA44CEE2B78201000252340 /* UpdateJobView.swift */,
+				3DA2E3502B703889009B01A2 /* AddJobView.swift */,
 				3DA44CF12B79596700252340 /* JobDetailView.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		3DA44CE62B71969700252340 /* AddJob */ = {
-			isa = PBXGroup;
-			children = (
-				3DA2E3502B703889009B01A2 /* AddJobView.swift */,
-				3DA44CE72B719BAE00252340 /* AddJobViewModel.swift */,
-			);
-			path = AddJob;
 			sourceTree = "<group>";
 		};
 		3DA44CF02B78291800252340 /* Models */ = {
@@ -157,6 +167,7 @@
 		3DC4CF592B6C5DDC00848B36 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				3D15EA302C23FDBA002560A1 /* Extensions */,
 				3D9C676A2C0522EF00DE85DC /* HourlyRate.swift */,
 				3D7218E62C1AFACB006508E3 /* FocusableField.swift */,
 			);
@@ -297,13 +308,14 @@
 				3DC4CF6C2B6D997D00848B36 /* MainView.swift in Sources */,
 				3DA44CF22B79596700252340 /* JobDetailView.swift in Sources */,
 				3DA44CF52B815AC800252340 /* ActivityRingView.swift in Sources */,
-				3DA44CE82B719BAE00252340 /* AddJobViewModel.swift in Sources */,
+				3DA44CE82B719BAE00252340 /* JobViewModel.swift in Sources */,
 				3DA2E3512B703889009B01A2 /* AddJobView.swift in Sources */,
 				3DE75D352BD963880074C0F7 /* TrackingView.swift in Sources */,
 				3DA44CEF2B78201000252340 /* UpdateJobView.swift in Sources */,
 				3DC4CF732B6DA4C900848B36 /* JobsView.swift in Sources */,
 				3D7218E72C1AFACB006508E3 /* FocusableField.swift in Sources */,
 				3D9C676B2C0522EF00DE85DC /* HourlyRate.swift in Sources */,
+				3D15EA322C23FE09002560A1 /* TextFieldFocusStateBinding.swift in Sources */,
 				3DA44CF72B82AECA00252340 /* ActivityRingsView.swift in Sources */,
 				3DC4CF622B6C603900848B36 /* SettingsView.swift in Sources */,
 				3DC4CF682B6C608400848B36 /* TimeTrackingMainView.swift in Sources */,

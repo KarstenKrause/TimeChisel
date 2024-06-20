@@ -6,23 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AddJobView: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-
-    @Bindable var jobVM = JobViewModel(
-        companyName: "",
-        jobTitle: "",
-        workingHoursPerWeek: 0,
-        workingDaysPerWeek: 1,
-        pauseMinutesPerDay: 0,
-        hourlyRate: HourlyRate(value: 0, currency: .EUR)
-    )
-    
+    @Bindable var jobVM = JobViewModel()
     @FocusState var focus: FocusableField?
-    
-    var jobs: [JobModel] = []
     
     var body: some View {
         NavigationView {
@@ -36,7 +26,7 @@ struct AddJobView: View {
                             .focused($focus, equals: .jobTitle)
                         
                         HStack {
-                            TextField("Stundenlohn", value: hourlyRateBinding(), format: .number)
+                            TextField("Stundenlohn", value: jobVM.hourlyRateBinding(), format: .number)
                                 .keyboardType(.decimalPad)
                                 .focused($focus, equals: .hourlyRate)
                             
@@ -49,7 +39,7 @@ struct AddJobView: View {
                     }
                     
                     Section("Arbeitszeiten") {
-                        TextField("Stunden pro Woche", value: workingHoursBinding(), format: .number)
+                        TextField("Stunden pro Woche", value: jobVM.workingHoursBinding(), format: .number)
                             .keyboardType(.decimalPad)
                             .focused($focus, equals: .workingHours)
                         
@@ -70,15 +60,11 @@ struct AddJobView: View {
                     Section {
                         HStack{
                             Button(action: {
-                                let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay, hourlyRate: jobVM.hourlyRate )
-                                
-                                context.insert(job)
-                                try! context.save()
+                                addJob()
                                 dismiss()
                             }, label: {
                                 Text("Speichern")
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                
                             })
                             .disabled((jobVM.companyName.isEmpty || jobVM.jobTitle.isEmpty))
                         }
@@ -91,13 +77,13 @@ struct AddJobView: View {
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard) {
                         Button {
-                            previous()
+                            jobVM.previous()
                         } label: {
                             Image(systemName: "chevron.up")
                         }
                         
                         Button {
-                            next()
+                            jobVM.next()
                         } label: {
                             Image(systemName: "chevron.down")
                         }
@@ -105,7 +91,7 @@ struct AddJobView: View {
                         Spacer()
                         
                         Button("Fertig") {
-                            dismissKeyboard()
+                            jobVM.dismissKeyboard()
                         }
                         
                     }
@@ -120,52 +106,18 @@ struct AddJobView: View {
                 }
             }
         }
+        .focusStateSync($jobVM.focus, with: _focus)
     }
     
-    private func dismissKeyboard() {
-        focus = nil
-    }
-    
-    private func hourlyRateBinding() -> Binding<Double?> {
-        Binding<Double?>(
-            get: {
-                jobVM.hourlyRate.value > 0 ? jobVM.hourlyRate.value : nil
-            },
-            
-            set: { newValue in
-                jobVM.hourlyRate.value = newValue ?? 0
-            }
-        )
-    }
-    
-    private func workingHoursBinding () -> Binding <Int?> {
-        Binding<Int?>(
-            get: {
-                jobVM.workingHoursPerWeek > 0 ? jobVM.workingHoursPerWeek : nil
-            },
-            set: { newValue in
-                jobVM.workingHoursPerWeek = newValue ?? 0
-            }
-        )
-    }
-    
-    private func next() {
-        guard let currentInput = focus,
-              let lastIndex = FocusableField.allCases.last?.rawValue else { return }
+    private func addJob() {
+        let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay, hourlyRate: jobVM.hourlyRate )
         
-        let index = min(currentInput.rawValue + 1, lastIndex)
-        self.focus = FocusableField(rawValue: index)
-    }
-    
-    private func previous() {
-        guard let currentInput = focus,
-              let lastIndex = FocusableField.allCases.last?.rawValue else { return }
-        
-        let index = min(currentInput.rawValue - 1, lastIndex)
-        self.focus = FocusableField(rawValue: index)
+        context.insert(job)
+        try! context.save()
     }
 }
 
 #Preview {
     AddJobView()
 }
+
