@@ -1,0 +1,121 @@
+//
+//  TrackingView.swift
+//  TimeChisel
+//
+//  Created by Karsten Krause on 24.04.24.
+//
+
+import SwiftUI
+
+struct TrackingView: View {
+    @Binding var isWorkingTimerRunning: Bool
+    @Binding var selectedJob: JobModel?
+    @Bindable var trackingVM = TrackingViewModel()
+//    @State private var secondsWorked: Int = 7200 // 2h
+//    @State private var secondsPaused: Int = 900 // 0.5h
+    @State private var isPauseTimerRunning: Bool = false
+    @State private var timeTrackingCanceled: Bool = false
+
+    var body: some View {
+        
+        VStack {
+            ZStack {
+                VStack {
+                    Text("00:00:00")
+                        .foregroundStyle(.green)
+                        .bold()
+                        .font(.largeTitle)
+                    Text("Gearbeitet")
+                        .foregroundStyle(.green)
+                        .bold()
+                }
+                
+                ActivityRingsView(secondsWorked: $trackingVM.secondsWorked, secondsPaused: $trackingVM.secondsPaused)
+            }
+            .padding(50)
+            Spacer()
+            VStack {
+                HStack {
+                    if !isPauseTimerRunning {
+                        Button(action: {
+                            self.isPauseTimerRunning = true
+                            trackingVM.stopWorkedTimer()
+                            trackingVM.startPausedTimer()
+                        }, label: {
+                            Text("Pause")
+                                .bold()
+                                .font(.footnote)
+                                .frame(width: 80, height: 80, alignment: .center)
+                                .background(.blue.opacity(0.30))
+                                .foregroundColor(.blue)
+                                .cornerRadius(100)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 100)
+                                        .stroke(Color("customBW"), lineWidth: 1.5)
+                                        .padding(4)
+                                )
+                        })
+                    } else {
+                        Button(action: {
+                            self.isPauseTimerRunning = false
+                            trackingVM.stopPausedTimer()
+                            trackingVM.startWorkedTimer()
+                        }, label: {
+                            Text("Weiter")
+                                .bold()
+                                .font(.footnote)
+                                .frame(width: 80, height: 80, alignment: .center)
+                                .background(.green.opacity(0.30))
+                                .foregroundColor(Color("lightGreen"))
+                                .cornerRadius(100)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 100)
+                                        .stroke(Color("customBW"), lineWidth: 1.5)
+                                        .padding(4)
+                                )
+                        })
+                    }
+                    
+                    Spacer()
+                    Button(action: {
+                        self.timeTrackingCanceled = true
+                        self.isWorkingTimerRunning = false
+                        trackingVM.endAll()
+                    }, label: {
+                        Text("Beenden")
+                            .bold()
+                            .font(.footnote)
+                            .frame(width: 80, height: 80, alignment: .center)
+                            .background(.red.opacity(0.30))
+                            .foregroundColor(.red)
+                            .cornerRadius(100)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 100)
+                                // TODO: create custom background color for light-/darkmode
+                                    .stroke(Color("customBW"), lineWidth: 1.5)
+                                    .padding(4)
+                            )
+                    })
+                }
+                .padding(40)
+            }
+        }
+        .onAppear() {
+            trackingVM.startWorkedTimer()
+        }
+    }
+    
+}
+
+#Preview {
+    struct PreviewWrapper: View {
+        @State var isWorkingTimerRunning: Bool = false
+        @State var selectedJob: JobModel? = JobModel(companyName: "DTS", jobTitle: "Software Entwickler", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30, hourlyRate: HourlyRate(value: 25.0, currency: .EUR))
+        
+        var body: some View {
+            TrackingView(isWorkingTimerRunning: $isWorkingTimerRunning, selectedJob: $selectedJob)
+        }
+    }
+    
+    return PreviewWrapper()
+}

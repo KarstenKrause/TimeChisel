@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3D15EA322C23FE09002560A1 /* TextFieldFocusStateBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA312C23FE09002560A1 /* TextFieldFocusStateBinding.swift */; };
+		3D15EA382C261FB7002560A1 /* TrackingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA372C261FB7002560A1 /* TrackingViewModel.swift */; };
 		3D7218E72C1AFACB006508E3 /* FocusableField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7218E62C1AFACB006508E3 /* FocusableField.swift */; };
 		3D9C676B2C0522EF00DE85DC /* HourlyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9C676A2C0522EF00DE85DC /* HourlyRate.swift */; };
 		3DA2E3512B703889009B01A2 /* AddJobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA2E3502B703889009B01A2 /* AddJobView.swift */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		3D15EA312C23FE09002560A1 /* TextFieldFocusStateBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldFocusStateBinding.swift; sourceTree = "<group>"; };
+		3D15EA372C261FB7002560A1 /* TrackingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingViewModel.swift; sourceTree = "<group>"; };
 		3D7218E62C1AFACB006508E3 /* FocusableField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusableField.swift; sourceTree = "<group>"; };
 		3D9C676A2C0522EF00DE85DC /* HourlyRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyRate.swift; sourceTree = "<group>"; };
 		3DA2E3502B703889009B01A2 /* AddJobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJobView.swift; sourceTree = "<group>"; };
@@ -83,6 +85,24 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		3D15EA352C261F38002560A1 /* ActivityRings */ = {
+			isa = PBXGroup;
+			children = (
+				3DA44CF42B815AC800252340 /* ActivityRingView.swift */,
+				3DA44CF62B82AECA00252340 /* ActivityRingsView.swift */,
+			);
+			path = ActivityRings;
+			sourceTree = "<group>";
+		};
+		3D15EA362C261F59002560A1 /* Timetracking */ = {
+			isa = PBXGroup;
+			children = (
+				3DE75D342BD963880074C0F7 /* TrackingView.swift */,
+				3D15EA372C261FB7002560A1 /* TrackingViewModel.swift */,
+			);
+			path = Timetracking;
+			sourceTree = "<group>";
+		};
 		3DA2E34F2B703871009B01A2 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,9 +125,8 @@
 		3DA44CF32B815A9F00252340 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				3DA44CF42B815AC800252340 /* ActivityRingView.swift */,
-				3DA44CF62B82AECA00252340 /* ActivityRingsView.swift */,
-				3DE75D342BD963880074C0F7 /* TrackingView.swift */,
+				3D15EA352C261F38002560A1 /* ActivityRings */,
+				3D15EA362C261F59002560A1 /* Timetracking */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -309,6 +328,7 @@
 				3DA44CF22B79596700252340 /* JobDetailView.swift in Sources */,
 				3DA44CF52B815AC800252340 /* ActivityRingView.swift in Sources */,
 				3DA44CE82B719BAE00252340 /* JobViewModel.swift in Sources */,
+				3D15EA382C261FB7002560A1 /* TrackingViewModel.swift in Sources */,
 				3DA2E3512B703889009B01A2 /* AddJobView.swift in Sources */,
 				3DE75D352BD963880074C0F7 /* TrackingView.swift in Sources */,
 				3DA44CEF2B78201000252340 /* UpdateJobView.swift in Sources */,

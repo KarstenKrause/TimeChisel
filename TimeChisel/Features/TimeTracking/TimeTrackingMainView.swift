@@ -36,14 +36,15 @@ struct TimeTrackingMainView: View {
                     self.isWorkingTimerRunning.toggle()
                 }, label: {
                     Text("Starten")
+                        .bold()
                         .font(.footnote)
                         .frame(width: 80, height: 80, alignment: .center)
-                        .background(selectedJob != nil ? Color.green : Color.gray)
-                        .foregroundColor(.primary)
+                        .background(selectedJob != nil ? .green.opacity(0.30) : .gray.opacity(0.35))
+                        .foregroundColor(Color("lightGreen"))
                         .cornerRadius(100)
                         .overlay(
                             RoundedRectangle(cornerRadius: 100)
-                                .stroke(Color.black, lineWidth: 1.5)
+                                .stroke(Color("customBW"), lineWidth: 1.5)
                                 .padding(4)
                         )
                 })

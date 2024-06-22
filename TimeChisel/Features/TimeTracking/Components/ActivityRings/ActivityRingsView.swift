@@ -10,8 +10,8 @@ import SwiftUI
 struct ActivityRingsView: View {
     
     // TODO: Replace this with computed prop and workingHoursPerDay and PauseTime data from local storage!"
-    let totalWorkTime = 7200
-    let totalPauseTime = 1800
+    let totalWorkTime = 40
+    let totalPauseTime = 40
     
     @Binding var secondsWorked: Int
     @Binding var secondsPaused: Int
@@ -37,7 +37,7 @@ struct ActivityRingsView: View {
                              WHeight: 300,
                              completionRate: timeProgress,
                              ringThickness: 30,
-                             baseColor: .red,
+                             baseColor: .green,
                              colorGradient: Gradient(colors: [.green, .yellow])
             )
             
@@ -46,7 +46,7 @@ struct ActivityRingsView: View {
                              WHeight: 230,
                              completionRate: pauseTimeProgress,
                              ringThickness: 30,
-                             baseColor: .yellow,
+                             baseColor: .blue,
                              colorGradient: Gradient(colors: [.blue, .purple])
             )
         }

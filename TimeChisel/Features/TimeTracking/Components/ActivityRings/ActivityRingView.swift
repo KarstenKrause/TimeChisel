@@ -75,7 +75,7 @@ struct ActivityRingView: View {
                 .font(.system(size: 20))
                 .bold()
                 .offset(y: -12)
-                .foregroundColor(.black)
+                .foregroundColor(Color("customBW"))
                 .opacity(completionRate == 0.0 ? 0.65 : 1)
         }
     }
