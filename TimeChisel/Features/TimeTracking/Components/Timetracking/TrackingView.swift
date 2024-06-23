@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TrackingView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Binding var isWorkingTimerRunning: Bool
     @Binding var selectedJob: JobModel?
     @Bindable var trackingVM = TrackingViewModel()
@@ -15,19 +16,18 @@ struct TrackingView: View {
 //    @State private var secondsPaused: Int = 900 // 0.5h
     @State private var isPauseTimerRunning: Bool = false
     @State private var timeTrackingCanceled: Bool = false
+    
 
     var body: some View {
         
         VStack {
             ZStack {
                 VStack {
-                    Text("00:00:00")
-                        .foregroundStyle(.green)
-                        .bold()
-                        .font(.largeTitle)
-                    Text("Gearbeitet")
-                        .foregroundStyle(.green)
-                        .bold()
+                    if isPauseTimerRunning {
+                        TimeView(timeVM: TimeViewModel(seconds: trackingVM.secondsPaused, for: .breakTime))
+                    } else {
+                        TimeView(timeVM: TimeViewModel(seconds: trackingVM.secondsWorked, for: .workTime))
+                    }
                 }
                 
                 ActivityRingsView(secondsWorked: $trackingVM.secondsWorked, secondsPaused: $trackingVM.secondsPaused)
@@ -47,7 +47,7 @@ struct TrackingView: View {
                                 .font(.footnote)
                                 .frame(width: 80, height: 80, alignment: .center)
                                 .background(.blue.opacity(0.30))
-                                .foregroundColor(.blue)
+                                .foregroundColor((colorScheme == .dark ? Color("lightBlue") : .blue))
                                 .cornerRadius(100)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 100)
@@ -87,7 +87,7 @@ struct TrackingView: View {
                             .font(.footnote)
                             .frame(width: 80, height: 80, alignment: .center)
                             .background(.red.opacity(0.30))
-                            .foregroundColor(.red)
+                            .foregroundColor((colorScheme == .dark ? Color("lightRed") : .red))
                             .cornerRadius(100)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 100)

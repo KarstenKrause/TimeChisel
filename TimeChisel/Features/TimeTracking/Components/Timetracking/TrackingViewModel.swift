@@ -18,9 +18,10 @@ class TrackingViewModel {
     
     func startWorkedTimer() {
         workedTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect().sink { _ in
-            withAnimation {
-                self.secondsWorked += 1
-            }
+//            withAnimation {
+//                self.secondsWorked += 1
+//            }
+            self.secondsWorked += 1
         }
     }
     
@@ -30,9 +31,10 @@ class TrackingViewModel {
     
     func startPausedTimer() {
         pausedTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect().sink { _ in
-            withAnimation {
-                self.secondsPaused += 1
-            }
+//            withAnimation {
+//                self.secondsPaused += 1
+//            }
+            self.secondsPaused += 1
             
         }
     }
