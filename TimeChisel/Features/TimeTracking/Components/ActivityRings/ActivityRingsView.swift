@@ -6,15 +6,31 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ActivityRingsView: View {
     
     // TODO: Replace this with computed prop and workingHoursPerDay and PauseTime data from local storage!"
-    let totalWorkTime = 3600
-    let totalPauseTime = 900
+
+    private var totalWorkTime: Int
+    private var totalPauseTime: Int
+    
+    private var workingHours: Int
+    private var pauseMinutes: Int
     
     @Binding var secondsWorked: Int
     @Binding var secondsPaused: Int
+    
+    init(workingHours: Int, pauseMinutes: Int, secondsWorked: Binding<Int>, secondsPaused: Binding<Int>) {
+        self._secondsWorked = secondsWorked
+        self._secondsPaused = secondsPaused
+        self.workingHours = workingHours
+        self.pauseMinutes = pauseMinutes
+        self.totalWorkTime = self.workingHours * 3600
+        self.totalPauseTime = self.pauseMinutes * 60
+        print(totalWorkTime)
+        print(totalPauseTime)
+    }
     
     private var timeProgress: CGFloat {
         let totalTime = CGFloat(totalWorkTime)
@@ -29,6 +45,8 @@ struct ActivityRingsView: View {
         
         return pausedTimePercentage
     }
+    
+    
     
     var body: some View {
         ZStack {
@@ -53,7 +71,7 @@ struct ActivityRingsView: View {
     }
 }
 
-#Preview {
-    @State var dummySeconds = 3600
-    return ActivityRingsView(secondsWorked: $dummySeconds, secondsPaused: $dummySeconds)
-}
+//#Preview {
+//    @State var dummySeconds = 3600
+//    return ActivityRingsView(secondsWorked: $dummySeconds, secondsPaused: $dummySeconds)
+//}

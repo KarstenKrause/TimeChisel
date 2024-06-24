@@ -22,7 +22,12 @@ class JobModel {
         return Double(workingHoursPerWeek / workingDaysPerWeek)
     }
     
-    init(companyName: String, jobTitle: String, workingHoursPerWeek: Int, workingDaysPerWeek: Int, pauseMinutesPerDay: Int, hourlyRate: HourlyRate) {
+    init(companyName: String,
+         jobTitle: String,
+         workingHoursPerWeek: Int,
+         workingDaysPerWeek: Int,
+         pauseMinutesPerDay: Int,
+         hourlyRate: HourlyRate) {
         self.id = UUID()
         self.companyName = companyName
         self.jobTitle = jobTitle

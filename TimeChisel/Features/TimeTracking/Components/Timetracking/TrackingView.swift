@@ -30,7 +30,7 @@ struct TrackingView: View {
                     }
                 }
                 
-                ActivityRingsView(secondsWorked: $trackingVM.secondsWorked, secondsPaused: $trackingVM.secondsPaused)
+                ActivityRingsView(workingHours: Int(selectedJob?.workingHoursPerDay ?? 0), pauseMinutes: Int(selectedJob?.pauseMinutesPerDay ?? 0), secondsWorked: $trackingVM.secondsWorked, secondsPaused: $trackingVM.secondsPaused)
             }
             .padding(50)
             Spacer()
@@ -87,7 +87,7 @@ struct TrackingView: View {
                             .font(.footnote)
                             .frame(width: 80, height: 80, alignment: .center)
                             .background(.red.opacity(0.30))
-                            .foregroundColor((colorScheme == .dark ? Color("lightRed") : .red))
+                            .foregroundColor((colorScheme == .dark ? Color("lightBlue") : .red))
                             .cornerRadius(100)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 100)
