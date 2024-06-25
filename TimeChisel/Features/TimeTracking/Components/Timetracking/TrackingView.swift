@@ -102,6 +102,7 @@ struct TrackingView: View {
         }
         .onAppear() {
             trackingVM.startWorkedTimer()
+            print("Tage die Woche: \(selectedJob?.workingDaysPerWeek ?? 0)")
         }
     }
     

@@ -27,9 +27,23 @@ struct ActivityRingsView: View {
         self.workingHours = workingHours
         self.pauseMinutes = pauseMinutes
         self.totalWorkTime = self.workingHours * 3600
-        self.totalPauseTime = self.pauseMinutes * 60
-        print(totalWorkTime)
-        print(totalPauseTime)
+        
+        
+        //TODO: Maybe find a better solution. Only indeces from the picker are stored in AddJobView and UpdateJobView.
+        //TODO: Try to store the pause minutes directly to the local storage in order to get rid of this switch-statement.
+        switch pauseMinutes {
+            case 1 : self.totalPauseTime = 15 * 60 // Debug: self.totalPauseTime = 15
+                break
+            case 2 : self.totalPauseTime = 30 * 60 // Debug: self.totalPauseTime = 30
+                break
+            case 3 : self.totalPauseTime = 45 * 60 // Debug: self.totalPauseTime = 40
+                break
+            case 4 : self.totalPauseTime = 60 * 60 // Debug: self.totalPauseTime = 50
+                break
+            default:
+                self.totalPauseTime = self.pauseMinutes // will never be a case -> find a better solution to store pause minutes!
+        }
+
     }
     
     private var timeProgress: CGFloat {
