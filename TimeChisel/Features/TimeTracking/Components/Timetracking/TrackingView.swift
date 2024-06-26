@@ -12,10 +12,9 @@ struct TrackingView: View {
     @Binding var isWorkingTimerRunning: Bool
     @Binding var selectedJob: JobModel?
     @Bindable var trackingVM = TrackingViewModel()
-//    @State private var secondsWorked: Int = 7200 // 2h
-//    @State private var secondsPaused: Int = 900 // 0.5h
     @State private var isPauseTimerRunning: Bool = false
     @State private var timeTrackingCanceled: Bool = false
+    @State private var showingAlert: Bool = false
     
 
     var body: some View {
@@ -78,9 +77,7 @@ struct TrackingView: View {
                     
                     Spacer()
                     Button(action: {
-                        self.timeTrackingCanceled = true
-                        self.isWorkingTimerRunning = false
-                        trackingVM.endAll()
+                        self.showingAlert = true
                     }, label: {
                         Text("Beenden")
                             .bold()
@@ -96,6 +93,22 @@ struct TrackingView: View {
                                     .padding(4)
                             )
                     })
+                    .alert("Zeiterfassung beenden?", isPresented: $showingAlert) {
+                        Button("OK") {
+                            self.timeTrackingCanceled = true
+                            self.isWorkingTimerRunning = false
+                            trackingVM.endAll()
+                            self.showingAlert = false
+                        }
+                       
+                        Button("Abbrechen", role: .cancel) {
+                            self.showingAlert = false
+                        }
+                        
+                    } message: {
+                        Text("Die aufgenommene Arbeitszeit und Pausenzeit wird hierdurch gespeichert.")
+
+                    }
                 }
                 .padding(40)
             }
