@@ -12,6 +12,7 @@
 		3D15EA3B2C27F3A5002560A1 /* TimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA3A2C27F3A5002560A1 /* TimeView.swift */; };
 		3D15EA3D2C27F423002560A1 /* TimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA3C2C27F423002560A1 /* TimeViewModel.swift */; };
 		3D15EA3F2C27F5DD002560A1 /* TimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA3E2C27F5DD002560A1 /* TimeType.swift */; };
+		3D43D1B22C2C1AB7005B8A09 /* TimeTrackingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D43D1B12C2C1AB7005B8A09 /* TimeTrackingStatus.swift */; };
 		3D7218E72C1AFACB006508E3 /* FocusableField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7218E62C1AFACB006508E3 /* FocusableField.swift */; };
 		3D9C676B2C0522EF00DE85DC /* HourlyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9C676A2C0522EF00DE85DC /* HourlyRate.swift */; };
 		3DA2E3512B703889009B01A2 /* AddJobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA2E3502B703889009B01A2 /* AddJobView.swift */; };
@@ -40,6 +41,7 @@
 		3D15EA3A2C27F3A5002560A1 /* TimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeView.swift; sourceTree = "<group>"; };
 		3D15EA3C2C27F423002560A1 /* TimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeViewModel.swift; sourceTree = "<group>"; };
 		3D15EA3E2C27F5DD002560A1 /* TimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeType.swift; sourceTree = "<group>"; };
+		3D43D1B12C2C1AB7005B8A09 /* TimeTrackingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTrackingStatus.swift; sourceTree = "<group>"; };
 		3D7218E62C1AFACB006508E3 /* FocusableField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusableField.swift; sourceTree = "<group>"; };
 		3D9C676A2C0522EF00DE85DC /* HourlyRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyRate.swift; sourceTree = "<group>"; };
 		3DA2E3502B703889009B01A2 /* AddJobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJobView.swift; sourceTree = "<group>"; };
@@ -116,6 +118,14 @@
 				3D15EA3C2C27F423002560A1 /* TimeViewModel.swift */,
 			);
 			path = Time;
+			sourceTree = "<group>";
+		};
+		3D43D1AF2C2C1A69005B8A09 /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				3D43D1B12C2C1AB7005B8A09 /* TimeTrackingStatus.swift */,
+			);
+			path = Environment;
 			sourceTree = "<group>";
 		};
 		3DA2E34F2B703871009B01A2 /* Components */ = {
@@ -202,6 +212,7 @@
 		3DC4CF592B6C5DDC00848B36 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				3D43D1AF2C2C1A69005B8A09 /* Environment */,
 				3D15EA302C23FDBA002560A1 /* Extensions */,
 				3D9C676A2C0522EF00DE85DC /* HourlyRate.swift */,
 				3D7218E62C1AFACB006508E3 /* FocusableField.swift */,
@@ -349,6 +360,7 @@
 				3D15EA3B2C27F3A5002560A1 /* TimeView.swift in Sources */,
 				3DA2E3512B703889009B01A2 /* AddJobView.swift in Sources */,
 				3DE75D352BD963880074C0F7 /* TrackingView.swift in Sources */,
+				3D43D1B22C2C1AB7005B8A09 /* TimeTrackingStatus.swift in Sources */,
 				3D15EA3D2C27F423002560A1 /* TimeViewModel.swift in Sources */,
 				3DA44CEF2B78201000252340 /* UpdateJobView.swift in Sources */,
 				3DC4CF732B6DA4C900848B36 /* JobsView.swift in Sources */,

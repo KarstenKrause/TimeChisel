@@ -9,12 +9,13 @@ import SwiftUI
 
 struct TrackingView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.timeTrackingStatus) var trackingStatus
     @Binding var isWorkingTimerRunning: Bool
     @Binding var selectedJob: JobModel?
     @Bindable var trackingVM = TrackingViewModel()
     @State private var isPauseTimerRunning: Bool = false
     @State private var timeTrackingCanceled: Bool = false
-    @State private var showingAlert: Bool = false
+    @State private var showingConfirmation: Bool = false
     
 
     var body: some View {
@@ -32,7 +33,9 @@ struct TrackingView: View {
                 ActivityRingsView(workingHours: Int(selectedJob?.workingHoursPerDay ?? 0), pauseMinutes: Int(selectedJob?.pauseMinutesPerDay ?? 0), secondsWorked: $trackingVM.secondsWorked, secondsPaused: $trackingVM.secondsPaused)
             }
             .padding(50)
+            
             Spacer()
+            
             VStack {
                 HStack {
                     if !isPauseTimerRunning {
@@ -59,6 +62,7 @@ struct TrackingView: View {
                             self.isPauseTimerRunning = false
                             trackingVM.stopPausedTimer()
                             trackingVM.startWorkedTimer()
+                            
                         }, label: {
                             Text("Weiter")
                                 .bold()
@@ -76,8 +80,10 @@ struct TrackingView: View {
                     }
                     
                     Spacer()
+                    
                     Button(action: {
-                        self.showingAlert = true
+                        self.showingConfirmation = true
+                        
                     }, label: {
                         Text("Beenden")
                             .bold()
@@ -88,22 +94,19 @@ struct TrackingView: View {
                             .cornerRadius(100)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 100)
-                                // TODO: create custom background color for light-/darkmode
                                     .stroke(Color("customBW"), lineWidth: 1.5)
                                     .padding(4)
                             )
                     })
-                    .alert("Zeiterfassung beenden?", isPresented: $showingAlert) {
+                    .confirmationDialog("Zeiterfassung beenden?", isPresented: $showingConfirmation) {
                         Button("OK") {
-                            self.timeTrackingCanceled = true
-                            self.isWorkingTimerRunning = false
-                            trackingVM.endAll()
-                            self.showingAlert = false
+                            storeAndCancel()
                         }
                        
                         Button("Abbrechen", role: .cancel) {
-                            self.showingAlert = false
+                            self.showingConfirmation = false
                         }
+                        .tint(.red)
                         
                     } message: {
                         Text("Die aufgenommene Arbeitszeit und Pausenzeit wird hierdurch gespeichert.")
@@ -115,8 +118,21 @@ struct TrackingView: View {
         }
         .onAppear() {
             trackingVM.startWorkedTimer()
-            print("Tage die Woche: \(selectedJob?.workingDaysPerWeek ?? 0)")
         }
+    }
+    
+    private func storeAndCancel() {
+        saveTrackedTimes()
+        self.timeTrackingCanceled = true
+        self.isWorkingTimerRunning = false
+        self.trackingVM.endAll()
+        self.showingConfirmation = false
+        trackingStatus.isTracking = false
+        
+    }
+    
+    private func saveTrackedTimes() {
+        print("Saving times to local storage...")
     }
     
 }

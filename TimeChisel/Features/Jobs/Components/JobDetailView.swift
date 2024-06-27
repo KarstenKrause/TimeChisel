@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
- 
+
 struct JobDetailView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
-    @State private var showingAlert = false
+    @Environment(\.timeTrackingStatus) var trackingStatus
+    @State private var showingTimeIsTrackingAlert: Bool = false
+    @State private var showingDeleteAlert = false
     @State var job: JobModel
     @State private var showUpdateJobView: Bool = false
     
@@ -23,7 +25,7 @@ struct JobDetailView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    showUpdateJobView.toggle()
+                    trackingStatus.isTracking ? showingTimeIsTrackingAlert.toggle() : showUpdateJobView.toggle()
                 }, label: {
                     Image(systemName: "pencil.circle")
                 })
@@ -31,16 +33,23 @@ struct JobDetailView: View {
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    showingAlert.toggle()
+                    trackingStatus.isTracking ? showingTimeIsTrackingAlert.toggle() : showingDeleteAlert.toggle()
+                    
                 }, label: {
                     Image(systemName: "trash.circle")
                         .foregroundColor(.red)
                 })
-                .alert("Der Job und alle zusammenhängende Daten werden hierdurch entgültig gelöscht.", isPresented: $showingAlert) {
+                .alert("Jobs können während einer Zeiterfassung nicht bearbeitet oder gelöscht werden.", isPresented: $showingTimeIsTrackingAlert) {
+                    Button("OK", role: .cancel) {
+                        showingTimeIsTrackingAlert = false
+                    }
+                }
+                .alert("Der Job und alle zusammenhängende Daten werden hierdurch entgültig gelöscht.", isPresented: $showingDeleteAlert) {
                     Button("Löschen", role: .destructive) {
                         context.delete(job)
                         dismiss()
                     }
+                    
                     Button("Abbrechen", role: .cancel) {}
                 }
             }

@@ -10,6 +10,7 @@ import SwiftData
 
 struct TimeTrackingMainView: View {
     @Environment(\.modelContext) var context
+    @Environment(\.timeTrackingStatus) var trackingStatus
     @State private var isWorkingTimerRunning: Bool = false
     @State private var isPauseTimerRunning: Bool = false
     @State private var timeTrackingCanceled: Bool = false
@@ -34,6 +35,8 @@ struct TimeTrackingMainView: View {
                 
                 Button(action: {
                     self.isWorkingTimerRunning.toggle()
+                    trackingStatus.isTracking.toggle()
+                    
                 }, label: {
                     Text("Starten")
                         .bold()
@@ -49,7 +52,9 @@ struct TimeTrackingMainView: View {
                         )
                 })
                 .disabled(selectedJob == nil)
+                
                 Spacer()
+                
             } else {
                 TrackingView(isWorkingTimerRunning: $isWorkingTimerRunning, selectedJob: $selectedJob)
             }

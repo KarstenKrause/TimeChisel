@@ -57,7 +57,6 @@ struct UpdateJobView: View {
                     
                     Section("Arbeitszeiten") {
                         VStack(alignment: .leading) {
-        
                             Text("Stunden pro Woche").foregroundStyle(.gray)
                             
                             TextField("", value: $jobVM.workingHoursPerWeek, format: .number)
@@ -74,6 +73,7 @@ struct UpdateJobView: View {
                         Picker("Pause am Tag", selection: $jobModel.pauseMinutesPerDay) {
                             ForEach(1...4, id: \.self) { index in
                                 let minutes = index * 15
+                                
                                 Text("\(minutes) Minuten")
                             }
                         }
@@ -84,6 +84,7 @@ struct UpdateJobView: View {
                             Button(action: {
                                 save()
                                 dismiss()
+                                
                             }, label: {
                                 Text("Fertig")
                                     .frame(maxWidth: .infinity, alignment: .center)

@@ -10,6 +10,7 @@ import SwiftData
 
 @main
 struct TimeChiselApp: App {
+    @Bindable var timeTrackingStatus = TimeTrackingStatus()
     
     let jobsContainer: ModelContainer = {
         let schema = Schema([JobModel.self])
@@ -22,6 +23,7 @@ struct TimeChiselApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
+                .environment(\.timeTrackingStatus, timeTrackingStatus)
         }
         .modelContainer(jobsContainer)
 

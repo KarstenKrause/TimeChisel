@@ -10,10 +10,13 @@ import SwiftData
 
 struct JobsView: View {
     @Environment(\.modelContext) var context
-    @State private var showingAlert = false
+    @Environment(\.timeTrackingStatus) var trackingStatus
+    @State private var showingDeleteAlert = false
+    @State private var showingTimeIsTrackingAlert = false
     @State private var showAddJobView = false
     @State private var jobToUpdate: JobModel?
     @State private var jobToDelete: JobModel?
+    @State private var showingEditAlert: Bool = false
     @Query(sort: \JobModel.companyName) var jobs: [JobModel]
     
     var body: some View {
@@ -36,21 +39,35 @@ struct JobsView: View {
                             Text(job.companyName)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                     Button(action: {
-                                        showingAlert = true
-                                        jobToDelete = job
+                                        if trackingStatus.isTracking {
+                                            showingTimeIsTrackingAlert.toggle()
+                                        } else {
+                                            showingDeleteAlert = true
+                                            jobToDelete = job
+                                        }
                                     }, label: {
                                         Text("Löschen")
                                     })
                                     .tint(.red)
                                     
                                     Button(action: {
-                                        jobToUpdate = job
+                                        if trackingStatus.isTracking {
+                                            showingTimeIsTrackingAlert.toggle()
+                                        } else {
+                                            jobToUpdate = job
+                                        }
                                     }, label: {
                                         Text("Bearbeiten")
                                     })
                                     .tint(.blue)
+                                    
                                 }
-                                .alert("Der Job und alle zusammenhängende Daten werden hierdurch entgültig gelöscht", isPresented: $showingAlert) {
+                                .alert("Jobs können während einer Zeiterfassung nicht bearbeitet oder gelöscht werden.", isPresented: $showingTimeIsTrackingAlert) {
+                                    Button("OK", role: .cancel) {
+                                        showingTimeIsTrackingAlert = false
+                                    }
+                                }
+                                .alert("Der Job und alle zusammenhängende Daten werden hierdurch entgültig gelöscht", isPresented: $showingDeleteAlert) {
                                     Button("Löschen", role: .destructive) {
                                         context.delete(jobToDelete!)
                                     }
