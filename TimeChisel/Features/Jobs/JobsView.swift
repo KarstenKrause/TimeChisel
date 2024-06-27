@@ -67,7 +67,7 @@ struct JobsView: View {
                                         showingTimeIsTrackingAlert = false
                                     }
                                 }
-                                .alert("Der Job und alle zusammenhängende Daten werden hierdurch entgültig gelöscht", isPresented: $showingDeleteAlert) {
+                                .alert("Der Job und alle zusammenhängenden Daten werden hierdurch entgültig gelöscht", isPresented: $showingDeleteAlert) {
                                     Button("Löschen", role: .destructive) {
                                         context.delete(jobToDelete!)
                                     }

@@ -64,17 +64,16 @@ struct UpdateJobView: View {
                                 .focused($focus, equals: .workingHours)
                         }
 
-                        Picker("Tage pro Woche", selection: $jobModel.workingDaysPerWeek) {
-                            ForEach(1...6, id: \.self) {
-                                Text("\($0) Tage")
+                        Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
+                            ForEach(1...6, id: \.self) { days in
+                                Text("\(days) Tage").tag(days)
                             }
                         }
                         
-                        Picker("Pause am Tag", selection: $jobModel.pauseMinutesPerDay) {
-                            ForEach(1...4, id: \.self) { index in
-                                let minutes = index * 15
-                                
-                                Text("\(minutes) Minuten")
+                        Picker("Pause am Tag", selection: $jobVM.pauseMinutesPerDay) {
+                            ForEach(0...3, id: \.self) { index in
+                                let minutes = (index + 1) * 15
+                                Text("\(minutes) Minuten").tag(index)
                             }
                         }
                     }
@@ -129,20 +128,26 @@ struct UpdateJobView: View {
             }
         }
         .onAppear {
+            print("onAppear fired")
             jobVM.companyName = jobModel.companyName
             jobVM.jobTitle = jobModel.jobTitle
             jobVM.workingHoursPerWeek = jobModel.workingHoursPerWeek
             jobVM.hourlyRate = jobModel.hourlyRate
-            
+            jobVM.pauseMinutesPerDay = jobModel.pauseMinutesPerDay
+            jobVM.workingDaysPerWeek = jobModel.workingDaysPerWeek
         }
         .focusStateSync($jobVM.focus, with: _focus)
     }
     
     private func save() {
-        print("chaged saved")
+        
+        print("Pause pro Tag ausgewählt: \(jobVM.pauseMinutesPerDay)")
+        print("Arbeitstage pro Woche ausgewählt: \(jobVM.pauseMinutesPerDay)")
         jobModel.companyName = jobVM.companyName
         jobModel.jobTitle = jobVM.jobTitle
         jobModel.workingHoursPerWeek = jobVM.workingHoursPerWeek
         jobModel.hourlyRate = jobVM.hourlyRate
+        jobModel.pauseMinutesPerDay = jobVM.pauseMinutesPerDay
+        jobModel.workingDaysPerWeek = jobVM.workingDaysPerWeek
     }
 }

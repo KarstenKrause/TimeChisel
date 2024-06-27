@@ -50,8 +50,8 @@ struct AddJobView: View {
                         }
                         
                         Picker("Pause am Tag", selection: $jobVM.pauseMinutesPerDay) {
-                            ForEach(1...4, id: \.self) { index in
-                                let minutes = index * 15
+                            ForEach(0...3, id: \.self) { index in
+                                let minutes = (index + 1) * 15
                                 Text("\(minutes) Minuten")
                             }
                         }
