@@ -13,7 +13,7 @@ struct TimeChiselApp: App {
     @Bindable var timeTrackingStatus = TimeTrackingStatus()
     
     let jobsContainer: ModelContainer = {
-        let schema = Schema([JobModel.self])
+        let schema = Schema([JobModel.self, TimeTrackingModel.self])
         //let config = ModelConfiguration(...) --> add config and migrationplan for widgets iCloud etc
         let container = try! ModelContainer(for: schema, configurations: [])
         

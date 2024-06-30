@@ -17,6 +17,7 @@ class JobModel {
     var workingDaysPerWeek: Int
     var pauseMinutesPerDay: Int
     var hourlyRate: HourlyRate
+    @Relationship(deleteRule: .cascade) var timeTrackings: [TimeTrackingModel]
     
     var workingHoursPerDay: Double {
         return Double(workingHoursPerWeek / workingDaysPerWeek)
@@ -35,5 +36,7 @@ class JobModel {
         self.workingDaysPerWeek = workingDaysPerWeek
         self.pauseMinutesPerDay = pauseMinutesPerDay
         self.hourlyRate = hourlyRate
+        
+        self.timeTrackings = []
     }
 }
