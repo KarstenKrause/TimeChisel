@@ -29,3 +29,4 @@ struct PausedTime: TimeProtocol, Codable {
     var minutes: Int
     var overtime: Overtime
 }
+

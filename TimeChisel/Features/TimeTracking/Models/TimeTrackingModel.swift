@@ -13,12 +13,10 @@ class TimeTrackingModel {
     @Attribute(.unique) var id: UUID
     var date: Date
     var workingTime: WorkingTime
-    var pausedTime: PausedTime
     
-    init(id: UUID, date: Date, workingTime: WorkingTime, pausedTime: PausedTime) {
-        self.id = id
+    init(date: Date, workingTime: WorkingTime) {
+        self.id = UUID()
         self.date = date
         self.workingTime = workingTime
-        self.pausedTime = pausedTime
     }
 }

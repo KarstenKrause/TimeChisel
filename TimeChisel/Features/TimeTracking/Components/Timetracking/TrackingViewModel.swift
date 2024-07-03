@@ -50,4 +50,30 @@ class TrackingViewModel {
         self.secondsWorked = 0
         self.secondsPaused = 0
     }
+    
+    func getCalculatedWorkingTime(secondsWorked: Int, secondsPaused: Int, targetWorkingHours: Int, targetPauseMinutes: Int) -> WorkingTime {
+        let hoursWorked = secondsWorked / 3600
+        let minutesWorked = (secondsWorked % 3600) / 60
+        
+        let targetWorkingSeconds = targetWorkingHours * 3600
+        let targetPauseSeconds = targetPauseMinutes * 60
+        
+        var overtimeSeconds = secondsWorked - targetWorkingSeconds
+        
+        if secondsPaused > targetPauseSeconds {
+            overtimeSeconds -= (secondsPaused - targetPauseSeconds)
+        }
+        
+        let overtimeHours = overtimeSeconds / 3600
+        let overtimeMinutes = (overtimeSeconds % 3600) / 60
+        
+        
+        
+        
+        return WorkingTime(
+                    hours: hoursWorked,
+                    minutes: minutesWorked,
+                    overtime: Overtime(hours: overtimeHours, minutes: overtimeMinutes)
+                )
+    }
 }

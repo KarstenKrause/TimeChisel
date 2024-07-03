@@ -128,11 +128,15 @@ struct TrackingView: View {
         self.trackingVM.endAll()
         self.showingConfirmation = false
         trackingStatus.isTracking = false
-        
     }
     
     private func saveTrackedTimes() {
-        print("Saving times to local storage...")
+        let timeTrack = TimeTrackingModel(date: Date(), workingTime: trackingVM.getCalculatedWorkingTime(secondsWorked: trackingVM.secondsWorked, secondsPaused: trackingVM.secondsPaused, targetWorkingHours: Int(selectedJob?.workingHoursPerDay ?? 0), targetPauseMinutes: Int(selectedJob?.pauseMinutesPerDay ?? 0)))
+        
+        selectedJob?.timeTrackings.append(timeTrack)
+        
+        print("Timetracking saved: ")
+        print("\(timeTrack)")
     }
     
 }
