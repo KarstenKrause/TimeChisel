@@ -13,6 +13,7 @@ struct AddJobView: View {
     @Environment(\.dismiss) var dismiss
     @Bindable var jobVM = JobViewModel()
     @FocusState var focus: FocusableField?
+    let pauseSelection: [Int] = [15, 30, 45, 60]
     
     var body: some View {
         NavigationView {
@@ -50,9 +51,8 @@ struct AddJobView: View {
                         }
                         
                         Picker("Pause am Tag", selection: $jobVM.pauseMinutesPerDay) {
-                            ForEach(0...3, id: \.self) { index in
-                                let minutes = (index + 1) * 15
-                                Text("\(minutes) Minuten")
+                            ForEach(pauseSelection, id: \.self) { minutes in
+                                Text("\(minutes) Minuten").tag(minutes)
                             }
                         }
                     }

@@ -29,8 +29,9 @@ struct TrackingView: View {
                         TimeView(timeVM: TimeViewModel(seconds: trackingVM.secondsWorked, for: .workTime))
                     }
                 }
-                
                 ActivityRingsView(workingHours: Int(selectedJob?.workingHoursPerDay ?? 0), pauseMinutes: Int(selectedJob?.pauseMinutesPerDay ?? 0), secondsWorked: $trackingVM.secondsWorked, secondsPaused: $trackingVM.secondsPaused)
+//                ActivityRingsView(workingHours: Int(selectedJob?.workingHoursPerDay ?? 0), pauseMinutes: 1, secondsWorked: $trackingVM.secondsWorked, secondsPaused: $trackingVM.secondsPaused)
+                
             }
             .padding(50)
             

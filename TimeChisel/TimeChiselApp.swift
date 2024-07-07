@@ -13,12 +13,16 @@ struct TimeChiselApp: App {
     @Bindable var timeTrackingStatus = TimeTrackingStatus()
     
     let jobsContainer: ModelContainer = {
-        let schema = Schema([JobModel.self, TimeTrackingModel.self])
-        //let config = ModelConfiguration(...) --> add config and migrationplan for widgets iCloud etc
-        let container = try! ModelContainer(for: schema, configurations: [])
+            let schema = Schema([JobModel.self, TimeTrackingModel.self])
+            do {
+                //let config = ModelConfiguration(...) --> add config and migrationplan for widgets iCloud etc
+                let container = try ModelContainer(for: schema, configurations: [])
+                return container
+            } catch {
+                fatalError("Failed to create ModelContainer: \(error)")
+            }
+        }()
         
-        return container
-    }()
     
     var body: some Scene {
         WindowGroup {

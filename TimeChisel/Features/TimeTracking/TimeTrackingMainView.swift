@@ -34,8 +34,7 @@ struct TimeTrackingMainView: View {
                 Spacer()
                 
                 Button(action: {
-                    self.isWorkingTimerRunning.toggle()
-                    trackingStatus.isTracking.toggle()
+                    startTracking()
                 }, label: {
                     Text("Starten")
                         .bold()
@@ -57,9 +56,18 @@ struct TimeTrackingMainView: View {
             }
         }
         .onAppear {
-            selectedJob = jobs[0]
+            if !jobs.isEmpty {
+                selectedJob = jobs[0]
+            }
         }
     }
+    
+    private func startTracking() {
+            if selectedJob != nil {
+                isWorkingTimerRunning = true
+                trackingStatus.isTracking = true
+            }
+        }
 }
 
 

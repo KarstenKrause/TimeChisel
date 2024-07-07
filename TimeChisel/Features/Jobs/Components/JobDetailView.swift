@@ -19,6 +19,11 @@ struct JobDetailView: View {
     var body: some View {
         VStack {
             Text("Job Overview...")
+            List {
+                ForEach(job.timeTrackings, id: \.self) { item in
+                    Text("\(item.workingTime)")
+                }
+            }
         }
         .navigationTitle(job.companyName)
         .navigationBarTitleDisplayMode(.inline)

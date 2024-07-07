@@ -24,7 +24,7 @@ class JobViewModel {
         self.jobTitle = ""
         self.workingHoursPerWeek = 0
         self.workingDaysPerWeek = 1
-        self.pauseMinutesPerDay = 0
+        self.pauseMinutesPerDay = 15
         self.hourlyRate = HourlyRate(value: 0, currency: .EUR)
     }
     
