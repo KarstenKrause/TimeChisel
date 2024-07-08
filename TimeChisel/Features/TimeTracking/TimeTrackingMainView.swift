@@ -17,7 +17,7 @@ struct TimeTrackingMainView: View {
     @Query(sort: \JobModel.companyName) var jobs: [JobModel]
     
     @State private var selectedJob: JobModel? = nil
-   
+    
     var body: some View {
         VStack {
             if !isWorkingTimerRunning {
@@ -63,11 +63,11 @@ struct TimeTrackingMainView: View {
     }
     
     private func startTracking() {
-            if selectedJob != nil {
-                isWorkingTimerRunning = true
-                trackingStatus.isTracking = true
-            }
+        if selectedJob != nil {
+            isWorkingTimerRunning = true
+            trackingStatus.isTracking = true
         }
+    }
 }
 
 
@@ -76,7 +76,7 @@ struct TimeTrackingMainView: View {
     
     let container = try! ModelContainer(for: JobModel.self, configurations: config)
     
-    let job: JobModel = JobModel(companyName: "DTS", jobTitle: "Softwareentwickler", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30, hourlyRate: HourlyRate(value: 25.0, currency: .EUR))
+    let job: JobModel = JobModel(companyName: "DTS", jobTitle: "Softwareentwickler", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30, hourlyRate: Money(value: 25.0, currency: .EUR))
     
     container.mainContext.insert(job)
     

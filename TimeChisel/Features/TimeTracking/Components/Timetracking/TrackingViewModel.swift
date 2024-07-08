@@ -18,9 +18,9 @@ class TrackingViewModel {
     
     func startWorkedTimer() {
         workedTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect().sink { _ in
-//            withAnimation {
-//                self.secondsWorked += 1
-//            }
+            //            withAnimation {
+            //                self.secondsWorked += 1
+            //            }
             self.secondsWorked += 1
         }
     }
@@ -31,9 +31,9 @@ class TrackingViewModel {
     
     func startPausedTimer() {
         pausedTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect().sink { _ in
-//            withAnimation {
-//                self.secondsPaused += 1
-//            }
+            //            withAnimation {
+            //                self.secondsPaused += 1
+            //            }
             self.secondsPaused += 1
             
         }
@@ -67,13 +67,20 @@ class TrackingViewModel {
         let overtimeHours = overtimeSeconds / 3600
         let overtimeMinutes = (overtimeSeconds % 3600) / 60
         
-        
-        
-        
         return WorkingTime(
-                    hours: hoursWorked,
-                    minutes: minutesWorked,
-                    overtime: Overtime(hours: overtimeHours, minutes: overtimeMinutes)
-                )
+            hours: hoursWorked,
+            minutes: minutesWorked,
+            overtime: Overtime(hours: overtimeHours, minutes: overtimeMinutes)
+        )
+    }
+    
+    func getCalculatedIncome(hourlyRate: Money, workTime: WorkingTime) -> Money {
+        let totalMinutes = (workTime.hours * 60) + workTime.minutes
+        
+        let totalHours = Double(totalMinutes) / 60.0
+        let incomeValue = totalHours * hourlyRate.value
+        
+        // Rückgabe des berechneten Einkommens als MonetaryAmount
+        return Money(value: incomeValue, currency: hourlyRate.currency)
     }
 }

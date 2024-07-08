@@ -9,12 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct ActivityRingsView: View {
-    
-    // TODO: Replace this with computed prop and workingHoursPerDay and PauseTime data from local storage!"
-
     private var totalWorkTime: Int
     private var pauseTimeSeconds: Int
-    
     private var workingHours: Int
     private var pauseMinutes: Int
     
@@ -44,7 +40,6 @@ struct ActivityRingsView: View {
         
         return pausedTimePercentage
     }
-    
     
     
     var body: some View {

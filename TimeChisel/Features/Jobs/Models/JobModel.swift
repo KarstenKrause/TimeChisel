@@ -16,8 +16,9 @@ class JobModel {
     var workingHoursPerWeek: Int
     var workingDaysPerWeek: Int
     var pauseMinutesPerDay: Int
-    var hourlyRate: HourlyRate
+    var hourlyRate: Money
     var totalWorkingTime: WorkingTime
+    var totalIncome: Money
     @Relationship(deleteRule: .cascade) var timeTrackings: [TimeTrackingModel]
     
     var workingHoursPerDay: Double {
@@ -29,7 +30,7 @@ class JobModel {
          workingHoursPerWeek: Int,
          workingDaysPerWeek: Int,
          pauseMinutesPerDay: Int,
-         hourlyRate: HourlyRate) {
+         hourlyRate: Money) {
         self.id = UUID()
         self.companyName = companyName
         self.jobTitle = jobTitle
@@ -37,7 +38,9 @@ class JobModel {
         self.workingDaysPerWeek = workingDaysPerWeek
         self.pauseMinutesPerDay = pauseMinutesPerDay
         self.hourlyRate = hourlyRate
+        
         self.totalWorkingTime = WorkingTime(hours: 0, minutes: 0, overtime: Overtime(hours: 0, minutes: 0))
+        self.totalIncome = Money(value: 0, currency: .EUR)
         
         self.timeTrackings = []
     }

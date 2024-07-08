@@ -17,9 +17,7 @@ struct TrackingView: View {
     @State private var timeTrackingCanceled: Bool = false
     @State private var showingConfirmation: Bool = false
     
-
     var body: some View {
-        
         VStack {
             ZStack {
                 VStack {
@@ -30,8 +28,6 @@ struct TrackingView: View {
                     }
                 }
                 ActivityRingsView(workingHours: Int(selectedJob?.workingHoursPerDay ?? 0), pauseMinutes: Int(selectedJob?.pauseMinutesPerDay ?? 0), secondsWorked: $trackingVM.secondsWorked, secondsPaused: $trackingVM.secondsPaused)
-//                ActivityRingsView(workingHours: Int(selectedJob?.workingHoursPerDay ?? 0), pauseMinutes: 1, secondsWorked: $trackingVM.secondsWorked, secondsPaused: $trackingVM.secondsPaused)
-                
             }
             .padding(50)
             
@@ -103,7 +99,7 @@ struct TrackingView: View {
                         Button("OK") {
                             storeAndCancel()
                         }
-                       
+                        
                         Button("Abbrechen", role: .cancel) {
                             self.showingConfirmation = false
                         }
@@ -111,7 +107,6 @@ struct TrackingView: View {
                         
                     } message: {
                         Text("Die aufgenommene Arbeitszeit und Pausenzeit wird hierdurch gespeichert.")
-
                     }
                 }
                 .padding(40)
@@ -132,9 +127,16 @@ struct TrackingView: View {
     }
     
     private func saveTrackedTimes() {
-        let timeTrack = TimeTrackingModel(date: Date(), workingTime: trackingVM.getCalculatedWorkingTime(secondsWorked: trackingVM.secondsWorked, secondsPaused: trackingVM.secondsPaused, targetWorkingHours: Int(selectedJob?.workingHoursPerDay ?? 0), targetPauseMinutes: Int(selectedJob?.pauseMinutesPerDay ?? 0)))
+        let calculatedWorktime: WorkingTime = trackingVM.getCalculatedWorkingTime(secondsWorked: trackingVM.secondsWorked, secondsPaused: trackingVM.secondsPaused, targetWorkingHours: Int(selectedJob?.workingHoursPerDay ?? 0), targetPauseMinutes: Int(selectedJob?.pauseMinutesPerDay ?? 0))
+        
+        let calculatedIncome: Money = trackingVM.getCalculatedIncome(hourlyRate: selectedJob?.hourlyRate ?? Money(value: 0, currency: .EUR), workTime: calculatedWorktime)
+        
+        
+        let timeTrack = TimeTrackingModel(date: Date(), workingTime: calculatedWorktime, income: calculatedIncome)
         
         selectedJob?.timeTrackings.append(timeTrack)
+        selectedJob?.totalIncome = Money(value: (selectedJob?.totalIncome.value ?? 0) + calculatedIncome.value, currency: calculatedIncome.currency)
+        selectedJob?.totalWorkingTime = WorkingTime(hours: (selectedJob?.totalWorkingTime.hours ?? 0) + calculatedWorktime.hours, minutes: (selectedJob?.totalWorkingTime.minutes ?? 0) + calculatedWorktime.minutes, overtime: Overtime(hours: (selectedJob?.totalWorkingTime.overtime.hours ?? 0) + calculatedWorktime.overtime.hours, minutes: (selectedJob?.totalWorkingTime.overtime.minutes ?? 0) + calculatedWorktime.overtime.minutes))
         
         print("Timetracking saved: ")
         print("\(timeTrack)")
@@ -145,7 +147,7 @@ struct TrackingView: View {
 #Preview {
     struct PreviewWrapper: View {
         @State var isWorkingTimerRunning: Bool = false
-        @State var selectedJob: JobModel? = JobModel(companyName: "DTS", jobTitle: "Software Entwickler", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30, hourlyRate: HourlyRate(value: 25.0, currency: .EUR))
+        @State var selectedJob: JobModel? = JobModel(companyName: "DTS", jobTitle: "Software Entwickler", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30, hourlyRate: Money(value: 25.0, currency: .EUR))
         
         var body: some View {
             TrackingView(isWorkingTimerRunning: $isWorkingTimerRunning, selectedJob: $selectedJob)

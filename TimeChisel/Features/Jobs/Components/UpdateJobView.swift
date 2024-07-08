@@ -48,7 +48,7 @@ struct UpdateJobView: View {
                                     .focused($focus, equals: .hourlyRate)
                                 
                                 Picker("", selection: $jobModel.hourlyRate.currency) {
-                                    ForEach(HourlyRate.Currency.allCases, id: \.self) { currency in
+                                    ForEach(Money.Currency.allCases, id: \.self) { currency in
                                         Text(currency.rawValue).tag(currency)
                                     }
                                 }

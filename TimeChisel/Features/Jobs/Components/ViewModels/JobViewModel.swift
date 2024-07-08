@@ -16,7 +16,7 @@ class JobViewModel {
     var workingHoursPerWeek: Int
     var workingDaysPerWeek: Int
     var pauseMinutesPerDay: Int
-    var hourlyRate: HourlyRate
+    var hourlyRate: Money
     var focus: FocusableField?
     
     init() {
@@ -25,7 +25,7 @@ class JobViewModel {
         self.workingHoursPerWeek = 0
         self.workingDaysPerWeek = 1
         self.pauseMinutesPerDay = 15
-        self.hourlyRate = HourlyRate(value: 0, currency: .EUR)
+        self.hourlyRate = Money(value: 0, currency: .EUR)
     }
     
     func hourlyRateBinding() -> Binding<Double?> {
