@@ -31,8 +31,6 @@ struct TimeTrackingMainView: View {
                     }
                 }
                 
-                Spacer()
-                
                 Button(action: {
                     startTracking()
                 }, label: {
@@ -49,8 +47,9 @@ struct TimeTrackingMainView: View {
                                 .padding(4)
                         )
                 })
+                .padding(35)
                 .disabled(selectedJob == nil)
-                Spacer()
+                
             } else {
                 TrackingView(isWorkingTimerRunning: $isWorkingTimerRunning, selectedJob: $selectedJob)
             }

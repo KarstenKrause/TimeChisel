@@ -14,6 +14,7 @@ struct UpdateJobView: View {
     @Bindable var jobVM = JobViewModel()
     @FocusState var focus: FocusableField?
     let pauseSelection: [Int] = [15, 30, 45, 60]
+    let daysSelection: [Int] = [1, 2, 3, 4, 5, 6]
     
     var body: some View {
         NavigationView {
@@ -65,8 +66,9 @@ struct UpdateJobView: View {
                                 .focused($focus, equals: .workingHours)
                         }
 
+                        #warning("App is crashing, if daySelection > 1")
                         Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
-                            ForEach(1...6, id: \.self) { days in
+                            ForEach(daysSelection, id: \.self) { days in
                                 Text("\(days) Tage").tag(days)
                             }
                         }
@@ -135,6 +137,10 @@ struct UpdateJobView: View {
             jobVM.hourlyRate = jobModel.hourlyRate
             jobVM.pauseMinutesPerDay = jobModel.pauseMinutesPerDay
             jobVM.workingDaysPerWeek = jobModel.workingDaysPerWeek
+            jobVM.workingHoursPerDay = jobModel.workingHoursPerDay
+            
+            print("Working days loaded: \(jobVM.workingDaysPerWeek)")
+            print("Working hours per day loaded: \(jobModel.workingHoursPerDay)")
         }
         .focusStateSync($jobVM.focus, with: _focus)
     }
@@ -142,7 +148,9 @@ struct UpdateJobView: View {
     private func save() {
         
         print("Pause pro Tag ausgewählt: \(jobVM.pauseMinutesPerDay)")
-        print("Arbeitstage pro Woche ausgewählt: \(jobVM.pauseMinutesPerDay)")
+        print("Arbeitstage pro Woche ausgewählt: \(jobVM.workingDaysPerWeek)")
+        print("Arbeitsstunden pro Woche: \(jobVM.workingHoursPerWeek)")
+        print("Arbeitsstunden pro Tag: \(jobVM.workingHoursPerDay)")
         jobModel.companyName = jobVM.companyName
         jobModel.jobTitle = jobVM.jobTitle
         jobModel.workingHoursPerWeek = jobVM.workingHoursPerWeek

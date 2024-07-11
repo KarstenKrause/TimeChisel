@@ -11,18 +11,18 @@ import SwiftData
 struct ActivityRingsView: View {
     private var totalWorkTime: Int
     private var pauseTimeSeconds: Int
-    private var workingHours: Int
+    private var workingHours: Double
     private var pauseMinutes: Int
     
     @Binding var secondsWorked: Int
     @Binding var secondsPaused: Int
     
-    init(workingHours: Int, pauseMinutes: Int, secondsWorked: Binding<Int>, secondsPaused: Binding<Int>) {
+    init(workingHours: Double, pauseMinutes: Int, secondsWorked: Binding<Int>, secondsPaused: Binding<Int>) {
         self._secondsWorked = secondsWorked
         self._secondsPaused = secondsPaused
         self.workingHours = workingHours
         self.pauseMinutes = pauseMinutes
-        self.totalWorkTime = self.workingHours * 3600
+        self.totalWorkTime = Int(self.workingHours * 3600)
         self.pauseTimeSeconds = pauseMinutes * 60
 
     }

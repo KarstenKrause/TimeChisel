@@ -16,6 +16,7 @@ class JobViewModel {
     var workingHoursPerWeek: Int
     var workingDaysPerWeek: Int
     var pauseMinutesPerDay: Int
+    var workingHoursPerDay: Double
     var hourlyRate: Money
     var focus: FocusableField?
     
@@ -24,6 +25,7 @@ class JobViewModel {
         self.jobTitle = ""
         self.workingHoursPerWeek = 0
         self.workingDaysPerWeek = 1
+        self.workingHoursPerDay = 0
         self.pauseMinutesPerDay = 15
         self.hourlyRate = Money(value: 0, currency: .EUR)
     }

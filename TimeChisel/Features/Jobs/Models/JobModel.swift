@@ -22,7 +22,7 @@ class JobModel {
     @Relationship(deleteRule: .cascade) var timeTrackings: [TimeTrackingModel]
     
     var workingHoursPerDay: Double {
-        return Double(workingHoursPerWeek / workingDaysPerWeek)
+        return Double( Double(workingHoursPerWeek) / Double(workingDaysPerWeek))
     }
     
     init(companyName: String,

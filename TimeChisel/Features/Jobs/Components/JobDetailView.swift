@@ -53,12 +53,7 @@ struct JobDetailView: View {
                 Text("Letzte Arbeitszeiterfassung: \(Date(), formatter: dateFormatter)")
                 
                         }
-                
-               
-                
-            
-            
-            
+
         }
         .navigationTitle(job.companyName)
         .navigationBarTitleDisplayMode(.inline)

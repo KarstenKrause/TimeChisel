@@ -14,6 +14,7 @@ struct AddJobView: View {
     @Bindable var jobVM = JobViewModel()
     @FocusState var focus: FocusableField?
     let pauseSelection: [Int] = [15, 30, 45, 60]
+    let daysSelection: [Int] = [1, 2, 3, 4, 5, 6]
     
     var body: some View {
         NavigationView {
@@ -44,9 +45,10 @@ struct AddJobView: View {
                             .keyboardType(.decimalPad)
                             .focused($focus, equals: .workingHours)
                         
+                        #warning("App is crashing, if daySelection > 1")
                         Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
-                            ForEach(1...6, id: \.self) {
-                                Text("\($0) Tage")
+                            ForEach(daysSelection, id: \.self) { days in
+                                Text("\(days) Tage").tag(days)
                             }
                         }
                         
@@ -111,6 +113,8 @@ struct AddJobView: View {
     
     private func addJob() {
         let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay, hourlyRate: jobVM.hourlyRate )
+        
+        print("Working days saved: \(jobVM.workingDaysPerWeek)")
         
         context.insert(job)
         try! context.save()
