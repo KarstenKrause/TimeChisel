@@ -135,11 +135,21 @@ struct TrackingView: View {
         let timeTrack = TimeTrackingModel(date: Date(), workingTime: calculatedWorktime, income: calculatedIncome)
         
         selectedJob?.timeTrackings.append(timeTrack)
-        selectedJob?.totalIncome = Money(value: (selectedJob?.totalIncome.value ?? 0) + calculatedIncome.value, currency: calculatedIncome.currency)
-        selectedJob?.totalWorkingTime = WorkingTime(hours: (selectedJob?.totalWorkingTime.hours ?? 0) + calculatedWorktime.hours, minutes: (selectedJob?.totalWorkingTime.minutes ?? 0) + calculatedWorktime.minutes, overtime: Overtime(hours: (selectedJob?.totalWorkingTime.overtime.hours ?? 0) + calculatedWorktime.overtime.hours, minutes: (selectedJob?.totalWorkingTime.overtime.minutes ?? 0) + calculatedWorktime.overtime.minutes))
         
-        print("Timetracking saved: ")
-        print("\(timeTrack)")
+        selectedJob?.totalIncome = Money(value: (selectedJob?.totalIncome.value ?? 0) + calculatedIncome.value, currency: calculatedIncome.currency)
+        
+        
+        let totalHours = (selectedJob?.totalWorkingTime.hours ?? 0) + calculatedWorktime.hours
+        let totalMinutes = (selectedJob?.totalWorkingTime.minutes ?? 0) + calculatedWorktime.minutes
+        
+        let totalOverTimeHours = (selectedJob?.totalWorkingTime.overtime.hours ?? 0) + calculatedWorktime.overtime.hours
+        
+        let totalOverTimeMinutes = (selectedJob?.totalWorkingTime.overtime.minutes ?? 0) + calculatedWorktime.overtime.minutes
+        
+        let totalWorkingTime = trackingVM.getTotalWorkingTime(hours: totalHours, minutes: totalMinutes, overTime: Overtime(hours: totalOverTimeHours, minutes: totalOverTimeMinutes))
+        
+        selectedJob?.totalWorkingTime = totalWorkingTime
+        
     }
     
 }

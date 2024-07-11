@@ -16,6 +16,13 @@ struct JobDetailView: View {
     @State var job: JobModel
     @State private var showUpdateJobView: Bool = false
     
+    private var dateFormatter: DateFormatter {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .short
+            return formatter
+        }
+    
     var body: some View {
         VStack {
             Text("Job Overview...")
@@ -24,6 +31,34 @@ struct JobDetailView: View {
                     Text("\(item.workingTime)")
                 }
             }
+            Section {
+                HStack {
+                    GroupBox("Überstunden") {
+                        Text("20")
+                    }.groupBoxStyle(.jobDetails)
+                    
+                    GroupBox("Arbeitszeit") {
+                        Text("340")
+                    }.groupBoxStyle(.jobDetails)
+                }
+            }
+            .padding()
+            
+            Section(header: Text("Zeitaufzeichnungen").font(.headline)) {
+                            Text("Gesamte Arbeitszeit: \(job.totalWorkingTime.hours) Stunden \(job.totalWorkingTime.minutes) Minuten")
+                            Text("Überstunden: \(job.totalWorkingTime.overtime.hours) Stunden \(job.totalWorkingTime.overtime.minutes) Minuten")
+//                            if let lastTracking = job.timeTrackings.last {
+//                                Text("Letzte Arbeitszeiterfassung: \(lastTracking.date, formatter: dateFormatter)")
+//                            }
+                Text("Letzte Arbeitszeiterfassung: \(Date(), formatter: dateFormatter)")
+                
+                        }
+                
+               
+                
+            
+            
+            
         }
         .navigationTitle(job.companyName)
         .navigationBarTitleDisplayMode(.inline)
@@ -70,4 +105,23 @@ struct JobDetailView: View {
     
     return JobDetailView(job: testJob)
     
+}
+
+
+struct JobDetailsGroupboxStyle: GroupBoxStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        VStack(alignment: .leading) {
+            configuration.label
+                .bold()
+            configuration.content
+                .font(.title)
+        }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+    }
+}
+
+extension GroupBoxStyle where Self == JobDetailsGroupboxStyle {
+    static var jobDetails: JobDetailsGroupboxStyle { .init() }
 }

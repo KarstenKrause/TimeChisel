@@ -74,6 +74,29 @@ class TrackingViewModel {
         )
     }
     
+    func getTotalWorkingTime(hours: Int, minutes: Int, overTime: Overtime) -> WorkingTime {
+        var totalTime = getTotalTime(hours: hours, minutes: minutes)
+        var totalOverTime = getTotalOverTime(overTime: overTime)
+        
+        return WorkingTime(hours: totalTime.hours, minutes: totalTime.minutes, overtime: totalOverTime)
+    }
+    
+    func getTotalOverTime(overTime: Overtime) -> Overtime {
+        var totalTime = getTotalTime(hours: overTime.hours, minutes: overTime.minutes)
+        
+        return Overtime(hours: totalTime.hours, minutes: totalTime.minutes)
+    }
+    
+    func getTotalTime(hours: Int, minutes: Int) -> (hours: Int, minutes: Int) {
+        var totalHours = hours
+        var totalMinutes = minutes
+        
+        totalHours = totalMinutes / 60
+        totalMinutes %= 60
+        
+        return (totalHours, totalMinutes)
+    }
+    
     func getCalculatedIncome(hourlyRate: Money, workTime: WorkingTime) -> Money {
         let totalMinutes = (workTime.hours * 60) + workTime.minutes
         
