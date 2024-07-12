@@ -51,14 +51,14 @@ class TrackingViewModel {
         self.secondsPaused = 0
     }
     
-    func getCalculatedWorkingTime(secondsWorked: Int, secondsPaused: Int, targetWorkingHours: Int, targetPauseMinutes: Int) -> WorkingTime {
+    func getCalculatedWorkingTime(secondsWorked: Int, secondsPaused: Int, targetWorkingHours: Double, targetPauseMinutes: Int) -> WorkingTime {
         let hoursWorked = secondsWorked / 3600
         let minutesWorked = (secondsWorked % 3600) / 60
         
         let targetWorkingSeconds = targetWorkingHours * 3600
         let targetPauseSeconds = targetPauseMinutes * 60
         
-        var overtimeSeconds = secondsWorked - targetWorkingSeconds
+        var overtimeSeconds = secondsWorked - Int(targetWorkingSeconds)
         
         if secondsPaused > targetPauseSeconds {
             overtimeSeconds -= (secondsPaused - targetPauseSeconds)
@@ -75,14 +75,14 @@ class TrackingViewModel {
     }
     
     func getTotalWorkingTime(hours: Int, minutes: Int, overTime: Overtime) -> WorkingTime {
-        var totalTime = getTotalTime(hours: hours, minutes: minutes)
-        var totalOverTime = getTotalOverTime(overTime: overTime)
+        let totalTime = getTotalTime(hours: hours, minutes: minutes)
+        let totalOverTime = getTotalOverTime(overTime: overTime)
         
         return WorkingTime(hours: totalTime.hours, minutes: totalTime.minutes, overtime: totalOverTime)
     }
     
     func getTotalOverTime(overTime: Overtime) -> Overtime {
-        var totalTime = getTotalTime(hours: overTime.hours, minutes: overTime.minutes)
+        let totalTime = getTotalTime(hours: overTime.hours, minutes: overTime.minutes)
         
         return Overtime(hours: totalTime.hours, minutes: totalTime.minutes)
     }
@@ -103,7 +103,6 @@ class TrackingViewModel {
         let totalHours = Double(totalMinutes) / 60.0
         let incomeValue = totalHours * hourlyRate.value
         
-        // Rückgabe des berechneten Einkommens als MonetaryAmount
         return Money(value: incomeValue, currency: hourlyRate.currency)
     }
 }
