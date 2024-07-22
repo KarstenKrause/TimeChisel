@@ -11,6 +11,7 @@ struct JobDetailView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
     @Environment(\.timeTrackingStatus) var trackingStatus
+    @Bindable var jobDetailVM = JobDetailViewModel()
     @State private var showingTimeIsTrackingAlert: Bool = false
     @State private var showingDeleteAlert = false
     @State var job: JobModel
@@ -24,21 +25,16 @@ struct JobDetailView: View {
         }
     
     var body: some View {
-        VStack {
-            Text("Job Overview...")
-            List {
-                ForEach(job.timeTrackings, id: \.self) { item in
-                    Text("\(item.workingTime)")
-                }
-            }
+        ScrollView {
+
             Section {
                 HStack {
                     GroupBox("Überstunden") {
-                        Text("20")
+                        Text(jobDetailVM.determineOverHoursString(overHours: job.totalWorkingTime.overtime.hours, overMinutes: job.totalWorkingTime.overtime.minutes))
                     }.groupBoxStyle(.jobDetails)
                     
                     GroupBox("Arbeitszeit") {
-                        Text("340")
+                        Text("\(job.totalWorkingTime.hours):\(job.totalWorkingTime.minutes)")
                     }.groupBoxStyle(.jobDetails)
                 }
             }

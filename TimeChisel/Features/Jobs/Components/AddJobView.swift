@@ -45,7 +45,6 @@ struct AddJobView: View {
                             .keyboardType(.decimalPad)
                             .focused($focus, equals: .workingHours)
                         
-                        #warning("App is crashing, if daySelection > 1")
                         Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
                             ForEach(daysSelection, id: \.self) { days in
                                 Text("\(days) Tage").tag(days)
