@@ -26,19 +26,34 @@ struct JobDetailView: View {
     
     var body: some View {
         ScrollView {
-
-            Section {
-                HStack {
-                    GroupBox("Überstunden") {
-                        Text(jobDetailVM.determineOverHoursString(overHours: job.totalWorkingTime.overtime.hours, overMinutes: job.totalWorkingTime.overtime.minutes))
-                    }.groupBoxStyle(.jobDetails)
-                    
-                    GroupBox("Arbeitszeit") {
-                        Text("\(job.totalWorkingTime.hours):\(job.totalWorkingTime.minutes)")
-                    }.groupBoxStyle(.jobDetails)
+            
+            VStack(alignment: .leading) {
+                Text("Gesamt")
+                    .font(.title2)
+                    .padding(.bottom)
+                
+                Section {
+                    HStack {
+                        GroupBox("Überstunden") {
+                            Text(jobDetailVM.determineOverHoursString(overHours: job.totalWorkingTime.overtime.hours, overMinutes: job.totalWorkingTime.overtime.minutes))
+                        }
+                        .groupBoxStyle(.jobDetails)
+                        
+                        GroupBox("Arbeitszeit") {
+                            Text("\(job.totalWorkingTime.hours):\(job.totalWorkingTime.minutes)")
+                        }
+                        .groupBoxStyle(.jobDetails)
+                    }
+                    HStack {
+                        GroupBox("Einkommen") {
+                            Text("\(job.totalIncome.value) \(job.totalIncome.currency)")
+                        }
+                        .groupBoxStyle(.jobDetails)
+                    }
                 }
             }
             .padding()
+            
             
             Section(header: Text("Zeitaufzeichnungen").font(.headline)) {
                             Text("Gesamte Arbeitszeit: \(job.totalWorkingTime.hours) Stunden \(job.totalWorkingTime.minutes) Minuten")
@@ -104,6 +119,7 @@ struct JobDetailsGroupboxStyle: GroupBoxStyle {
         VStack(alignment: .leading) {
             configuration.label
                 .bold()
+                .padding(.bottom, 5)
             configuration.content
                 .font(.title)
         }
