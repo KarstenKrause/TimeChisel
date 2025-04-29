@@ -76,33 +76,26 @@ struct AddJobView: View {
                 .navigationTitle("Job hinzufügen")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    ToolbarItemGroup(placement: .keyboard) {
-                        Button {
-                            jobVM.previous()
-                        } label: {
-                            Image(systemName: "chevron.up")
+                    if focus != nil {
+                        ToolbarItemGroup(placement: .keyboard) {
+                            Button {
+                                jobVM.previous()
+                            } label: {
+                                Image(systemName: "chevron.up")
+                            }
+
+                            Button {
+                                jobVM.next()
+                            } label: {
+                                Image(systemName: "chevron.down")
+                            }
+
+                            Spacer()
+
+                            Button("Fertig") {
+                                jobVM.dismissKeyboard()
+                            }
                         }
-                        
-                        Button {
-                            jobVM.next()
-                        } label: {
-                            Image(systemName: "chevron.down")
-                        }
-                        
-                        Spacer()
-                        
-                        Button("Fertig") {
-                            jobVM.dismissKeyboard()
-                        }
-                        
-                    }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            dismiss()
-                        }, label: {
-                            Label("Schließen", systemImage: "xmark.circle.fill")
-                        })
                     }
                 }
             }
