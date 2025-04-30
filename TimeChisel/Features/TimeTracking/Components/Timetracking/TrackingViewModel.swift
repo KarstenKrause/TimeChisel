@@ -51,25 +51,30 @@ class TrackingViewModel {
         self.secondsPaused = 0
     }
     
-    func getCalculatedWorkingTime(secondsWorked: Int, secondsPaused: Int, targetWorkingHours: Double, targetPauseMinutes: Int) -> WorkingTime {
-        let hoursWorked = secondsWorked / 3600
-        let minutesWorked = (secondsWorked % 3600) / 60
+    // MARK: Getter
+    
+    func getCalculatedWorkingTime(
+        secondsWorked: Int,
+        secondsPaused: Int,
+        targetWorkingHours: Double,
+        targetPauseMinutes: Int
+    ) -> WorkingTime {
+        let (workedHours, workedMinutes) = secondsWorked.toHoursAndMinutes()
         
-        let targetWorkingSeconds = targetWorkingHours * 3600
+        let targetWorkingSeconds = Int(targetWorkingHours * 3600)
         let targetPauseSeconds = targetPauseMinutes * 60
         
-        var overtimeSeconds = secondsWorked - Int(targetWorkingSeconds)
+        var overtimeSeconds = secondsWorked - targetWorkingSeconds
         
         if secondsPaused > targetPauseSeconds {
             overtimeSeconds -= (secondsPaused - targetPauseSeconds)
         }
         
-        let overtimeHours = overtimeSeconds / 3600
-        let overtimeMinutes = (overtimeSeconds % 3600) / 60
+        let (overtimeHours, overtimeMinutes) = overtimeSeconds.toHoursAndMinutes()
         
         return WorkingTime(
-            hours: hoursWorked,
-            minutes: minutesWorked,
+            hours: workedHours,
+            minutes: workedMinutes,
             overtime: Overtime(hours: overtimeHours, minutes: overtimeMinutes)
         )
     }
@@ -78,31 +83,63 @@ class TrackingViewModel {
         let totalTime = getTotalTime(hours: hours, minutes: minutes)
         let totalOverTime = getTotalOverTime(overTime: overTime)
         
-        return WorkingTime(hours: totalTime.hours, minutes: totalTime.minutes, overtime: totalOverTime)
+        return WorkingTime(
+            hours: totalTime.hours,
+            minutes: totalTime.minutes,
+            overtime: totalOverTime
+        )
     }
+
     
     func getTotalOverTime(overTime: Overtime) -> Overtime {
         let totalTime = getTotalTime(hours: overTime.hours, minutes: overTime.minutes)
         
-        return Overtime(hours: totalTime.hours, minutes: totalTime.minutes)
+        return Overtime(
+            hours: totalTime.hours,
+            minutes: totalTime.minutes
+        )
     }
     
     func getTotalTime(hours: Int, minutes: Int) -> (hours: Int, minutes: Int) {
-        var totalHours = hours
-        var totalMinutes = minutes
-        
-        totalHours = totalMinutes / 60
-        totalMinutes %= 60
-        
-        return (totalHours, totalMinutes)
+        let totalSeconds = (hours * 3600) + (minutes * 60)
+        return totalSeconds.toHoursAndMinutes()
     }
     
     func getCalculatedIncome(hourlyRate: Money, workTime: WorkingTime) -> Money {
         let totalMinutes = (workTime.hours * 60) + workTime.minutes
-        
         let totalHours = Double(totalMinutes) / 60.0
         let incomeValue = totalHours * hourlyRate.value
         
-        return Money(value: incomeValue, currency: hourlyRate.currency)
+        let roundedIncomeValue = incomeValue.rounded(toPlaces: 2)
+        
+        return Money(value: roundedIncomeValue, currency: hourlyRate.currency)
+    }
+    
+    // MARK: Private Methods
+    
+    private func secondsToHoursMinutes(_ totalSeconds: Int) -> (hours: Int, minutes: Int) {
+        var hours = totalSeconds / 3600
+        var minutes = (totalSeconds % 3600) / 60
+        
+        if minutes < 0 {
+            hours -= 1
+            minutes += 60
+        }
+        
+        return (hours, minutes)
+    }
+}
+
+private extension Int {
+    func toHoursAndMinutes() -> (hours: Int, minutes: Int) {
+        var hours = self / 3600
+        var minutes = (self % 3600) / 60
+        
+        if minutes < 0 {
+            hours -= 1
+            minutes += 60
+        }
+        
+        return (hours, minutes)
     }
 }
