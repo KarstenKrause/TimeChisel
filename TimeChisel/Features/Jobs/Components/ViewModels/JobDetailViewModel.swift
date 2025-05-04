@@ -14,11 +14,9 @@ class JobDetailViewModel {
     init() {}
     
     func determineOverHoursString(overHours: Int, overMinutes: Int) -> String {
-        if overHours < 0 || overMinutes < 0 {
-            let overHoursWithoutSign = abs(overHours)
-            let overMinutesWithoutSign = abs(overMinutes)
-            return "- \(overHoursWithoutSign):\(overMinutesWithoutSign)"
-        }
+        print("display overHours: \(overHours)")
+        print("display overMinutes: \(overMinutes)")
+
         return "\(overHours):\(overMinutes)"
     }
 }

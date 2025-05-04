@@ -133,34 +133,26 @@ struct TrackingView: View {
     }
     
     private func saveTrackedTimes() {
-        
         guard let selectedJob = selectedJob else {
             print("No Job selected.")
             return
         }
         
-        let calculatedWorktime: WorkingTime = trackingVM.getCalculatedWorkingTime(secondsWorked: trackingVM.secondsWorked, secondsPaused: trackingVM.secondsPaused, targetWorkingHours: selectedJob.workingHoursPerDay, targetPauseMinutes: Int(selectedJob.pauseMinutesPerDay))
+        let calculatedWorktime: WorkingTime = trackingVM.getCalculatedWorkingTime(
+            secondsWorked: trackingVM.secondsWorked,
+            secondsPaused: trackingVM.secondsPaused,
+            targetWorkingHours: selectedJob.workingHoursPerDay,
+            targetPauseMinutes: Int(selectedJob.pauseMinutesPerDay)
+        )
         
-        let calculatedIncome: Money = trackingVM.getCalculatedIncome(hourlyRate: selectedJob.hourlyRate, workTime: calculatedWorktime)
-        
+        let calculatedIncome: Money = trackingVM.getCalculatedIncome(
+            hourlyRate: selectedJob.hourlyRate,
+            workTime: calculatedWorktime
+        )
         
         let timeTrack = TimeTrackingModel(date: Date(), workingTime: calculatedWorktime, income: calculatedIncome)
         
         selectedJob.timeTrackings.append(timeTrack)
-        
-        selectedJob.totalIncome = Money(value: (selectedJob.totalIncome.value) + calculatedIncome.value, currency: calculatedIncome.currency)
-        
-        
-        let totalHours = (selectedJob.totalWorkingTime.hours) + calculatedWorktime.hours
-        let totalMinutes = (selectedJob.totalWorkingTime.minutes) + calculatedWorktime.minutes
-        
-        let totalOverTimeHours = (selectedJob.totalWorkingTime.overtime.hours) + calculatedWorktime.overtime.hours
-        
-        let totalOverTimeMinutes = (selectedJob.totalWorkingTime.overtime.minutes) + calculatedWorktime.overtime.minutes
-        
-        let totalWorkingTime = trackingVM.getTotalWorkingTime(hours: totalHours, minutes: totalMinutes, overTime: Overtime(hours: totalOverTimeHours, minutes: totalOverTimeMinutes))
-        
-        selectedJob.totalWorkingTime = totalWorkingTime
         
     }
     
