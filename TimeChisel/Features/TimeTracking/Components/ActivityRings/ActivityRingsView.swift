@@ -13,13 +13,13 @@ struct ActivityRingsView: View {
     private var pauseTimeSeconds: Int
     private var workingHours: Double
     private var pauseMinutes: Int
-    
-    @Binding var secondsWorked: Int
-    @Binding var secondsPaused: Int
-    
-    init(workingHours: Double, pauseMinutes: Int, secondsWorked: Binding<Int>, secondsPaused: Binding<Int>) {
-        self._secondsWorked = secondsWorked
-        self._secondsPaused = secondsPaused
+
+    private let secondsWorked: Int
+    private let secondsPaused: Int
+
+    init(workingHours: Double, pauseMinutes: Int, secondsWorked: Int, secondsPaused: Int) {
+        self.secondsWorked = secondsWorked
+        self.secondsPaused = secondsPaused
         self.workingHours = workingHours
         self.pauseMinutes = pauseMinutes
         self.totalWorkTime = Int(self.workingHours * 3600)

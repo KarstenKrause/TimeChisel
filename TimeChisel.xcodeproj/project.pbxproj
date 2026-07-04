@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3D15EA322C23FE09002560A1 /* TextFieldFocusStateBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA312C23FE09002560A1 /* TextFieldFocusStateBinding.swift */; };
-		3D15EA382C261FB7002560A1 /* TrackingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA372C261FB7002560A1 /* TrackingViewModel.swift */; };
 		3D15EA3B2C27F3A5002560A1 /* TimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA3A2C27F3A5002560A1 /* TimeView.swift */; };
 		3D15EA3D2C27F423002560A1 /* TimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA3C2C27F423002560A1 /* TimeViewModel.swift */; };
 		3D15EA3F2C27F5DD002560A1 /* TimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA3E2C27F5DD002560A1 /* TimeType.swift */; };
@@ -40,7 +39,6 @@
 
 /* Begin PBXFileReference section */
 		3D15EA312C23FE09002560A1 /* TextFieldFocusStateBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldFocusStateBinding.swift; sourceTree = "<group>"; };
-		3D15EA372C261FB7002560A1 /* TrackingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingViewModel.swift; sourceTree = "<group>"; };
 		3D15EA3A2C27F3A5002560A1 /* TimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeView.swift; sourceTree = "<group>"; };
 		3D15EA3C2C27F423002560A1 /* TimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeViewModel.swift; sourceTree = "<group>"; };
 		3D15EA3E2C27F5DD002560A1 /* TimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeType.swift; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				3DE75D342BD963880074C0F7 /* TrackingView.swift */,
-				3D15EA372C261FB7002560A1 /* TrackingViewModel.swift */,
 			);
 			path = Timetracking;
 			sourceTree = "<group>";
@@ -375,7 +372,6 @@
 				3D43D1B62C31ED5D005B8A09 /* TimeTrackingModel.swift in Sources */,
 				3DA44CE82B719BAE00252340 /* JobViewModel.swift in Sources */,
 				3D43D1B82C31EEF8005B8A09 /* Time.swift in Sources */,
-				3D15EA382C261FB7002560A1 /* TrackingViewModel.swift in Sources */,
 				3D15EA3B2C27F3A5002560A1 /* TimeView.swift in Sources */,
 				3DA2E3512B703889009B01A2 /* AddJobView.swift in Sources */,
 				3DE75D352BD963880074C0F7 /* TrackingView.swift in Sources */,

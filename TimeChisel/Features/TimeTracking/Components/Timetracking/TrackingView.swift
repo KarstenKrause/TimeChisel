@@ -6,46 +6,43 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct TrackingView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.timeTrackingStatus) var trackingStatus
-    @Binding var isWorkingTimerRunning: Bool
-    @Binding var selectedJob: JobModel?
-    @Bindable var trackingVM = TrackingViewModel()
-    @State private var isPauseTimerRunning: Bool = false
-    @State private var timeTrackingCanceled: Bool = false
+    @Bindable var session: TimeTrackingModel
     @State private var showingConfirmation: Bool = false
-    
+
     var body: some View {
         VStack {
-            ZStack {
-                VStack {
-                    if isPauseTimerRunning {
-                        TimeView(timeVM: TimeViewModel(seconds: trackingVM.secondsPaused, for: .breakTime))
+            // Die Anzeige wird jede Sekunde aus den Zeitstempeln der Session neu berechnet.
+            TimelineView(.periodic(from: .now, by: 1)) { timeline in
+                ZStack {
+                    VStack {
+                        if session.isPausing {
+                            TimeView(timeVM: TimeViewModel(seconds: session.pausedSeconds(asOf: timeline.date), for: .breakTime))
+                        } else {
+                            TimeView(timeVM: TimeViewModel(seconds: session.workedSeconds(asOf: timeline.date), for: .workTime))
+                        }
+                    }
+
+                    if let job = session.job {
+                        ActivityRingsView(workingHours: job.workingHoursPerDay, pauseMinutes: job.pauseMinutesPerDay, secondsWorked: session.workedSeconds(asOf: timeline.date), secondsPaused: session.pausedSeconds(asOf: timeline.date))
                     } else {
-                        TimeView(timeVM: TimeViewModel(seconds: trackingVM.secondsWorked, for: .workTime))
+                        Text("No Job Selected").foregroundStyle(.red)
                     }
                 }
-                
-                if let selectedJob = selectedJob {
-                    ActivityRingsView(workingHours: (selectedJob.workingHoursPerDay), pauseMinutes: Int(selectedJob.pauseMinutesPerDay), secondsWorked: $trackingVM.secondsWorked, secondsPaused: $trackingVM.secondsPaused)
-                } else {
-                    Text("No Job Selected").foregroundStyle(.red)
-                }
-                
             }
             .padding(50)
-            
+
             Spacer()
-            
+
             VStack {
                 HStack {
-                    if !isPauseTimerRunning {
+                    if !session.isPausing {
                         Button(action: {
-                            self.isPauseTimerRunning = true
-                            trackingVM.stopWorkedTimer()
-                            trackingVM.startPausedTimer()
+                            session.startPause()
                         }, label: {
                             Text("Pause")
                                 .bold()
@@ -62,10 +59,7 @@ struct TrackingView: View {
                         })
                     } else {
                         Button(action: {
-                            self.isPauseTimerRunning = false
-                            trackingVM.stopPausedTimer()
-                            trackingVM.startWorkedTimer()
-                            
+                            session.resumeWork()
                         }, label: {
                             Text("Weiter")
                                 .bold()
@@ -81,12 +75,12 @@ struct TrackingView: View {
                                 )
                         })
                     }
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         self.showingConfirmation = true
-                        
+
                     }, label: {
                         Text("Beenden")
                             .bold()
@@ -103,14 +97,14 @@ struct TrackingView: View {
                     })
                     .confirmationDialog("Zeiterfassung beenden?", isPresented: $showingConfirmation) {
                         Button("OK") {
-                            storeAndCancel()
+                            finishTracking()
                         }
-                        
+
                         Button("Abbrechen", role: .cancel) {
                             self.showingConfirmation = false
                         }
                         .tint(.red)
-                        
+
                     } message: {
                         Text("Die aufgenommene Arbeitszeit und Pausenzeit wird hierdurch gespeichert.")
                     }
@@ -118,55 +112,33 @@ struct TrackingView: View {
                 .padding(40)
             }
         }
-        .onAppear() {
-            trackingVM.startWorkedTimer()
-        }
     }
-    
-    private func storeAndCancel() {
-        saveTrackedTimes()
-        self.timeTrackingCanceled = true
-        self.isWorkingTimerRunning = false
-        self.trackingVM.endAll()
-        self.showingConfirmation = false
-        trackingStatus.isTracking = false
-    }
-    
-    private func saveTrackedTimes() {
-        guard let selectedJob = selectedJob else {
+
+    /// Schließt die laufende Session ab. Die Session ist bereits persistiert —
+    /// hier werden nur Enddatum gesetzt und der Verdienst gesnapshottet.
+    private func finishTracking() {
+        guard let job = session.job else {
             print("No Job selected.")
             return
         }
-        
-        let calculatedWorktime: WorkingTime = trackingVM.getCalculatedWorkingTime(
-            secondsWorked: trackingVM.secondsWorked,
-            secondsPaused: trackingVM.secondsPaused,
-            targetWorkingHours: selectedJob.workingHoursPerDay,
-            targetPauseMinutes: Int(selectedJob.pauseMinutesPerDay)
-        )
-        
-        let calculatedIncome: Money = trackingVM.getCalculatedIncome(
-            hourlyRate: selectedJob.hourlyRate,
-            workTime: calculatedWorktime
-        )
-        
-        let timeTrack = TimeTrackingModel(date: Date(), workingTime: calculatedWorktime, income: calculatedIncome)
-        
-        selectedJob.timeTrackings.append(timeTrack)
-        
+
+        session.finish(hourlyRate: job.hourlyRate)
+        self.showingConfirmation = false
+        trackingStatus.isTracking = false
     }
-    
+
 }
 
 #Preview {
-    struct PreviewWrapper: View {
-        @State var isWorkingTimerRunning: Bool = false
-        @State var selectedJob: JobModel? = JobModel(companyName: "DTS", jobTitle: "Software Entwickler", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30, hourlyRate: Money(value: 25.0, currency: .EUR))
-        
-        var body: some View {
-            TrackingView(isWorkingTimerRunning: $isWorkingTimerRunning, selectedJob: $selectedJob)
-        }
-    }
-    
-    return PreviewWrapper()
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: JobModel.self, TimeTrackingModel.self, configurations: config)
+
+    let job = JobModel(companyName: "DTS", jobTitle: "Software Entwickler", workingHoursPerWeek: 40, workingDaysPerWeek: 5, pauseMinutesPerDay: 30, hourlyRate: Money(value: 25.0, currency: .EUR))
+    container.mainContext.insert(job)
+
+    let session = TimeTrackingModel(startDate: .now)
+    container.mainContext.insert(session)
+    session.job = job
+
+    return TrackingView(session: session).modelContainer(container)
 }

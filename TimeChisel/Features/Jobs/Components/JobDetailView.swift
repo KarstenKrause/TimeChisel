@@ -17,6 +17,7 @@ struct JobDetailView: View {
     @State var job: JobModel
     @State private var showUpdateJobView: Bool = false
     
+    
     private var dateFormatter: DateFormatter {
             let formatter = DateFormatter()
             formatter.dateStyle = .medium
@@ -35,7 +36,7 @@ struct JobDetailView: View {
                 Section {
                     HStack {
                         GroupBox("Überstunden") {
-                            Text(jobDetailVM.determineOverHoursString(overHours: job.totalWorkingTime.overtime.hours, overMinutes: job.totalWorkingTime.overtime.minutes))
+                            Text(job.totalWorkingTime.overtime.formatted)
                         }
                         .groupBoxStyle(.jobDetails)
                         
@@ -57,7 +58,7 @@ struct JobDetailView: View {
             
             Section(header: Text("Zeitaufzeichnungen").font(.headline)) {
                             Text("Gesamte Arbeitszeit: \(job.totalWorkingTime.hours) Stunden \(job.totalWorkingTime.minutes) Minuten")
-                            Text("Überstunden: \(job.totalWorkingTime.overtime.hours) Stunden \(job.totalWorkingTime.overtime.minutes) Minuten")
+                            Text("Überstunden: \(job.totalWorkingTime.overtime.formatted)")
 //                            if let lastTracking = job.timeTrackings.last {
 //                                Text("Letzte Arbeitszeiterfassung: \(lastTracking.date, formatter: dateFormatter)")
 //                            }
@@ -103,7 +104,15 @@ struct JobDetailView: View {
         .sheet(isPresented: $showUpdateJobView, content: {
             UpdateJobView(jobModel: job)
         })
+        .onAppear {
+            
+            for tracking in job.timeTrackings {
+                print("Überstunden am \(tracking.startDate): \(tracking.workingTime.overtime.formatted)")
+            }
+        }
+
     }
+
 }
 
 #Preview {
