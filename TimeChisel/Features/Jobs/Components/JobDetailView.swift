@@ -104,13 +104,6 @@ struct JobDetailView: View {
         .sheet(isPresented: $showUpdateJobView, content: {
             UpdateJobView(jobModel: job)
         })
-        .onAppear {
-            
-            for tracking in job.timeTrackings {
-                print("Überstunden am \(tracking.startDate): \(tracking.workingTime.overtime.formatted)")
-            }
-        }
-
     }
 
 }

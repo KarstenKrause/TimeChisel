@@ -13,20 +13,24 @@ import Observation
 class JobViewModel {
     var companyName: String
     var jobTitle: String
+    var scheduleType: WorkScheduleType
     var workingHoursPerWeek: Int
     var workingDaysPerWeek: Int
     var pauseMinutesPerDay: Int
     var workingHoursPerDay: Double
+    var weekSchedule: [DaySchedule]
     var hourlyRate: Money
     var focus: FocusableField?
-    
+
     init() {
         self.companyName = ""
         self.jobTitle = ""
+        self.scheduleType = .flexible
         self.workingHoursPerWeek = 0
         self.workingDaysPerWeek = 1
         self.workingHoursPerDay = 0
         self.pauseMinutesPerDay = 15
+        self.weekSchedule = []
         self.hourlyRate = Money(value: 0, currency: .EUR)
     }
     

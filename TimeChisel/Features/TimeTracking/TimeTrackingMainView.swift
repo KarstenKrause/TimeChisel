@@ -11,6 +11,7 @@ import SwiftData
 struct TimeTrackingMainView: View {
     @Environment(\.modelContext) var context
     @Environment(\.timeTrackingStatus) var trackingStatus
+    @Environment(\.scenePhase) var scenePhase
     @Query(sort: \JobModel.companyName) var jobs: [JobModel]
 
     /// Offene Sessions (ohne Enddatum) — existiert eine, läuft die Zeiterfassung
@@ -60,6 +61,14 @@ struct TimeTrackingMainView: View {
             }
             // Nach einem App-Neustart mit offener Session den Tracking-Status synchronisieren.
             trackingStatus.isTracking = !openSessions.isEmpty
+            openSessions.first?.applyScheduledPauses()
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            // Beim Zurückkehren in den Vordergrund überfällige feste Pausen nachtragen —
+            // im Hintergrund läuft kein Timer, der das übernehmen könnte.
+            if newPhase == .active {
+                openSessions.first?.applyScheduledPauses()
+            }
         }
     }
 

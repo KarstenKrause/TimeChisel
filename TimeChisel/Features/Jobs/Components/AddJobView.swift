@@ -41,20 +41,30 @@ struct AddJobView: View {
                     }
                     
                     Section("Arbeitszeiten") {
-                        TextField("Stunden pro Woche", value: jobVM.workingHoursBinding(), format: .number)
-                            .keyboardType(.decimalPad)
-                            .focused($focus, equals: .workingHours)
-                        
-                        Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
-                            ForEach(daysSelection, id: \.self) { days in
-                                Text("\(days) Tage").tag(days)
+                        Picker("Arbeitsmodell", selection: $jobVM.scheduleType) {
+                            ForEach(WorkScheduleType.allCases, id: \.self) { type in
+                                Text(type.displayName).tag(type)
                             }
                         }
-                        
-                        Picker("Pause am Tag", selection: $jobVM.pauseMinutesPerDay) {
-                            ForEach(pauseSelection, id: \.self) { minutes in
-                                Text("\(minutes) Minuten").tag(minutes)
+
+                        if jobVM.scheduleType == .flexible {
+                            TextField("Stunden pro Woche", value: jobVM.workingHoursBinding(), format: .number)
+                                .keyboardType(.decimalPad)
+                                .focused($focus, equals: .workingHours)
+
+                            Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
+                                ForEach(daysSelection, id: \.self) { days in
+                                    Text("\(days) Tage").tag(days)
+                                }
                             }
+
+                            Picker("Pause am Tag", selection: $jobVM.pauseMinutesPerDay) {
+                                ForEach(pauseSelection, id: \.self) { minutes in
+                                    Text("\(minutes) Minuten").tag(minutes)
+                                }
+                            }
+                        } else {
+                            WeekScheduleEditor(weekSchedule: $jobVM.weekSchedule)
                         }
                     }
                     
@@ -67,7 +77,7 @@ struct AddJobView: View {
                                 Text("Speichern")
                                     .frame(maxWidth: .infinity, alignment: .center)
                             })
-                            .disabled((jobVM.companyName.isEmpty || jobVM.jobTitle.isEmpty))
+                            .disabled(jobVM.companyName.isEmpty || jobVM.jobTitle.isEmpty || (jobVM.scheduleType == .fixed && jobVM.weekSchedule.isEmpty))
                         }
                     }
                     .buttonStyle(.borderless)
@@ -104,10 +114,8 @@ struct AddJobView: View {
     }
     
     private func addJob() {
-        let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay, hourlyRate: jobVM.hourlyRate )
-        
-        print("Working days saved: \(jobVM.workingDaysPerWeek)")
-        
+        let job: JobModel = JobModel(companyName: jobVM.companyName, jobTitle: jobVM.jobTitle, scheduleType: jobVM.scheduleType, workingHoursPerWeek: jobVM.workingHoursPerWeek, workingDaysPerWeek: jobVM.workingDaysPerWeek, pauseMinutesPerDay: jobVM.pauseMinutesPerDay, weekSchedule: jobVM.scheduleType == .fixed ? jobVM.weekSchedule : [], hourlyRate: jobVM.hourlyRate)
+
         context.insert(job)
         try! context.save()
     }

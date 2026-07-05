@@ -49,30 +49,77 @@ extension TimeTrackingModel {
         let grossSeconds = Int(end.timeIntervalSince(startDate))
         return grossSeconds - pausedSeconds(asOf: now)
     }
+}
 
-    /// Arbeitszeit inkl. Überstunden gegen die Soll-Zeiten des Jobs.
-    /// Zu lange Pausen (über das Tagessoll hinaus) sind bereits über `workedSeconds` abgezogen.
-    var workingTime: WorkingTime {
-        let worked = workedSeconds()
-        let (hours, minutes) = worked.toHoursAndMinutes()
+// MARK: - Feste Pausenzeiten
 
-        let targetWorkingSeconds = Int((job?.workingHoursPerDay ?? 0) * 3600)
-        let overtimeSeconds = worked - targetWorkingSeconds
+extension TimeTrackingModel {
+    /// Karenzzeit um den Soll-Pausenbeginn: manuelles Einchecken frühestens so viele
+    /// Minuten davor, automatischer Start so viele Minuten danach.
+    static let scheduledPauseGraceMinutes = 10
 
-        return WorkingTime(
-            hours: hours,
-            minutes: minutes,
-            overtime: Overtime(seconds: overtimeSeconds)
-        )
+    private static var scheduledPauseGrace: TimeInterval {
+        TimeInterval(scheduledPauseGraceMinutes * 60)
+    }
+
+    /// Trägt bei festen Arbeitszeiten überfällige geplante Pausen rückwirkend nach und
+    /// beendet laufende automatische Pausen nach Ablauf ihrer Soll-Dauer. Idempotent —
+    /// gedacht für wiederholte Aufrufe (UI-Tick, App-Foreground, Session-Ende).
+    func applyScheduledPauses(asOf now: Date = .now) {
+        guard let schedule = job?.daySchedule(for: startDate) else { return }
+
+        let sessionEnd = endDate ?? now
+
+        for scheduled in schedule.pauses {
+            let plannedStart = scheduled.start(on: startDate)
+            let windowStart = plannedStart.addingTimeInterval(-Self.scheduledPauseGrace)
+            let autoStart = plannedStart.addingTimeInterval(Self.scheduledPauseGrace)
+            let duration = TimeInterval(scheduled.durationMinutes * 60)
+
+            if let index = pauses.firstIndex(where: { $0.start >= windowStart && $0.start <= autoStart }) {
+                // Slot ist bereits belegt. Laufende automatische Pausen nach Soll-Dauer beenden.
+                if pauses[index].source == .automatic, pauses[index].end == nil {
+                    let plannedEnd = pauses[index].start.addingTimeInterval(duration)
+                    if now >= plannedEnd {
+                        pauses[index].end = min(plannedEnd, sessionEnd)
+                    }
+                }
+                continue
+            }
+
+            // Kein Check-in bis zum Ende des Fensters → Pause startet automatisch,
+            // sofern die Session zu diesem Zeitpunkt lief.
+            guard now >= autoStart, autoStart >= startDate, autoStart < sessionEnd else { continue }
+
+            let plannedEnd = autoStart.addingTimeInterval(duration)
+            let end: Date? = now >= plannedEnd ? min(plannedEnd, sessionEnd) : nil
+            pauses.append(Pause(start: autoStart, end: end, source: .automatic))
+        }
+    }
+
+    /// Bei festen Arbeitszeiten darf eine Pause nur im Fenster um einen noch nicht
+    /// genommenen Soll-Pausenbeginn manuell gestartet werden. Bei Vertrauensgleitzeit
+    /// und an Tagen ohne Tagesplan (z. B. Wochenendarbeit) sind Pausen jederzeit erlaubt.
+    func canStartManualPause(asOf now: Date = .now) -> Bool {
+        guard let job, job.scheduleType == .fixed else { return true }
+        guard let schedule = job.daySchedule(for: startDate) else { return true }
+
+        return schedule.pauses.contains { scheduled in
+            let plannedStart = scheduled.start(on: startDate)
+            let window = plannedStart.addingTimeInterval(-Self.scheduledPauseGrace)...plannedStart.addingTimeInterval(Self.scheduledPauseGrace)
+            let alreadyTaken = pauses.contains { window.contains($0.start) }
+            return !alreadyTaken && window.contains(now)
+        }
     }
 }
 
 // MARK: - Session-Ereignisse
 
 extension TimeTrackingModel {
-    /// Startet eine neue Pause. Ohne Wirkung, wenn bereits pausiert wird.
+    /// Startet eine neue Pause. Ohne Wirkung, wenn bereits pausiert wird oder
+    /// das Arbeitsmodell gerade keine manuelle Pause zulässt.
     func startPause(at date: Date = .now) {
-        guard !isPausing else { return }
+        guard !isPausing, canStartManualPause(asOf: date) else { return }
         pauses.append(Pause(start: date, end: nil))
     }
 
@@ -82,8 +129,10 @@ extension TimeTrackingModel {
         pauses[lastIndex].end = date
     }
 
-    /// Schließt die Session ab: offene Pause beenden, Enddatum setzen und Verdienst snapshotten.
+    /// Schließt die Session ab: überfällige geplante Pausen nachtragen, offene Pause
+    /// beenden, Enddatum setzen und Verdienst snapshotten.
     func finish(hourlyRate: Money, at date: Date = .now) {
+        applyScheduledPauses(asOf: date)
         resumeWork(at: date)
         endDate = date
 

@@ -15,9 +15,10 @@ struct TrackingView: View {
     @State private var showingConfirmation: Bool = false
 
     var body: some View {
-        VStack {
-            // Die Anzeige wird jede Sekunde aus den Zeitstempeln der Session neu berechnet.
-            TimelineView(.periodic(from: .now, by: 1)) { timeline in
+        // Die Anzeige wird jede Sekunde aus den Zeitstempeln der Session neu berechnet.
+        // Der Tick treibt auch das automatische Nachtragen fester Pausenzeiten an.
+        TimelineView(.periodic(from: .now, by: 1)) { timeline in
+            VStack {
                 ZStack {
                     VStack {
                         if session.isPausing {
@@ -28,66 +29,38 @@ struct TrackingView: View {
                     }
 
                     if let job = session.job {
-                        ActivityRingsView(workingHours: job.workingHoursPerDay, pauseMinutes: job.pauseMinutesPerDay, secondsWorked: session.workedSeconds(asOf: timeline.date), secondsPaused: session.pausedSeconds(asOf: timeline.date))
+                        ActivityRingsView(workingHours: Double(job.dailyTargetSeconds(for: session.startDate)) / 3600.0, pauseMinutes: job.daySchedule(for: session.startDate)?.pauseMinutes ?? job.pauseMinutesPerDay, secondsWorked: session.workedSeconds(asOf: timeline.date), secondsPaused: session.pausedSeconds(asOf: timeline.date))
                     } else {
                         Text("No Job Selected").foregroundStyle(.red)
                     }
                 }
+                .padding(50)
+
+                Spacer()
+
+                buttonRow(asOf: timeline.date)
             }
-            .padding(50)
+            .onChange(of: timeline.date) { _, newDate in
+                session.applyScheduledPauses(asOf: newDate)
+            }
+        }
+    }
 
-            Spacer()
-
-            VStack {
-                HStack {
-                    if !session.isPausing {
-                        Button(action: {
-                            session.startPause()
-                        }, label: {
-                            Text("Pause")
-                                .bold()
-                                .font(.footnote)
-                                .frame(width: 80, height: 80, alignment: .center)
-                                .background(.blue.opacity(0.30))
-                                .foregroundColor((colorScheme == .dark ? Color("lightBlue") : .blue))
-                                .cornerRadius(100)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 100)
-                                        .stroke(Color("customBW"), lineWidth: 1.5)
-                                        .padding(4)
-                                )
-                        })
-                    } else {
-                        Button(action: {
-                            session.resumeWork()
-                        }, label: {
-                            Text("Weiter")
-                                .bold()
-                                .font(.footnote)
-                                .frame(width: 80, height: 80, alignment: .center)
-                                .background(.green.opacity(0.30))
-                                .foregroundColor(Color("lightGreen"))
-                                .cornerRadius(100)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 100)
-                                        .stroke(Color("customBW"), lineWidth: 1.5)
-                                        .padding(4)
-                                )
-                        })
-                    }
-
-                    Spacer()
+    private func buttonRow(asOf now: Date) -> some View {
+        VStack {
+            HStack {
+                if !session.isPausing {
+                    let canPause = session.canStartManualPause(asOf: now)
 
                     Button(action: {
-                        self.showingConfirmation = true
-
+                        session.startPause()
                     }, label: {
-                        Text("Beenden")
+                        Text("Pause")
                             .bold()
                             .font(.footnote)
                             .frame(width: 80, height: 80, alignment: .center)
-                            .background(.red.opacity(0.30))
-                            .foregroundColor((colorScheme == .dark ? Color("lightBlue") : .red))
+                            .background(.blue.opacity(0.30))
+                            .foregroundColor((colorScheme == .dark ? Color("lightBlue") : .blue))
                             .cornerRadius(100)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 100)
@@ -95,22 +68,61 @@ struct TrackingView: View {
                                     .padding(4)
                             )
                     })
-                    .confirmationDialog("Zeiterfassung beenden?", isPresented: $showingConfirmation) {
-                        Button("OK") {
-                            finishTracking()
-                        }
-
-                        Button("Abbrechen", role: .cancel) {
-                            self.showingConfirmation = false
-                        }
-                        .tint(.red)
-
-                    } message: {
-                        Text("Die aufgenommene Arbeitszeit und Pausenzeit wird hierdurch gespeichert.")
-                    }
+                    .disabled(!canPause)
+                    .opacity(canPause ? 1 : 0.4)
+                } else {
+                    Button(action: {
+                        session.resumeWork()
+                    }, label: {
+                        Text("Weiter")
+                            .bold()
+                            .font(.footnote)
+                            .frame(width: 80, height: 80, alignment: .center)
+                            .background(.green.opacity(0.30))
+                            .foregroundColor(Color("lightGreen"))
+                            .cornerRadius(100)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 100)
+                                    .stroke(Color("customBW"), lineWidth: 1.5)
+                                    .padding(4)
+                            )
+                    })
                 }
-                .padding(40)
+
+                Spacer()
+
+                Button(action: {
+                    self.showingConfirmation = true
+
+                }, label: {
+                    Text("Beenden")
+                        .bold()
+                        .font(.footnote)
+                        .frame(width: 80, height: 80, alignment: .center)
+                        .background(.red.opacity(0.30))
+                        .foregroundColor((colorScheme == .dark ? Color("lightBlue") : .red))
+                        .cornerRadius(100)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 100)
+                                .stroke(Color("customBW"), lineWidth: 1.5)
+                                .padding(4)
+                        )
+                })
+                .confirmationDialog("Zeiterfassung beenden?", isPresented: $showingConfirmation) {
+                    Button("OK") {
+                        finishTracking()
+                    }
+
+                    Button("Abbrechen", role: .cancel) {
+                        self.showingConfirmation = false
+                    }
+                    .tint(.red)
+
+                } message: {
+                    Text("Die aufgenommene Arbeitszeit und Pausenzeit wird hierdurch gespeichert.")
+                }
             }
+            .padding(40)
         }
     }
 

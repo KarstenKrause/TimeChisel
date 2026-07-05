@@ -28,17 +28,14 @@ struct ActivityRingsView: View {
     }
     
     private var timeProgress: CGFloat {
-        let totalTime = CGFloat(totalWorkTime)
-        let workedPercentage = CGFloat(secondsWorked) / totalTime
-        
-        return workedPercentage
+        // Ohne Tagessoll (z. B. Arbeit an einem freien Tag) bleibt der Ring leer.
+        guard totalWorkTime > 0 else { return 0 }
+        return CGFloat(secondsWorked) / CGFloat(totalWorkTime)
     }
-    
+
     private var pauseTimeProgress: CGFloat {
-        let totalTime = CGFloat(pauseTimeSeconds)
-        let pausedTimePercentage = CGFloat(secondsPaused) / totalTime
-        
-        return pausedTimePercentage
+        guard pauseTimeSeconds > 0 else { return 0 }
+        return CGFloat(secondsPaused) / CGFloat(pauseTimeSeconds)
     }
     
     

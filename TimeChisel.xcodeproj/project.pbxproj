@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D1588962FFA533800E2BBF4 /* WorkSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1588952FFA533800E2BBF4 /* WorkSchedule.swift */; };
+		3D1588982FFA543000E2BBF4 /* WeekScheduleEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1588972FFA543000E2BBF4 /* WeekScheduleEditor.swift */; };
 		3D15EA322C23FE09002560A1 /* TextFieldFocusStateBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA312C23FE09002560A1 /* TextFieldFocusStateBinding.swift */; };
 		3D15EA3B2C27F3A5002560A1 /* TimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA3A2C27F3A5002560A1 /* TimeView.swift */; };
 		3D15EA3D2C27F423002560A1 /* TimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15EA3C2C27F423002560A1 /* TimeViewModel.swift */; };
@@ -38,6 +40,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D1588952FFA533800E2BBF4 /* WorkSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkSchedule.swift; sourceTree = "<group>"; };
+		3D1588972FFA543000E2BBF4 /* WeekScheduleEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekScheduleEditor.swift; sourceTree = "<group>"; };
 		3D15EA312C23FE09002560A1 /* TextFieldFocusStateBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldFocusStateBinding.swift; sourceTree = "<group>"; };
 		3D15EA3A2C27F3A5002560A1 /* TimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeView.swift; sourceTree = "<group>"; };
 		3D15EA3C2C27F423002560A1 /* TimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeViewModel.swift; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 				3DA44CEE2B78201000252340 /* UpdateJobView.swift */,
 				3DA2E3502B703889009B01A2 /* AddJobView.swift */,
 				3DA44CF12B79596700252340 /* JobDetailView.swift */,
+				3D1588972FFA543000E2BBF4 /* WeekScheduleEditor.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -156,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				3DA44CEC2B76D19900252340 /* JobModel.swift */,
+				3D1588952FFA533800E2BBF4 /* WorkSchedule.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -365,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DC4CF642B6C605B00848B36 /* ExportView.swift in Sources */,
+				3D1588962FFA533800E2BBF4 /* WorkSchedule.swift in Sources */,
 				3DA44CED2B76D19900252340 /* JobModel.swift in Sources */,
 				3DC4CF6C2B6D997D00848B36 /* MainView.swift in Sources */,
 				3DA44CF22B79596700252340 /* JobDetailView.swift in Sources */,
@@ -388,6 +395,7 @@
 				3DC4CF682B6C608400848B36 /* TimeTrackingMainView.swift in Sources */,
 				3DC4CF662B6C606F00848B36 /* HistoryView.swift in Sources */,
 				3DC4CF472B6C596200848B36 /* TimeChiselApp.swift in Sources */,
+				3D1588982FFA543000E2BBF4 /* WeekScheduleEditor.swift in Sources */,
 				3DBF9BE32C4EFF66000E1E29 /* JobDetailViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

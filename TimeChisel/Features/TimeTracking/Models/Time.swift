@@ -13,10 +13,18 @@ protocol TimeProtocol {
     var minutes: Int { get set }
 }
 
+/// Herkunft einer Pause: manuell vom Nutzer gestartet oder automatisch
+/// aus den festen Pausenzeiten des Jobs nachgetragen.
+enum PauseSource: String, Codable {
+    case manual
+    case automatic
+}
+
 /// Ein einzelnes Pausenintervall. `end == nil` bedeutet, die Pause läuft gerade.
 struct Pause: Codable {
     var start: Date
     var end: Date?
+    var source: PauseSource = .manual
 
     /// Dauer der Pause in Sekunden. Für laufende Pausen wird `now` als vorläufiges Ende verwendet.
     func duration(asOf now: Date = .now) -> TimeInterval {

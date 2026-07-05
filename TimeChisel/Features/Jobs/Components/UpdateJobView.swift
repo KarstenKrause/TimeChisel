@@ -58,25 +58,35 @@ struct UpdateJobView: View {
                     }
                     
                     Section("Arbeitszeiten") {
-                        VStack(alignment: .leading) {
-                            Text("Stunden pro Woche").foregroundStyle(.gray)
-                            
-                            TextField("", value: $jobVM.workingHoursPerWeek, format: .number)
-                                .keyboardType(.decimalPad)
-                                .focused($focus, equals: .workingHours)
+                        Picker("Arbeitsmodell", selection: $jobVM.scheduleType) {
+                            ForEach(WorkScheduleType.allCases, id: \.self) { type in
+                                Text(type.displayName).tag(type)
+                            }
                         }
 
-                        #warning("App is crashing, if daySelection > 1")
-                        Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
-                            ForEach(daysSelection, id: \.self) { days in
-                                Text("\(days) Tage").tag(days)
+                        if jobVM.scheduleType == .flexible {
+                            VStack(alignment: .leading) {
+                                Text("Stunden pro Woche").foregroundStyle(.gray)
+
+                                TextField("", value: $jobVM.workingHoursPerWeek, format: .number)
+                                    .keyboardType(.decimalPad)
+                                    .focused($focus, equals: .workingHours)
                             }
-                        }
-                        
-                        Picker("Pause am Tag", selection: $jobVM.pauseMinutesPerDay) {
-                            ForEach(pauseSelection, id: \.self) { minutes in
-                                Text("\(minutes) Minuten").tag(minutes)
+
+                            #warning("App is crashing, if daySelection > 1")
+                            Picker("Tage pro Woche", selection: $jobVM.workingDaysPerWeek) {
+                                ForEach(daysSelection, id: \.self) { days in
+                                    Text("\(days) Tage").tag(days)
+                                }
                             }
+
+                            Picker("Pause am Tag", selection: $jobVM.pauseMinutesPerDay) {
+                                ForEach(pauseSelection, id: \.self) { minutes in
+                                    Text("\(minutes) Minuten").tag(minutes)
+                                }
+                            }
+                        } else {
+                            WeekScheduleEditor(weekSchedule: $jobVM.weekSchedule)
                         }
                     }
                     
@@ -130,32 +140,27 @@ struct UpdateJobView: View {
             }
         }
         .onAppear {
-            print("onAppear fired")
             jobVM.companyName = jobModel.companyName
             jobVM.jobTitle = jobModel.jobTitle
+            jobVM.scheduleType = jobModel.scheduleType
             jobVM.workingHoursPerWeek = jobModel.workingHoursPerWeek
             jobVM.hourlyRate = jobModel.hourlyRate
             jobVM.pauseMinutesPerDay = jobModel.pauseMinutesPerDay
             jobVM.workingDaysPerWeek = jobModel.workingDaysPerWeek
             jobVM.workingHoursPerDay = jobModel.workingHoursPerDay
-            
-            print("Working days loaded: \(jobVM.workingDaysPerWeek)")
-            print("Working hours per day loaded: \(jobModel.workingHoursPerDay)")
+            jobVM.weekSchedule = jobModel.weekSchedule
         }
         .focusStateSync($jobVM.focus, with: _focus)
     }
     
     private func save() {
-        
-        print("Pause pro Tag ausgewählt: \(jobVM.pauseMinutesPerDay)")
-        print("Arbeitstage pro Woche ausgewählt: \(jobVM.workingDaysPerWeek)")
-        print("Arbeitsstunden pro Woche: \(jobVM.workingHoursPerWeek)")
-        print("Arbeitsstunden pro Tag: \(jobVM.workingHoursPerDay)")
         jobModel.companyName = jobVM.companyName
         jobModel.jobTitle = jobVM.jobTitle
+        jobModel.scheduleType = jobVM.scheduleType
         jobModel.workingHoursPerWeek = jobVM.workingHoursPerWeek
         jobModel.hourlyRate = jobVM.hourlyRate
         jobModel.pauseMinutesPerDay = jobVM.pauseMinutesPerDay
         jobModel.workingDaysPerWeek = jobVM.workingDaysPerWeek
+        jobModel.weekSchedule = jobVM.scheduleType == .fixed ? jobVM.weekSchedule : []
     }
 }
