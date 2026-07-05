@@ -20,20 +20,48 @@ struct ActivityRingView: View {
         .degrees(-90)
     }
     
-    private var endAngle: Angle {
-        .degrees(completionRate * 360 - 90)
-    }
-    
     private var strokeStyle: StrokeStyle {
         StrokeStyle(lineWidth: ringThickness, lineCap: .round)
     }
-    
+
     private var gradientEffect: AngularGradient {
-        AngularGradient(gradient: colorGradient, center: .center, startAngle: rotationDegree, endAngle: endAngle)
+        let steps = 16
+        let stops = (0...steps).map { step in
+            let fraction = Double(step) / Double(steps)
+            return Gradient.Stop(
+                color: Self.interpolate(from: gradientStartColor, to: gradientEndColor, fraction: fraction),
+                location: fraction
+            )
+        }
+        return AngularGradient(gradient: Gradient(stops: stops), center: .center, startAngle: rotationDegree, endAngle: .degrees(270))
     }
-    
+
+    private var gradientStartColor: Color {
+        colorGradient.stops.first?.color ?? .clear
+    }
+
     private var gradientEndColor: Color {
-        colorGradient.stops.indices.contains(1) ? colorGradient.stops[1].color : Color.clear
+        colorGradient.stops.last?.color ?? .clear
+    }
+
+    private var currentProgressColor: Color {
+        let fraction = min(max(completionRate, 0), 1)
+        return Self.interpolate(from: gradientStartColor, to: gradientEndColor, fraction: fraction)
+    }
+
+    private static func interpolate(from: Color, to: Color, fraction: Double) -> Color {
+        var (r1, g1, b1, a1): (CGFloat, CGFloat, CGFloat, CGFloat) = (0, 0, 0, 0)
+        var (r2, g2, b2, a2): (CGFloat, CGFloat, CGFloat, CGFloat) = (0, 0, 0, 0)
+        UIColor(from).getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
+        UIColor(to).getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
+
+        let t = CGFloat(fraction)
+        return Color(
+            red: r1 + (r2 - r1) * t,
+            green: g1 + (g2 - g1) * t,
+            blue: b1 + (b2 - b1) * t,
+            opacity: a1 + (a2 - a1) * t
+        )
     }
     
     private var circleShadow: Color {
@@ -63,9 +91,12 @@ struct ActivityRingView: View {
     var body: some View {
         ZStack {
             Circle().stroke(lineWidth: 30).foregroundColor(baseColor.opacity(0.2))
+
             Circle().rotation(rotationDegree)
-                .trim(from: 0, to: CGFloat(completionRate))
-                .stroke(gradientEffect, style: strokeStyle)
+                .trim(from: 0, to: min(CGFloat(completionRate), 1))
+                .stroke(gradientEffect, style: StrokeStyle(lineWidth: ringThickness, lineCap: .butt))
+                .overlay(startCapCircle)
+                .overlay(overshootArc)
                 .overlay(overlayCircle)
                 .opacity(completionRate == 0.0 ? 0.0 : 1)
         }
@@ -80,9 +111,28 @@ struct ActivityRingView: View {
         }
     }
     
+    var startCapCircle: some View {
+        GeometryReader { geo in
+            Circle().fill(gradientStartColor)
+                .frame(width: ringThickness, height: ringThickness)
+                .position(overlayPostition(geo.size.width, geo.size.height))
+                .offset(x: overlayOffset(geo.size.width, geo.size.height))
+                .rotationEffect(rotationDegree)
+        }
+    }
+
+    @ViewBuilder
+    var overshootArc: some View {
+        if completionRate > 1 {
+            Circle().rotation(rotationDegree)
+                .trim(from: 0, to: min(CGFloat(completionRate - 1), 1))
+                .stroke(gradientEndColor, style: strokeStyle)
+        }
+    }
+
     var overlayCircle: some View {
         GeometryReader { geo in
-            Circle().fill(gradientEndColor)
+            Circle().fill(currentProgressColor)
                 .frame(width: ringThickness, height: ringThickness)
                 .position(overlayPostition(geo.size.width, geo.size.height))
                 .offset(x: overlayOffset(geo.size.width, geo.size.height))
@@ -97,5 +147,9 @@ struct ActivityRingView: View {
 }
 
 #Preview {
-    ActivityRingView(icon: "clock", bg: "testCustomColor", WHeight: 300, completionRate: 0.0, ringThickness: 30, baseColor: .red ,colorGradient: Gradient(colors: [.red, .pink]))
+    VStack(spacing: 50) {
+        ActivityRingView(icon: "clock", bg: "testCustomColor", WHeight: 150, completionRate: 0.02, ringThickness: 30, baseColor: .green, colorGradient: Gradient(colors: [.green, .yellow]))
+        ActivityRingView(icon: "clock", bg: "testCustomColor", WHeight: 150, completionRate: 0.5, ringThickness: 30, baseColor: .green, colorGradient: Gradient(colors: [.green, .yellow]))
+        ActivityRingView(icon: "clock", bg: "testCustomColor", WHeight: 150, completionRate: 1.5, ringThickness: 30, baseColor: .green, colorGradient: Gradient(colors: [.green, .yellow]))
+    }
 }
