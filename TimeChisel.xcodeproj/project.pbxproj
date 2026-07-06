@@ -37,6 +37,9 @@
 		3DC4CF682B6C608400848B36 /* TimeTrackingMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF672B6C608400848B36 /* TimeTrackingMainView.swift */; };
 		3DC4CF6C2B6D997D00848B36 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF6B2B6D997D00848B36 /* MainView.swift */; };
 		3DC4CF732B6DA4C900848B36 /* JobsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC4CF722B6DA4C900848B36 /* JobsView.swift */; };
+		3DE561832FFC24D900341FDF /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE561822FFC24D900341FDF /* HistoryViewModel.swift */; };
+		3DE561852FFC262F00341FDF /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE561842FFC262F00341FDF /* SessionDetailView.swift */; };
+		3DE561872FFC264500341FDF /* EditSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE561862FFC264500341FDF /* EditSessionView.swift */; };
 		3DE75D352BD963880074C0F7 /* TrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE75D342BD963880074C0F7 /* TrackingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +76,9 @@
 		3DC4CF672B6C608400848B36 /* TimeTrackingMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTrackingMainView.swift; sourceTree = "<group>"; };
 		3DC4CF6B2B6D997D00848B36 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3DC4CF722B6DA4C900848B36 /* JobsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsView.swift; sourceTree = "<group>"; };
+		3DE561822FFC24D900341FDF /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
+		3DE561842FFC262F00341FDF /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
+		3DE561862FFC264500341FDF /* EditSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSessionView.swift; sourceTree = "<group>"; };
 		3DE75D342BD963880074C0F7 /* TrackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -278,6 +284,9 @@
 			isa = PBXGroup;
 			children = (
 				3DC4CF652B6C606F00848B36 /* HistoryView.swift */,
+				3DE561822FFC24D900341FDF /* HistoryViewModel.swift */,
+				3DE561842FFC262F00341FDF /* SessionDetailView.swift */,
+				3DE561862FFC264500341FDF /* EditSessionView.swift */,
 			);
 			path = History;
 			sourceTree = "<group>";
@@ -380,6 +389,7 @@
 				3DA44CF22B79596700252340 /* JobDetailView.swift in Sources */,
 				3DA44CF52B815AC800252340 /* ActivityRingView.swift in Sources */,
 				3D43D1B62C31ED5D005B8A09 /* TimeTrackingModel.swift in Sources */,
+				3DE561832FFC24D900341FDF /* HistoryViewModel.swift in Sources */,
 				3D09745F2FFAEDDA0022C2A8 /* JobDashboardChart.swift in Sources */,
 				3DA44CE82B719BAE00252340 /* JobViewModel.swift in Sources */,
 				3D43D1B82C31EEF8005B8A09 /* Time.swift in Sources */,
@@ -388,12 +398,14 @@
 				3DE75D352BD963880074C0F7 /* TrackingView.swift in Sources */,
 				3D43D1B22C2C1AB7005B8A09 /* TimeTrackingStatus.swift in Sources */,
 				3D15EA3D2C27F423002560A1 /* TimeViewModel.swift in Sources */,
+				3DE561852FFC262F00341FDF /* SessionDetailView.swift in Sources */,
 				3DA44CEF2B78201000252340 /* UpdateJobView.swift in Sources */,
 				3DC4CF732B6DA4C900848B36 /* JobsView.swift in Sources */,
 				3D7218E72C1AFACB006508E3 /* FocusableField.swift in Sources */,
 				3D9C676B2C0522EF00DE85DC /* Money.swift in Sources */,
 				3D15EA322C23FE09002560A1 /* TextFieldFocusStateBinding.swift in Sources */,
 				3D15EA3F2C27F5DD002560A1 /* TimeType.swift in Sources */,
+				3DE561872FFC264500341FDF /* EditSessionView.swift in Sources */,
 				3DA44CF72B82AECA00252340 /* ActivityRingsView.swift in Sources */,
 				3DC4CF622B6C603900848B36 /* SettingsView.swift in Sources */,
 				3DC4CF682B6C608400848B36 /* TimeTrackingMainView.swift in Sources */,
