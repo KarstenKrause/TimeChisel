@@ -40,6 +40,7 @@
 		3DE561832FFC24D900341FDF /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE561822FFC24D900341FDF /* HistoryViewModel.swift */; };
 		3DE561852FFC262F00341FDF /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE561842FFC262F00341FDF /* SessionDetailView.swift */; };
 		3DE561872FFC264500341FDF /* EditSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE561862FFC264500341FDF /* EditSessionView.swift */; };
+		3DE561893000298000341FDF /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE561883000298000341FDF /* AppSettings.swift */; };
 		3DE75D352BD963880074C0F7 /* TrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE75D342BD963880074C0F7 /* TrackingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		3DE561822FFC24D900341FDF /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
 		3DE561842FFC262F00341FDF /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		3DE561862FFC264500341FDF /* EditSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSessionView.swift; sourceTree = "<group>"; };
+		3DE561883000298000341FDF /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		3DE75D342BD963880074C0F7 /* TrackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -245,6 +247,7 @@
 				3D9C676A2C0522EF00DE85DC /* Money.swift */,
 				3D7218E62C1AFACB006508E3 /* FocusableField.swift */,
 				3D15EA3E2C27F5DD002560A1 /* TimeType.swift */,
+				3DE561883000298000341FDF /* AppSettings.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				3DC4CF662B6C606F00848B36 /* HistoryView.swift in Sources */,
 				3DC4CF472B6C596200848B36 /* TimeChiselApp.swift in Sources */,
 				3D1588982FFA543000E2BBF4 /* WeekScheduleEditor.swift in Sources */,
+				3DE561893000298000341FDF /* AppSettings.swift in Sources */,
 				3DBF9BE32C4EFF66000E1E29 /* JobDetailViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -56,7 +56,11 @@ extension TimeTrackingModel {
 extension TimeTrackingModel {
     /// Karenzzeit um den Soll-Pausenbeginn: manuelles Einchecken frühestens so viele
     /// Minuten davor, automatischer Start so viele Minuten danach.
-    static let scheduledPauseGraceMinutes = 10
+    /// Über die Einstellungen konfigurierbar (Fallback 10 Minuten).
+    static var scheduledPauseGraceMinutes: Int {
+        let stored = UserDefaults.standard.integer(forKey: AppSettings.graceMinutesKey)
+        return stored > 0 ? stored : AppSettings.defaultGraceMinutes
+    }
 
     private static var scheduledPauseGrace: TimeInterval {
         TimeInterval(scheduledPauseGraceMinutes * 60)

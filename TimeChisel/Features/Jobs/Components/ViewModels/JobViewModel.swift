@@ -31,7 +31,7 @@ class JobViewModel {
         self.workingHoursPerDay = 0
         self.pauseMinutesPerDay = 15
         self.weekSchedule = []
-        self.hourlyRate = Money(value: 0, currency: .EUR)
+        self.hourlyRate = Money(value: 0, currency: AppSettings.defaultCurrency)
     }
     
     func hourlyRateBinding() -> Binding<Double?> {

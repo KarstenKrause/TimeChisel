@@ -11,6 +11,7 @@ import SwiftData
 @main
 struct TimeChiselApp: App {
     @Bindable var timeTrackingStatus = TimeTrackingStatus()
+    @AppStorage(AppSettings.appearanceKey) private var appearanceRaw = AppearanceMode.system.rawValue
     
     let jobsContainer: ModelContainer = {
             let schema = Schema([JobModel.self, TimeTrackingModel.self])
@@ -28,6 +29,7 @@ struct TimeChiselApp: App {
         WindowGroup {
             MainView()
                 .environment(\.timeTrackingStatus, timeTrackingStatus)
+                .preferredColorScheme((AppearanceMode(rawValue: appearanceRaw) ?? .system).colorScheme)
         }
         .modelContainer(jobsContainer)
 
